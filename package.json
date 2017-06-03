@@ -1,0 +1,15 @@
+{
+  "name": "schemer",
+  "version": "1.0.0",
+  "main": "schemer.js",
+  "repository": "https://github.com/ccankov/schemer",
+  "author": "Nikita Shalimov <ndshalimov@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "vue": "^2.3.3",
+    "webpack": "^2.6.1"
+  }
+}
