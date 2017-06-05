@@ -5,7 +5,7 @@
       <span>Forms and things</span>
     </section>
     <section class="body">
-      <Paper :graph="graph" />
+      <Paper :graph="graph"></Paper>
       <section class="additional-info">
         <section class="statistics">
           <!-- Statistics will go here -->
@@ -30,7 +30,7 @@ export default {
   }
   data: function() {
     return {
-      graph: null;
+      graph: null
     }
   }
   mounted() {
