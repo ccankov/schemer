@@ -17,7 +17,8 @@
   "dependencies": {
     "jointjs": "^1.1.0",
     "vue": "^2.3.3",
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -38,10 +39,10 @@
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
     "eslint": "^3.19.0",
+    "eslint-config-standard": "^6.2.1",
     "eslint-friendly-formatter": "^2.0.7",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-html": "^2.0.0",
-    "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
     "eslint-plugin-vue": "^2.0.1",
