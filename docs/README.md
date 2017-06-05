@@ -27,16 +27,38 @@ In addition, Schemer will include
 
 **Frontend: Vue, JointJS**
 
-#### [Wireframes and Single Page App structure go here]
-
 #### Frontend integration
 On the frontend, Vue is integrated with JointJS, an open-source diagramming library developed by [Client.io](ttps://www.jointjs.com/opensource). We use the JointJS equivalent of canvas as its own component, and Vue for all other views. Using the JointJS API, we export the schema state as JSON to be processed on the backend
 
 #### Parsing JSON schema into SQL
 
-[Sample JSON](docs/Sample_JSON.rb)
+**Sample JSON Preview**
+```ruby
+db_data = {
+  script_type: "mySQL",
+  tables: [
+    {
+      name: "cats",
+      foreign_keys: {
+        column_name: table_name,
+        column_name: table_name, #etc
+      },
+      indices: {
+        column_name: true,
+        column_name: true
+      },
+```
+[Full Sample JSON](docs/Sample_JSON.rb)
 
-[Sample Logic](docs/Sample_parse_logic.rb)
+**Sample Parsing Logic Preview**
+```ruby
+db_name = db_data['name']
+table_text = db_data[tables].map do |table|
+  header_text = "CREATE TABLE #{db_name}\n"
+  columns_text = table[columns].map do |column|
+    bool_constraints = column[:constraints][:booleans].join(" ")
+```
+[Full Sample Logic](docs/Sample_parse_logic.rb)
 
 #### Schemer Vues and Wireframes
 **Database Editor Page:**
