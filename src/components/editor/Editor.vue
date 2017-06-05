@@ -44,14 +44,23 @@ export default {
     border: 1px solid black;
   }
 
+  .table-form {
+    flex: 1.5;
+  }
+
   .body {
     border: 1px solid black;
-    flex: .6;
+    flex: 5;
     display: flex;
     flex-direction: column;
   }
 
   .additional-info {
     display: flex;
+  }
+
+  .additional-info > section {
+    border: 1px solid black;
+    flex: 1;
   }
 </style>
