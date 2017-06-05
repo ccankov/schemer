@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import joint from 'jointjs'
+// import joint from 'jointjs'
 import Paper from './Paper'
 export default {
   components: {
@@ -30,7 +30,7 @@ export default {
   },
   data: function () {
     return {
-      graph: new joint.dia.Graph()
+      graph: this.$store.graph
     }
   }
 }

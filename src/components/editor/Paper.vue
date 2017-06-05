@@ -8,6 +8,7 @@
 import joint from 'jointjs'
 
 export default {
+  props: ['graph'],
   mounted () {
     // Store reference to the Vue element
     const vue = this
