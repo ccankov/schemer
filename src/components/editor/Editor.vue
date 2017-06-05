@@ -5,7 +5,7 @@
       <span>Forms and things</span>
     </section>
     <section class="body">
-      <Paper />
+      <Paper :graph="graph"></Paper>
       <section class="additional-info">
         <section class="statistics">
           <!-- Statistics will go here -->
@@ -22,10 +22,20 @@
 </template>
 
 <script>
+import joint from 'jointjs';
 import Paper from 'Paper';
 export default {
   components: {
     Paper
+  }
+  data: function() {
+    return {
+      graph: null
+    }
+  }
+  mounted() {
+    let graph = new joint.dia.Graph();
+    this.graph = graph;
   }
 }
 </script>
