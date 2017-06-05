@@ -5,7 +5,7 @@
       <span>Forms and things</span>
     </section>
     <section class="body">
-      <Paper />
+      <Paper :graph="graph"></Paper>
       <section class="additional-info">
         <section class="statistics">
           <!-- Statistics will go here -->
@@ -22,30 +22,36 @@
 </template>
 
 <script>
-import Paper from 'Paper';
+import joint from 'jointjs'
+import Paper from './Paper'
 export default {
   components: {
     Paper
+  },
+  data: function () {
+    return {
+      graph: new joint.dia.Graph()
+    }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
   .editor {
     display: flex;
     width: 100%;
     height: 100%;
     border: 1px solid black;
+  }
 
-    .body {
-      border: 1px solid black;
-      flex: .6;
-      display: flex;
-      flex-direction: column;
+  .body {
+    border: 1px solid black;
+    flex: .6;
+    display: flex;
+    flex-direction: column;
+  }
 
-      .additional-info {
-        display: flex;
-      }
-    }
+  .additional-info {
+    display: flex;
   }
 </style>
