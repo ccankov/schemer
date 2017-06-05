@@ -30,12 +30,8 @@ export default {
   },
   data: function () {
     return {
-      graph: null
+      graph: new joint.dia.Graph()
     }
-  },
-  mounted () {
-    let graph = new joint.dia.Graph()
-    this.graph = graph
   }
 }
 </script>
