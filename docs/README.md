@@ -33,7 +33,10 @@ In addition, Schemer will include
 On the frontend, Vue is integrated with JointJS, an open-source diagramming library developed by [Client.io](ttps://www.jointjs.com/opensource). We use the JointJS equivalent of canvas as its own component, and Vue for all other views. Using the JointJS API, we export the schema state as JSON to be processed on the backend
 
 #### Parsing JSON schema into SQL
-???
+
+[Sample JSON](docs/Sample_JSON.rb)
+
+[Sample Logic](docs/Sample_parse_logic.rb)
 
 #### Schemer Vues and Wireframes
 **Database Editor Page:**
