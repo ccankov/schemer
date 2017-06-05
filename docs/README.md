@@ -48,7 +48,7 @@ db_data = {
         column_name: true
       },
 ```
-[Full Sample JSON](docs/Sample_JSON.rb)
+[Full Sample JSON](./Sample_JSON.rb)
 
 **Sample Parsing Logic Preview**
 ```ruby
@@ -58,7 +58,7 @@ table_text = db_data[tables].map do |table|
   columns_text = table[columns].map do |column|
     bool_constraints = column[:constraints][:booleans].join(" ")
 ```
-[Full Sample Logic](docs/Sample_parse_logic.rb)
+[Full Sample Logic](./Sample_parse_logic.rb)
 
 #### Schemer Vues and Wireframes
 **Database Editor Page:**
