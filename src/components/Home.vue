@@ -128,13 +128,13 @@ export default {
 }
 </script>
 
-<style lang="css">
-  h2, h4 {
-    margin-bottom: 10px;
-  }
-
+<style lang="scss">
   h5 {
-    margin-top: 0
+    margin-top: 0;
+
+    h2, h4 {
+      margin-bottom: 10px;
+    }
   }
 
   .home {
