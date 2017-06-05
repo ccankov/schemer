@@ -2,17 +2,27 @@
   <div class='home'>
     <aside class='controls'>
       <h2> Vue Only </h2>
+      <h5> (Send data to JointJS) </h5>
       <input
       v-model='tableName'
       v-on:keyup.enter='addTable'
       placeholder="new table">
 
       <h4> Current Element </h4>
+      <h5> (Receive data from JointJS) </h5>
       <span> {{ currEl }} </span>
+
+      <h4> JSON Output </h4>
+      <button @click='getJSON'> Get me the JSON </button>
     </aside>
     <section class='editor'>
       <h2> JointJS Only </h2>
       <div ref='paper'></div>
+    </section>
+    <section class='output'>
+      <h2> JSON </h2>
+      <h5> (What to send to the API) </h5>
+      <span> {{ graphJSON }} </span>
     </section>
   </div>
 </template>
@@ -26,7 +36,8 @@ export default {
     return {
       graph: null,
       tableName: '',
-      currEl: 'none selected'
+      currEl: 'none selected',
+      graphJSON: ''
     }
   },
   methods: {
@@ -41,6 +52,9 @@ export default {
         });
       this.graph.addCells(r4);
       this.tableName = ''
+    },
+    getJSON: function () {
+      this.graphJSON = JSON.stringify(graph.toJSON());
     }
   },
   mounted: function () {
@@ -49,7 +63,7 @@ export default {
     const graph = new joint.dia.Graph;
     var paper = new joint.dia.Paper({
       el: this.$refs.paper,
-      width: 650,
+      width: 500,
       height: 300,
       gridSize: 1,
       model: graph
@@ -114,6 +128,14 @@ export default {
 </script>
 
 <style lang="css">
+  h2, h4 {
+    margin-bottom: 10px;
+  }
+
+  h5 {
+    margin-top: 0
+  }
+
   .home {
     display: flex;
   }
@@ -121,10 +143,19 @@ export default {
   .controls {
     flex: 1;
     padding: 0 20px;
-    border-right: 1px solid black
   }
 
   .editor {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
     flex: 5;
+  }
+
+  .output {
+    flex: 3;
+  }
+
+  .output span {
+    font-size: 10px;
   }
 </style>
