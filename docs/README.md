@@ -36,11 +36,11 @@ On the frontend, Vue is integrated with JointJS, an open-source diagramming libr
 ???
 
 #### Schemer Vues and Wireframes
-**Main Database Editor Page:**
-![Editor Page](wireframes/db_editor.png)
+**Database Editor Page:**
+![Database Editor](wireframes/db_editor.png)
 
-**User Database Index Page:**
-![User Page](wireframes/user_page.png)
+**Database Index Page:**
+![Database Index](wireframes/db_index.png)
 
 ## Accomplished over the Weekend
 * Worked through several Vue tutorials
