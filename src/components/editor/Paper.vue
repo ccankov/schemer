@@ -8,12 +8,12 @@
 import joint from 'jointjs'
 
 export default {
-  props: ['graph'],
+  // props: ['graph'],
   mounted () {
     // Store reference to the Vue element
     const vue = this
     // Pull graph out of props
-    const graph = this.props.graph
+    const graph = this.$store.graph
 
     // Define paper
     const paper = new joint.dia.Paper({
