@@ -21,6 +21,7 @@
       <h5> (What to send to the API) </h5>
       <span> {{ graphJSON }} </span>
     </section>
+
   </div>
 </template>
 
