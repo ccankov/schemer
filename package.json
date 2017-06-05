@@ -5,6 +5,7 @@
   "author": "Nikita Shalimov <ndshalimov@gmail.com>",
   "private": true,
   "scripts": {
+    "postinstall": "node build/build.js",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",

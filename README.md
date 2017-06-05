@@ -1,30 +1,13 @@
-# schemer
+# Schemer
 
-> A Vue.js project
+Constructing a SQL database requires both an intimate knowledge of the SQL domain specific language and a pre-planned Schema.
 
-## Build Setup
+Schemer is a database design tool that allows for database design and generation on the fly. The visual interface is interactive, and lets you setup tables, one-to-many and many-to-many relationships by simply dragging and dropping within the Schemer editor.
 
-``` bash
-# install dependencies
-npm install
+Schemer is built with a Vue frontend, an Express/Node backend, and MongoDB. (Dubbed by us as the **VENM** stack)
 
-# serve with hot reload at localhost:8080
-npm run dev
+For more, see
 
-# build for production with minification
-npm run build
+[Live Link](https://schemer.herokuapp.com)
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+[Dev Readme](docs/README.md)

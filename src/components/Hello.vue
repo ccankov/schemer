@@ -26,7 +26,7 @@ export default {
   name: 'hello',
   data() {
     return {
-      msg: 'Welcome to Schemer, Vue.js App!',
+      msg: 'Welcome to Schemer, a Vue.js App!',
     };
   },
 };
