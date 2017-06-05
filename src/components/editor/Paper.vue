@@ -13,7 +13,7 @@ export default {
     // Store reference to the Vue element
     const vue = this
     // Pull graph out of props
-    const graph = this.props.graph
+    const graph = this.graph
 
     // Define paper
     const paper = new joint.dia.Paper({
