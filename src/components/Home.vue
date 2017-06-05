@@ -11,9 +11,6 @@
       <h4> Current Element </h4>
       <h5> (Receive data from JointJS) </h5>
       <span> {{ currEl }} </span>
-
-      <h4> JSON Output </h4>
-      <button @click='getJSON'> Get me the JSON </button>
     </aside>
     <section class='editor'>
       <h2> JointJS Only </h2>
@@ -37,7 +34,15 @@ export default {
       graph: null,
       tableName: '',
       currEl: 'none selected',
-      graphJSON: ''
+    }
+  },
+  computed: {
+    graphJSON: function () {
+      if(this.graph) {
+        return JSON.stringify(this.graph.toJSON())
+      } else {
+        return 'still mounting!'
+      }
     }
   },
   methods: {
@@ -52,9 +57,6 @@ export default {
         });
       this.graph.addCells(r4);
       this.tableName = ''
-    },
-    getJSON: function () {
-      this.graphJSON = JSON.stringify(graph.toJSON());
     }
   },
   mounted: function () {
