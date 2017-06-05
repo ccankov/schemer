@@ -66,7 +66,7 @@ export default {
     var paper = new joint.dia.Paper({
       el: this.$refs.paper,
       width: 500,
-      height: 300,
+      height: 500,
       gridSize: 1,
       model: graph
     });
