@@ -11,8 +11,12 @@ Schemer will, at minimum, be able to:
 - [ ] Interactively create and edit tables in database
 - [ ] Interactively create columns inside tables, be able to set data type and not NULL / unique / indexed attributes
 - [ ] Setup one-to-many and many-to-many relationships between tables
-- [ ] Dynamic parse graphical schema and generate SQL code.
+- [ ] Dynamically parse graphical schema and generate SQL code.
 - [ ] Autosave schema, render a 'user' page with a list of databases
+
+In addition, Schemer will include
+- [ ] A production README
+- [ ] Secure Authentication (likely as an external package)
 
 **Bonus Features**
 - [ ] Generate SQL for editing a database, e.g. inserting / removing columns in the same interactive way
@@ -20,6 +24,7 @@ Schemer will, at minimum, be able to:
 
 ## Technologies and Technical Challenges
 **Backend: Node.js/Express [very tentative]**
+
 **Frontend: Vue**
 
 #### [Wireframes and Single Page App structure go here]
