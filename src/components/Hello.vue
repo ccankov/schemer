@@ -24,12 +24,12 @@
 <script>
 export default {
   name: 'hello',
-  data() {
+  data () {
     return {
-      msg: 'Welcome to Schemer, a Vue.js App!',
-    };
-  },
-};
+      msg: 'Welcome to Schemer, a Vue.js App!'
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
