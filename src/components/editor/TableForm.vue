@@ -7,9 +7,10 @@
 
     <span> {{ currentTable }} </span>
     <ul>
-      <li v-for='column in columns'>
-        {{ getElementName(column) }}
-      </li>
+      <table-form-column
+        v-for='column in columns'
+        :column='column'>
+      </table-form-column>
     </ul>
     <!-- current table -->
     <!-- v-for with list of current cols -->
@@ -18,10 +19,14 @@
 
 <script>
 import { getElementName, getElementType } from '../../util/jointjs_util'
+import TableFormColumn from './TableFormColumn'
 
 export default {
   name: 'table-form',
   props: ['currentElement'],
+  components: {
+    'table-form-column': TableFormColumn
+  },
   computed: {
     currentTable: function () {
       if (getElementType(this.currentElement) === 'table') {
