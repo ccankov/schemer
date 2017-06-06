@@ -27,6 +27,7 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
+    window.graph = graph
   }
 }
 </script>

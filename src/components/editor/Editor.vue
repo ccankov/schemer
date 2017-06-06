@@ -2,10 +2,12 @@
   <section class="editor">
     <section class="table-form">
       <!-- Table form component will go here -->
-      <span>Forms and things</span>
+      <table-form :currentElement='currentElement'></table-form>
+
+      <!-- <span>Forms and things</span>
       <br>
       <span>{{ currentElementName }}</span>
-      <input v-model="currentElementName">
+      <input v-model="currentElementName"> -->
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -27,9 +29,11 @@
 <script>
 import { createGraph } from '../../util/jointjs_util'
 import Paper from './Paper'
+import TableForm from './TableForm'
 export default {
   components: {
-    Paper
+    Paper,
+    'table-form': TableForm
   },
   data: function () {
     return {

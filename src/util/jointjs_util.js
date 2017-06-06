@@ -77,6 +77,7 @@ export const createTable = (name) => {
 
   // Create table
   const table = new joint.shapes.basic.Rect({
+    nodeType: 'table',
     position: { x: 20, y: 20 },
     size: { width: WIDTH, height: ROW_HEIGHT + 20 },
     attrs: {
@@ -92,6 +93,7 @@ export const createTable = (name) => {
 
       // Create the column
       const column = new joint.shapes.devs.Model({
+        nodeType: 'column',
         position: { x: position.x, y: yPos },
         size: { width: WIDTH, height: ROW_HEIGHT },
         attrs: { rect: { fill: color }, text: { text: name } },
