@@ -31,7 +31,7 @@ export default {
   },
   data: function () {
     return {
-      graph: new joint.dia.Graph().fromJSON(this.$store.state.graph)
+      graph: new joint.dia.Graph().fromJSON(this.$store.state.graphJSON),
       currentElement: null
     }
   },
@@ -47,7 +47,6 @@ export default {
   methods: {
     receiveElement: function (element) {
       this.currentElement = element
->>>>>>> 453faaaeb7c2ea418eaa82de9b1e14b27cc02892
     }
   }
 }
