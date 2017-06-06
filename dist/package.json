@@ -9,6 +9,6 @@
  },
  "dependencies": {
    "express": "^4.14.1",
-   "mongodb": "^2.2.28",
+   "mongodb": "^2.2.28"
  }
 }
