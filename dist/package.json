@@ -5,7 +5,7 @@
  "author": "Awesome Author",
  "private": true,
  "scripts": {
-   "postinstall": "npm install"
+   "start": "node server.js"
  },
  "dependencies": {
    "express": "^4.14.1",
