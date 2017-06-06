@@ -34,7 +34,7 @@ export default {
   },
   data: function () {
     return {
-      graph: createGraph(),
+      graph: 'hello',
       currentElement: null
     }
   },
@@ -59,6 +59,11 @@ export default {
     receiveElement: function (element) {
       this.currentElement = element
     }
+  },
+  created () {
+    this.graph = createGraph()
+    window.graph = this.graph
+    this.$store.commit('updateGraph', { graph: this.graph })
   }
 }
 </script>

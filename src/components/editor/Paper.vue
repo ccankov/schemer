@@ -33,6 +33,7 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
+    // this.$store.commit('updateGraph', { graph })
   }
 }
 </script>

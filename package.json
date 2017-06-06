@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "jointjs": "^1.1.0",
+    "lodash": "4.17.4",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.5",
     "vue": "^2.3.3",
