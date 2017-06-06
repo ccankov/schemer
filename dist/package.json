@@ -5,6 +5,10 @@
  "author": "Awesome Author",
  "private": true,
  "scripts": {
-   "postinstall": "npm install express"
- }
+   "postinstall": "npm install"
+ },
+ "dependencies": {
+   "express": "^4.14.1",
+   "mongodb": "^2.2.28",
+ },
 }
