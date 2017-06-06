@@ -1,6 +1,7 @@
 <template lang="html">
-  <div ref="paper" class="paper">
-
+  <div>
+    <div ref="paper" class="paper"></div>
+    <button @click='increment'> Increment Parent Counter </button>
   </div>
 </template>
 
@@ -12,6 +13,11 @@ export default {
   data () {
     return {
       paper: null
+    }
+  },
+  methods: {
+    increment: function () {
+      this.$store.commit('incrementCounter')
     }
   },
   mounted () {

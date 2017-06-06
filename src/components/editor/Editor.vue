@@ -13,6 +13,7 @@
         <section class="statistics">
           <!-- Statistics will go here -->
           <span>Statistics</span>
+          {{ counter }}
         </section>
 
         <section class="preview">
@@ -38,6 +39,9 @@ export default {
     }
   },
   computed: {
+    counter: function () {
+      return this.$store.state.counter
+    },
     currentElementName: {
       get: function () {
         if (this.currentElement) {
