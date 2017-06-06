@@ -133,9 +133,16 @@ export const createTable = (name) => {
       return column
     }
   })
-
   // Bind the addColumn method to the table object
   table.attributes.addColumn = table.attributes.addColumn.bind(table)
 
   return table
 }
+
+export const getElementName = element => (
+  element ? element.attributes.attrs.text.text : ''
+)
+
+export const getElementType = element => (
+  element ? element.attributes.nodeType : 'none'
+)

@@ -34,12 +34,7 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
-    window.graph = graph
-
-    console.log('finished setting up graph')
-    console.log('commiting graph from paper')
     this.$store.commit('updateGraph', { graph })
-    console.log('commited graph')
   }
 }
 </script>

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { createGraph } from '../../util/jointjs_util'
+import { createGraph, getElementName } from '../../util/jointjs_util'
 import Paper from './Paper'
 export default {
   components: {
@@ -44,14 +44,11 @@ export default {
     },
     currentElementName: {
       get: function () {
-        if (this.currentElement) {
-          return this.currentElement.attributes.attrs.text.text
-        } else {
-          return null
-        }
+        return getElementName(this.currentElement)
       },
       set: function (val) {
         this.graph.getCell(this.currentElement.id).attr('text', { text: val })
+        this.$store.commit('updateGraph', { graph: this.graph })
       }
     }
   },
@@ -62,14 +59,7 @@ export default {
   },
   created () {
     this.graph = createGraph()
-    console.log('initilized graph')
-    window.graph = this.graph
-    console.log('commiting graph')
     this.$store.commit('updateGraph', { graph: this.graph })
-    console.log('commited graph')
-  },
-  beforeUpdate () {
-    console.log('editor updating')
   }
 }
 </script>
