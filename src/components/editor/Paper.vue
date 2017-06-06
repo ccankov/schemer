@@ -9,7 +9,6 @@ import joint from 'jointjs'
 
 export default {
   mounted () {
-    console.log('mounting paper')
     // Store reference to the Vue element
     const vue = this
     // Pull graph out of props
