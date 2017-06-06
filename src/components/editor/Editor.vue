@@ -3,7 +3,9 @@
     <section class="table-form">
       <!-- Table form component will go here -->
       <span>Forms and things</span>
+      <br>
       <span>{{ currentElementName }}</span>
+      <input v-model="currentElementName">
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -30,17 +32,24 @@ export default {
     Paper
   },
   data: function () {
+    let graph = new joint.dia.Graph()
+    window.graph = graph
     return {
-      graph: new joint.dia.Graph(),
+      graph: graph,
       currentElement: null
     }
   },
   computed: {
-    currentElementName: function () {
-      if (this.currentElement) {
-        return this.currentElement.attributes.attrs.text.text
-      } else {
-        return null
+    currentElementName: {
+      get: function () {
+        if (this.currentElement) {
+          return this.currentElement.attributes.attrs.text.text
+        } else {
+          return null
+        }
+      },
+      set: function (val) {
+        this.graph.getCell(this.currentElement.id).attr('text', { text: val })
       }
     }
   },
