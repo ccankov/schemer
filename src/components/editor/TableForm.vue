@@ -5,7 +5,7 @@
       <button @click='exportSQL'> Export SQL </button>
     </div>
 
-    <span> {{ currentElementName }} </span>
+    <span> {{ currentTable }} </span>
     <ul>
       <li v-for='column in columns'>
         {{ column.attributes.attrs.text.text }}
@@ -17,21 +17,21 @@
 </template>
 
 <script>
+import { getElementName, getElementType } from '../../util/jointjs_util'
+
 export default {
   name: 'table-form',
   props: ['currentElement'],
   computed: {
-    currentElementName: function () {
-      if (this.currentElement) {
-        return this.currentElement.attributes.attrs.text.text
+    currentTable: function () {
+      if (getElementType(this.currentElement) === 'table') {
+        return getElementName(this.currentElement)
       } else {
         return null
       }
     },
     columns: function () {
-      if (this.currentElement && this.currentElement.attributes.nodeType === 'table') {
-        let columns = this.currentElement.attributes.columns
-        console.log(columns[0])
+      if (getElementType(this.currentElement) === 'table') {
         return this.currentElement.attributes.columns
       } else {
         return []
