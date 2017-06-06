@@ -3,10 +3,10 @@
     <section class="table-form">
       <!-- Table form component will go here -->
       <span>Forms and things</span>
+      <span>{{ currentElementName }}</span>
     </section>
     <section class="body">
-      <Paper></Paper>
-      <!-- <Paper :graph="graph"></Paper> -->
+      <Paper v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
         <section class="statistics">
           <!-- Statistics will go here -->
@@ -32,6 +32,22 @@ export default {
   data: function () {
     return {
       graph: new joint.dia.Graph().fromJSON(this.$store.state.graph)
+      currentElement: null
+    }
+  },
+  computed: {
+    currentElementName: function () {
+      if (this.currentElement) {
+        return this.currentElement.attributes.attrs.text.text
+      } else {
+        return null
+      }
+    }
+  },
+  methods: {
+    receiveElement: function (element) {
+      this.currentElement = element
+>>>>>>> 453faaaeb7c2ea418eaa82de9b1e14b27cc02892
     }
   }
 }
@@ -45,14 +61,23 @@ export default {
     border: 1px solid black;
   }
 
+  .table-form {
+    flex: 1.5;
+  }
+
   .body {
     border: 1px solid black;
-    flex: .6;
+    flex: 5;
     display: flex;
     flex-direction: column;
   }
 
   .additional-info {
     display: flex;
+  }
+
+  .additional-info > section {
+    border: 1px solid black;
+    flex: 1;
   }
 </style>
