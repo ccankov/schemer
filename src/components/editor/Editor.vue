@@ -8,7 +8,7 @@
       <input v-model="currentElementName">
     </section>
     <section class="body">
-      <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
+      <Paper v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
         <section class="statistics">
           <!-- Statistics will go here -->
@@ -32,7 +32,7 @@ export default {
     Paper
   },
   data: function () {
-    let graph = new joint.dia.Graph()
+    let graph = new joint.dia.Graph().fromJSON(this.$store.state.graphJSON)
     window.graph = graph
     return {
       graph: graph,
