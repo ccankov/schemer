@@ -34,23 +34,20 @@ export default {
       position: { x: 20, y: 20 },
       size: { width: 200, height: 200 },
       attrs: {
-        rect: { 'fill-opacity': 0 },
+        rect: { fill: '#E74C3C' },
         text: { text: 'users', 'ref-y': 15 }
-      },
-      z: 2
+      }
     })
     const colId = new joint.shapes.basic.Rect({
       position: { x: 20, y: 60 },
       size: { width: 200, height: 40 },
-      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'id' } },
-      z: 1
+      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'id' } }
     })
 
     const colUsername = new joint.shapes.basic.Rect({
       position: { x: 20, y: 100 },
       size: { width: 200, height: 40 },
-      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'username' } },
-      z: 1
+      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'username' } }
     })
 
     // Make column elements be inside the table element
@@ -59,6 +56,31 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
+
+    // Handle bounding child elements inside parent element
+    graph.on('change:position', (cell, newPosition, opt) => {
+      const parentId = cell.get('parent')
+
+      // Move the element if it doesn't have a parent
+      if (!parentId) return
+
+      if (!cell.get('originalPosition')) {
+        // Set originalPosition the first time
+        cell.set('originalPosition', cell.position({ parentRelative: true }))
+      }
+
+      // Calculate relative offsets
+      let relativePos = cell.position({ parentRelative: true })
+      let offsetY = cell.position({ parentRelative: true }).y - cell.get('originalPosition').y
+
+      // Reset child position if its relative position has changed
+      if (offsetY || relativePos.x) {
+        cell.set('position', cell.previous('position'))
+      }
+
+      // Update originalPosition
+      cell.set('originalPosition', cell.position({ parentRelative: true }))
+    })
   }
 }
 </script>
