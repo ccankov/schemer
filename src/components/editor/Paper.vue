@@ -58,7 +58,7 @@ export default {
     graph.addCells([usersTable, colId, colUsername])
 
     // Handle bounding child elements inside parent element
-    graph.on('change:position', (cell, newPosition, opt) => {
+    graph.on('change:position', (cell, newPosition) => {
       const parentId = cell.get('parent')
 
       // Move the element if it doesn't have a parent
@@ -66,7 +66,9 @@ export default {
 
       if (!cell.get('originalPosition')) {
         // Set originalPosition the first time
+        cell.set('position', cell.previous('position'))
         cell.set('originalPosition', cell.position({ parentRelative: true }))
+        cell.set('position', newPosition)
       }
 
       // Calculate relative offsets
