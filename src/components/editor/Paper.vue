@@ -58,25 +58,30 @@ export default {
     graph.addCells([usersTable, colId, colUsername])
 
     // Handle bounding child elements inside parent element
-    graph.on('change:position', (cell) => {
+    graph.on('change:position', (cell, newPosition) => {
       const parentId = cell.get('parent')
+
+      // Move the element if it doesn't have a parent
       if (!parentId) return
 
-      const parent = graph.getCell(parentId)
-      const parentBbox = parent.getBBox()
-      const cellBbox = cell.getBBox()
-
-      if (parentBbox.containsPoint(cellBbox.origin()) &&
-          parentBbox.containsPoint(cellBbox.topRight()) &&
-          parentBbox.containsPoint(cellBbox.corner()) &&
-          parentBbox.containsPoint(cellBbox.bottomLeft())) {
-        // All the four corners of the child are inside
-        // the parent area.
-        return
+      if (!cell.get('originalPosition')) {
+        // Set originalPosition the first time
+        cell.set('position', cell.previous('position'))
+        cell.set('originalPosition', cell.position({ parentRelative: true }))
+        cell.set('position', newPosition)
       }
 
-      // Revert the child position.
-      cell.set('position', cell.previous('position'))
+      // Calculate relative offsets
+      let relativePos = cell.position({ parentRelative: true })
+      let offsetY = cell.position({ parentRelative: true }).y - cell.get('originalPosition').y
+
+      // Reset child position if its relative position has changed
+      if (offsetY || relativePos.x) {
+        cell.set('position', cell.previous('position'))
+      }
+
+      // Update originalPosition
+      cell.set('originalPosition', cell.position({ parentRelative: true }))
     })
   }
 }
