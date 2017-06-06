@@ -64,6 +64,12 @@ export const createGraph = () => {
   return graph
 }
 
+export const loadGraphFromJSON = json => {
+  const graph = new joint.dia.Graph()
+  graph.fromJSON(json)
+  return graph
+}
+
 export const createTable = (name) => {
   // Display constants
   const TITLE_HEIGHT = 40

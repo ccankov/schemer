@@ -6,13 +6,18 @@
 </template>
 
 <script>
-import { createPaper, createTable } from '../../util/jointjs_util'
+import { createPaper, createTable, loadGraphFromJSON } from '../../util/jointjs_util'
 
 export default {
-  props: ['graph'],
+  // props: ['graph'],
   data () {
     return {
       paper: null
+    }
+  },
+  computed: {
+    graph: function () {
+      return loadGraphFromJSON(this.$store.state.graphJSON)
     }
   },
   methods: {
@@ -21,8 +26,9 @@ export default {
     }
   },
   mounted () {
-    // Pull graph out of props
+    // Pull graph out of props / computed property
     const graph = this.graph
+
     // Set up paper
     this.paper = createPaper(this.$refs.paper, graph, this)
 
@@ -33,7 +39,13 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
+    window.graph = graph
+
+    console.log('finished setting up graph')
+    // console.log('commiting graph from paper')
     // this.$store.commit('updateGraph', { graph })
+    // this causes browser to freeze, without console messages
+    // console.log('commited graph')
   }
 }
 </script>
