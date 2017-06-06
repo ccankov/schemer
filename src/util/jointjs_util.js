@@ -64,6 +64,12 @@ export const createGraph = () => {
   return graph
 }
 
+export const loadGraphFromJSON = json => {
+  const graph = new joint.dia.Graph()
+  graph.fromJSON(json)
+  return graph
+}
+
 export const createTable = (name) => {
   // Display constants
   const TITLE_HEIGHT = 40
@@ -77,6 +83,7 @@ export const createTable = (name) => {
 
   // Create table
   const table = new joint.shapes.basic.Rect({
+    nodeType: 'table',
     position: { x: 20, y: 20 },
     size: { width: WIDTH, height: ROW_HEIGHT + 20 },
     attrs: {
@@ -92,6 +99,7 @@ export const createTable = (name) => {
 
       // Create the column
       const column = new joint.shapes.devs.Model({
+        nodeType: 'column',
         position: { x: position.x, y: yPos },
         size: { width: WIDTH, height: ROW_HEIGHT },
         attrs: { rect: { fill: color }, text: { text: name } },
@@ -120,14 +128,21 @@ export const createTable = (name) => {
       // Resize the table to fit new column, embed and track the new column
       this.resize(size.width, size.height + ROW_HEIGHT)
       this.embed(column)
-      columns.push(column)
+      columns.push(column.id)
 
       return column
     }
   })
-
   // Bind the addColumn method to the table object
   table.attributes.addColumn = table.attributes.addColumn.bind(table)
 
   return table
 }
+
+export const getElementName = element => (
+  element ? element.attributes.attrs.text.text : ''
+)
+
+export const getElementType = element => (
+  element ? element.attributes.nodeType : 'none'
+)
