@@ -51,7 +51,6 @@ export default {
         }
       },
       set: function (val) {
-        console.log('THIS ISNT GOING TO WORK, this.graph IS FROM THE STORE, WHICH HAS NOT RECEIVED A NEW GRAPH FROM Paper')
         this.graph.getCell(this.currentElement.id).attr('text', { text: val })
       }
     }
