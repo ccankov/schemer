@@ -38,5 +38,9 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  .joint-paper {
+    width: 100% !important;
+    overflow: hidden;
+  }
 </style>
