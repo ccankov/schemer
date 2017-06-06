@@ -5,7 +5,8 @@
       <span>Forms and things</span>
     </section>
     <section class="body">
-      <Paper :graph="graph"></Paper>
+      <Paper></Paper>
+      <!-- <Paper :graph="graph"></Paper> -->
       <section class="additional-info">
         <section class="statistics">
           <!-- Statistics will go here -->
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-// import joint from 'jointjs'
+import joint from 'jointjs'
 import Paper from './Paper'
 export default {
   components: {
@@ -30,7 +31,7 @@ export default {
   },
   data: function () {
     return {
-      graph: this.$store.graph
+      graph: new joint.dia.Graph().fromJSON(this.$store.state.graph)
     }
   }
 }

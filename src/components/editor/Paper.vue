@@ -1,5 +1,5 @@
 <template lang="html">
-  <div ref="paper" class="paper">
+  <div ref="paper" id='paper' class="paper">
 
   </div>
 </template>
@@ -8,12 +8,13 @@
 import joint from 'jointjs'
 
 export default {
-  props: ['graph'],
   mounted () {
+    console.log('mounting paper')
     // Store reference to the Vue element
     const vue = this
     // Pull graph out of props
-    const graph = this.graph
+    const graph = new joint.dia.Graph()
+    graph.fromJSON(this.$store.state.graphJSON)
 
     // Define paper
     const paper = new joint.dia.Paper({
@@ -80,6 +81,9 @@ export default {
       // Revert the child position.
       cell.set('position', cell.previous('position'))
     })
+
+    console.log(this.$store.state.graph)
+    console.log('set state')
   }
 }
 </script>

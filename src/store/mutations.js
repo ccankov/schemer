@@ -1,10 +1,7 @@
 import joint from 'jointjs'
 
 export const state = {
-  graph: new joint.dia.Graph(),
-  getters: {
-    graphJSON: ({ graph }) => JSON.parse(graph.toJSON())
-  }
+  graphJSON: new joint.dia.Graph().toJSON()
 }
 
 export const mutations = {}
