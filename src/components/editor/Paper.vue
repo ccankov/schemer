@@ -5,8 +5,7 @@
 </template>
 
 <script>
-import joint from 'jointjs'
-import { createPaper } from '../../util/jointjs_util'
+import { createPaper, createTable } from '../../util/jointjs_util'
 
 export default {
   props: ['graph'],
@@ -21,30 +20,10 @@ export default {
     // Set up paper
     this.paper = createPaper(this.$refs.paper, graph, this)
 
-    // Define some basic shapes
-    const usersTable = new joint.shapes.basic.Rect({
-      position: { x: 20, y: 20 },
-      size: { width: 200, height: 200 },
-      attrs: {
-        rect: { fill: '#E74C3C' },
-        text: { text: 'users', 'ref-y': 15 }
-      }
-    })
-    const colId = new joint.shapes.basic.Rect({
-      position: { x: 20, y: 60 },
-      size: { width: 200, height: 40 },
-      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'id' } }
-    })
-
-    const colUsername = new joint.shapes.basic.Rect({
-      position: { x: 20, y: 100 },
-      size: { width: 200, height: 40 },
-      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'username' } }
-    })
-
-    // Make column elements be inside the table element
-    usersTable.embed(colId)
-    usersTable.embed(colUsername)
+    // Define sample table with two columns
+    const usersTable = createTable('users')
+    const colId = usersTable.attributes.addColumn('id')
+    const colUsername = usersTable.attributes.addColumn('username')
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
