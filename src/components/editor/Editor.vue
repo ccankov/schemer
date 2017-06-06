@@ -25,17 +25,15 @@
 </template>
 
 <script>
-import joint from 'jointjs'
+import { createGraph } from '../../util/jointjs_util'
 import Paper from './Paper'
 export default {
   components: {
     Paper
   },
   data: function () {
-    let graph = new joint.dia.Graph()
-    window.graph = graph
     return {
-      graph: graph,
+      graph: createGraph(),
       currentElement: null
     }
   },
