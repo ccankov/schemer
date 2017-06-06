@@ -34,20 +34,23 @@ export default {
       position: { x: 20, y: 20 },
       size: { width: 200, height: 200 },
       attrs: {
-        rect: { fill: '#E74C3C' },
+        rect: { 'fill-opacity': 0 },
         text: { text: 'users', 'ref-y': 15 }
-      }
+      },
+      z: 2
     })
     const colId = new joint.shapes.basic.Rect({
       position: { x: 20, y: 60 },
       size: { width: 200, height: 40 },
-      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'id' } }
+      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'id' } },
+      z: 1
     })
 
     const colUsername = new joint.shapes.basic.Rect({
       position: { x: 20, y: 100 },
       size: { width: 200, height: 40 },
-      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'username' } }
+      attrs: { rect: { fill: '#F1C40F' }, text: { text: 'username' } },
+      z: 1
     })
 
     // Make column elements be inside the table element
@@ -56,28 +59,6 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
-
-    // Handle bounding child elements inside parent element
-    graph.on('change:position', (cell) => {
-      const parentId = cell.get('parent')
-      if (!parentId) return
-
-      const parent = graph.getCell(parentId)
-      const parentBbox = parent.getBBox()
-      const cellBbox = cell.getBBox()
-
-      if (parentBbox.containsPoint(cellBbox.origin()) &&
-          parentBbox.containsPoint(cellBbox.topRight()) &&
-          parentBbox.containsPoint(cellBbox.corner()) &&
-          parentBbox.containsPoint(cellBbox.bottomLeft())) {
-        // All the four corners of the child are inside
-        // the parent area.
-        return
-      }
-
-      // Revert the child position.
-      cell.set('position', cell.previous('position'))
-    })
   }
 }
 </script>
