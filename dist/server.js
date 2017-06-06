@@ -11,17 +11,27 @@ app.route('/api/dbs').get((req, res) => {
     console.log(err)
     let userId = req.query.id || req.params.id
     if (userId) {
-      db.collection('dbs').find({ 'user_id': userId }).toArray(function (err, results) {
-        console.log(results)
-        console.log(err)
+      db.collection('dbs').find({ 'user_id': userId }).toArray(function (err, data) {
+        if (err) {
+          console.log(err)
+          return res(err)
+        } else {
+          console.log(data)
+          return res.json(data)
+        }
       })
     } else {
-      db.collection('dbs').find().toArray(function (err, results) {
-        console.log(results)
-        console.log(err)
+      db.collection('dbs').find().toArray(function (err, data) {
+        if (err) {
+          console.log(err)
+          return res(err)
+        } else {
+          console.log(data)
+          return res.json(data)
+        }
       })
     }
-    res.redirect('/')
+    // res.redirect('/')
   })
 })
 
