@@ -134,10 +134,10 @@ export const createTable = (name) => {
   return table
 }
 
-export const getElementName = (element) => {
-  return element ? element.attributes.attrs.text.text : ''
-}
+export const getElementName = (element) => (
+  element ? element.attributes.attrs.text.text : ''
+)
 
-export const getElementType = (element) => {
-  return element ? element.attributes.nodeType : 'none'
-}
+export const getElementType = (element) => (
+  element ? element.attributes.nodeType : 'none'
+)

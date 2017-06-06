@@ -8,7 +8,7 @@
     <span> {{ currentTable }} </span>
     <ul>
       <li v-for='column in columns'>
-        {{ column.attributes.attrs.text.text }}
+        {{ getElementName(column) }}
       </li>
     </ul>
     <!-- current table -->
