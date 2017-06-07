@@ -79,6 +79,13 @@ export default {
 
   .table-form {
     flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .table-form button {
+    margin: 10px auto;
   }
 
   .body {

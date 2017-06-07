@@ -7,7 +7,7 @@ export default {
       graph => commit(RECEIVE_GRAPH, graph)
     )
   },
-  [UPDATE_GRAPH] ({ commit }, graph) {
+  [UPDATE_GRAPH] ({ commit }, { graph }) {
     return APIUtil.updateGraph(graph).then(
       graph => commit(RECEIVE_GRAPH, graph)
     )
