@@ -19,6 +19,7 @@
       <li>
         <input
           v-model='newColName'
+          :keyup.enter='addColumn'
           placeholder='Add a column' />
       </li>
     </ul>
@@ -26,7 +27,14 @@
 </template>
 
 <script>
-import { getElementName, setElementName, isTable, getParentId } from '../../util/jointjs_util'
+import {
+  getElementName,
+  setElementName,
+  isTable,
+  getParentId,
+  createTable,
+  addCellsToGraph
+} from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
 
 export default {
@@ -72,9 +80,14 @@ export default {
       return this.graph.getCell(id)
     },
     addTable: function () {
-      console.log('nothing yet!')
+      let tableCells = createTable('New Table')
+      console.log(tableCells)
+      addCellsToGraph(tableCells, this.graph)
     },
     addColumn: function () {
+      let colCells = this.currentTable.attributes.addColumn(this.newColName, 'integer')
+      addCellsToGraph(colCells, this.graph)
+      this.newColName = ''
     },
     exportSQL: function () {
       console.log('nothing yet!')
