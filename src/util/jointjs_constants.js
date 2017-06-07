@@ -1,7 +1,7 @@
 // Display constants
 export const TITLE_HEIGHT = 40
 export const ROW_HEIGHT = 30
-export const WIDTH = 300
+export const WIDTH = 350
 export const TITLE_COLOR = '#CCCCCC'
 export const TITLE_Y_OFFSET = 20
 export const BG_COLOR_1 = '#F8F8F8'

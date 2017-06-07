@@ -45,7 +45,11 @@ export default {
         return getElementName(this.currentElement)
       },
       set: function (val) {
-        this.graph.getCell(this.currentElement.id).attr('text', { text: val })
+        const cell = this.graph.getCell(this.currentElement.id)
+        let textVal = val
+        if (val.length > 10) textVal = val.substring(0, 10) + '...'
+        cell.attr('text', { text: textVal })
+        cell.attr('nodeName', { value: val })
         this.commitGraph()
       }
     }

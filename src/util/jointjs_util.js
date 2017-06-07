@@ -83,38 +83,49 @@ const buildAttributes = function () {
   // Get relevant properties from column
   const position = this.attributes.position
   const color = this.attributes.attrs.rect.fill
-  const name = this.attributes.colName
-  const type = this.attributes.colType
-  const options = this.attributes.options
+  const name = this.attributes.attrs.nodeName.value
+  let textName = name
+  if (textName.length > 10) textName = textName.substring(0, 10) + '...'
+  const type = this.attributes.attrs.colType.value
+  const options = this.attributes.attrs.options
   const selectedOptions = Object.keys(options).filter(key => options[key])
   const optionsStr = selectedOptions.join(', ')
 
   // Create new shapes for the name, type, and options
   const nameShape = new joint.shapes.devs.Model({
-    nodeType: 'columnName',
     position: { x: position.x, y: position.y },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: name, 'class': 'col-text' } },
-    z: 1,
-    options
+    attrs: {
+      rect: { fill: color },
+      text: { text: name, 'class': 'col-text' },
+      nodeType: { value: 'columnName' },
+      options
+    },
+    z: 1
   })
 
   const typeShape = new joint.shapes.devs.Model({
-    nodeType: 'columnType',
     position: { x: position.x + C.WIDTH / 4, y: position.y },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: type, 'class': 'col-text' } },
-    z: 1,
-    options
+    attrs: {
+      rect: { fill: color },
+      text: { text: type, 'class': 'col-text' },
+      nodeType: { value: 'columnType' },
+      options
+    },
+    z: 1
   })
 
   const optionsShape = new joint.shapes.devs.Model({
-    nodeType: 'columnOptions',
     position: { x: position.x + C.WIDTH / 2, y: position.y },
     size: { width: C.WIDTH / 2, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: optionsStr, 'class': 'col-text' } },
-    z: 1,
-    options
+    attrs: {
+      rect: { fill: color },
+      text: { text: optionsStr, 'class': 'col-text' },
+      nodeType: { value: 'columnOptions' },
+      options
+    },
+    z: 1
   })
 
   // Embed child shapes into the column shape
@@ -133,35 +144,47 @@ const addHeaderColumn = function () {
 
   // Create the column
   const column = new joint.shapes.devs.Model({
-    nodeType: 'column',
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color, 'fill-opacity': 0 }, text: { text: ' ' } },
+    attrs: {
+      rect: { fill: color, 'fill-opacity': 0 },
+      text: { text: ' ' },
+      nodeType: { value: 'header' }
+    },
     z: 2
   })
 
   // Create new shapes for the name, type, and options
   const nameShape = new joint.shapes.devs.Model({
-    nodeType: 'columnName',
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: ' Name', 'class': 'header-text' } },
+    attrs: {
+      rect: { fill: color },
+      text: { text: ' Name', 'class': 'header-text' },
+      nodeType: { value: 'columnName' }
+    },
     z: 1
   })
 
   const typeShape = new joint.shapes.devs.Model({
-    nodeType: 'columnType',
     position: { x: position.x + C.WIDTH / 4, y: yPos },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: 'Type', 'class': 'header-text' } },
+    attrs: {
+      rect: { fill: color },
+      text: { text: 'Type', 'class': 'header-text' },
+      nodeType: { value: 'columnType' }
+    },
     z: 1
   })
 
   const optionsShape = new joint.shapes.devs.Model({
-    nodeType: 'columnOptions',
     position: { x: position.x + C.WIDTH / 2, y: yPos },
     size: { width: C.WIDTH / 2, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: 'Options', 'class': 'header-text' } },
+    attrs: {
+      rect: { fill: color },
+      text: { text: 'Options', 'class': 'header-text' },
+      nodeType: { value: 'columnOptions' }
+    },
     z: 1
   })
 
@@ -188,20 +211,24 @@ const addColumn = function (name, type, options = {}) {
   options = Object.assign(defaults, options)
 
   // Pull the relevant properties out of the table
-  const { columns, position, size } = this.attributes
+  const { position, size } = this.attributes
+  const columns = this.attributes.attrs.columns.value
   const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
   const yPos = position.y + ((columns.length + 1) * C.ROW_HEIGHT) + C.TITLE_HEIGHT
 
   // Create the column
   const column = new joint.shapes.devs.Model({
-    nodeType: 'column',
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color, 'fill-opacity': 0 }, text: { text: ' ' } },
-    z: 2,
-    colName: name,
-    colType: type,
-    options
+    attrs: {
+      rect: { fill: color, 'fill-opacity': 0 },
+      text: { text: ' ' },
+      nodeType: { value: 'column' },
+      colType: { value: type },
+      nodeName: { value: name },
+      options
+    },
+    z: 2
   })
   column.attributes.buildAttributes = buildAttributes.bind(column)
 
@@ -217,16 +244,20 @@ const addColumn = function (name, type, options = {}) {
 }
 
 export const createTable = (name) => {
+  let textName = name
+  if (textName.length > 10) textName = textName.substring(0, 10) + '...'
+
   // Create table
   const table = new joint.shapes.basic.Rect({
-    nodeType: 'table',
     position: { x: 20, y: 20 },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT + 20 },
     attrs: {
       rect: { fill: C.TITLE_COLOR },
-      text: { text: name, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' }
-    },
-    columns: []
+      text: { text: textName, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' },
+      nodeType: { value: 'table' },
+      nodeName: { value: name },
+      columns: { value: [] }
+    }
   })
   // Bind methods to the table object
   table.attributes.addColumn = addColumn.bind(table)
@@ -237,9 +268,9 @@ export const createTable = (name) => {
 }
 
 export const getElementName = element => (
-  element ? element.attributes.attrs.text.text : ''
+  element ? element.attributes.attrs.nodeName.value : ''
 )
 
 export const getElementType = element => (
-  element ? element.attributes.nodeType : 'none'
+  element ? element.attributes.attrs.nodeType.value : 'none'
 )
