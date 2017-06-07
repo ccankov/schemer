@@ -15,7 +15,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "backbone-model": "^1.0.10",
+    "body-parser": "^1.17.2",
     "jointjs": "^1.1.0",
     "mongodb": "^2.2.28",
     "node-sass": "^4.5.3",

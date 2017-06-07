@@ -11,6 +11,10 @@ export const state = {
 
 export const mutations = {
   [RECEIVE_GRAPH] (state, { graph }) {
-    state.graphJSON = graph.toJSON()
+    if (graph.cells) {
+      state.graphJSON = graph
+    } else {
+      state.graphJSON = graph.toJSON()
+    }
   }
 }
