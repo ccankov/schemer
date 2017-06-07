@@ -1,0 +1,3 @@
+export const RECEIVE_GRAPH = 'RECEIVE_GRAPH'
+export const FETCH_GRAPH = 'FETCH_GRAPH'
+export const UPDATE_GRAPH = 'UPDATE_GRAPH'

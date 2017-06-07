@@ -10,7 +10,8 @@
       <table-form-column
         v-for='id in columns'
         key='id'
-        :column='this.graph.getCell(id)'>
+        :isCurrent='currentElement.id === id'
+        :column='getCell(id)'>
       </table-form-column>
     </ul>
     <!-- current table -->
@@ -19,12 +20,12 @@
 </template>
 
 <script>
-import { getElementName, getElementType } from '../../util/jointjs_util'
+import { getElementName, getElementType, getParentId } from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
 
 export default {
   name: 'table-form',
-  props: ['currentElement'],
+  props: ['currentElement', 'graph'],
   components: {
     'table-form-column': TableFormColumn
   },
@@ -33,7 +34,9 @@ export default {
       if (getElementType(this.currentElement) === 'table') {
         return getElementName(this.currentElement)
       } else {
-        return null
+        console.log(this.currentElement)
+        let parentId = getParentId(this.currentElement)
+        return getElementName(this.getCell(parentId))
       }
     },
     columns: function () {
@@ -45,6 +48,9 @@ export default {
     }
   },
   methods: {
+    getCell: function (id) {
+      return this.graph.getCell(id)
+    },
     addTable: function () {
       console.log('nothing yet!')
     },

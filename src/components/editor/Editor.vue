@@ -1,13 +1,11 @@
 <template lang="html">
   <section class="editor">
     <section class="table-form">
-      <!-- Table form component will go here -->
-      <table-form :currentElement='currentElement'></table-form>
+      <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
+      <table-form
+        :graph='graph'
+        :currentElement='currentElement'></table-form>
 
-      <!-- <span>Forms and things</span>
-      <br>
-      <span>{{ currentElementName }}</span>
-      <input v-model="currentElementName"> -->
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -28,6 +26,7 @@
 
 <script>
 import { createGraph, getElementName } from '../../util/jointjs_util'
+import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
 import TableForm from './TableForm'
 export default {
@@ -42,27 +41,30 @@ export default {
     }
   },
   computed: {
-    counter: function () {
-      return this.$store.state.counter
-    },
     currentElementName: {
       get: function () {
         return getElementName(this.currentElement)
       },
       set: function (val) {
         this.graph.getCell(this.currentElement.id).attr('text', { text: val })
-        this.$store.commit('updateGraph', { graph: this.graph })
+        this.commitGraph()
       }
     }
   },
   methods: {
     receiveElement: function (element) {
       this.currentElement = element
+    },
+    commitGraph: function () {
+      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
+    },
+    saveGraph: function () {
+      this.$store.dispatch(UPDATE_GRAPH, { graph: this.graph })
     }
   },
   created () {
     this.graph = createGraph()
-    this.$store.commit('updateGraph', { graph: this.graph })
+    this.commitGraph()
   }
 }
 </script>
@@ -77,6 +79,13 @@ export default {
 
   .table-form {
     flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .table-form button {
+    margin: 10px auto;
   }
 
   .body {
