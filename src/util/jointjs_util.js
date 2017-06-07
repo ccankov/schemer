@@ -133,7 +133,7 @@ const addHeaderColumn = function () {
 
   // Create the column
   const column = new joint.shapes.devs.Model({
-    nodeType: 'column',
+    nodeType: 'header',
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: { rect: { fill: color, 'fill-opacity': 0 }, text: { text: ' ' } },
