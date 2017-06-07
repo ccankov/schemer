@@ -30,7 +30,6 @@ export default {
     const colId = usersTable[0].attributes.addColumn('id', 'integer', { 'primary key': true, 'allow null': false })
     const colUsername = usersTable[0].attributes.addColumn('username', 'string', { 'allow null': false })
 
-    console.log(usersTable)
     // Add the cells to the graph (model)
     addCellsToGraph(usersTable.concat(colId).concat(colUsername), graph)
     this.commitGraph()

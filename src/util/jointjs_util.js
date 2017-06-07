@@ -131,7 +131,6 @@ const addHeaderColumn = function () {
   const yPos = position.y + C.TITLE_HEIGHT
   const color = C.HEADER_COLOR
 
-  console.log(yPos)
   // Create the column
   const column = new joint.shapes.devs.Model({
     nodeType: 'column',
