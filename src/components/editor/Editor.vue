@@ -15,6 +15,7 @@
         <section class="statistics">
           <!-- Statistics will go here -->
           <span>Statistics</span>
+          {{ counter }}
         </section>
 
         <section class="preview">
@@ -27,7 +28,7 @@
 </template>
 
 <script>
-import { createGraph } from '../../util/jointjs_util'
+import { createGraph, getElementName } from '../../util/jointjs_util'
 import Paper from './Paper'
 import TableForm from './TableForm'
 export default {
@@ -37,21 +38,21 @@ export default {
   },
   data: function () {
     return {
-      graph: createGraph(),
+      graph: null,
       currentElement: null
     }
   },
   computed: {
+    counter: function () {
+      return this.$store.state.counter
+    },
     currentElementName: {
       get: function () {
-        if (this.currentElement) {
-          return this.currentElement.attributes.attrs.text.text
-        } else {
-          return null
-        }
+        return getElementName(this.currentElement)
       },
       set: function (val) {
         this.graph.getCell(this.currentElement.id).attr('text', { text: val })
+        this.$store.commit('updateGraph', { graph: this.graph })
       }
     }
   },
@@ -59,6 +60,10 @@ export default {
     receiveElement: function (element) {
       this.currentElement = element
     }
+  },
+  created () {
+    this.graph = createGraph()
+    this.$store.commit('updateGraph', { graph: this.graph })
   }
 }
 </script>

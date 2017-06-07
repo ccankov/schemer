@@ -1,5 +1,6 @@
 import joint from 'jointjs'
 import $ from 'jquery'
+import * as C from './jointjs_constants'
 
 export const createPaper = (element, graph, component) => {
   // Define paper
@@ -64,80 +65,74 @@ export const createGraph = () => {
   return graph
 }
 
-export const createTable = (name) => {
-  // Display constants
-  const TITLE_HEIGHT = 40
-  const ROW_HEIGHT = 30
-  const WIDTH = 200
-  const TITLE_COLOR = '#CCCCCC'
-  const BG_COLOR_1 = '#F8F8F8'
-  const BG_COLOR_2 = '#E8E8E8'
-  const TITLE_Y_OFFSET = 20
-  const TITLE_X_OFFSET = 30
+export const loadGraphFromJSON = json => {
+  const graph = createGraph()
+  graph.fromJSON(json)
+  return graph
+}
 
+const buildAttributes = function (options) {
+
+}
+
+const addColumn = function (name, type, options = {}) {
+  // Column defaults
+  const defaults = {
+    primaryKey: false,
+    allowNull: true,
+    unique: false,
+    defaultVal: null
+  }
+
+  // Merge custom options with defaults
+  options = Object.assign(defaults, options, { colType: type })
+
+  // Pull the relevant properties out of the table
+  const { columns, position, size } = this.attributes
+  const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
+  const yPos = position.y + (columns.length * C.ROW_HEIGHT) + C.TITLE_HEIGHT
+
+  // Create the column
+  const column = new joint.shapes.devs.Model({
+    nodeType: 'column',
+    position: { x: position.x, y: yPos },
+    size: { width: C.WIDTH, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: name } },
+    options
+  })
+  console.log(column)
+  column.attributes.buildAttributes = buildAttributes.bind(column)
+
+  // Resize the table to fit new column, embed and track the new column
+  this.resize(size.width, size.height + C.ROW_HEIGHT)
+  this.embed(column)
+  columns.push(column.id)
+
+  return column
+}
+
+export const createTable = (name) => {
   // Create table
   const table = new joint.shapes.basic.Rect({
     nodeType: 'table',
     position: { x: 20, y: 20 },
-    size: { width: WIDTH, height: ROW_HEIGHT + 20 },
+    size: { width: C.WIDTH, height: C.ROW_HEIGHT + 20 },
     attrs: {
-      rect: { fill: TITLE_COLOR },
-      text: { text: name, 'ref-y': TITLE_Y_OFFSET, 'ref-x': TITLE_X_OFFSET, 'font-size': '18px', 'font-weight': 'bold' }
+      rect: { fill: C.TITLE_COLOR },
+      text: { text: name, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' }
     },
-    columns: [],
-    addColumn (name) {
-      // Pull the relevant properties out of the table
-      const { columns, position, size } = this.attributes
-      const color = columns.length % 2 === 0 ? BG_COLOR_1 : BG_COLOR_2
-      const yPos = position.y + (columns.length * ROW_HEIGHT) + TITLE_HEIGHT
-
-      // Create the column
-      const column = new joint.shapes.devs.Model({
-        nodeType: 'column',
-        position: { x: position.x, y: yPos },
-        size: { width: WIDTH, height: ROW_HEIGHT },
-        attrs: { rect: { fill: color }, text: { text: name } },
-        inPorts: ['in'],
-        outPorts: ['out'],
-        ports: {
-          groups: {
-            'in': {
-              attrs: {
-                '.port-body': {
-                  fill: '#FFFFFF'
-                }
-              }
-            },
-            'out': {
-              attrs: {
-                '.port-body': {
-                  fill: '#FFFFFF'
-                }
-              }
-            }
-          }
-        }
-      })
-
-      // Resize the table to fit new column, embed and track the new column
-      this.resize(size.width, size.height + ROW_HEIGHT)
-      this.embed(column)
-      columns.push(column)
-
-      return column
-    }
+    columns: []
   })
-
   // Bind the addColumn method to the table object
-  table.attributes.addColumn = table.attributes.addColumn.bind(table)
+  table.attributes.addColumn = addColumn.bind(table)
 
   return table
 }
 
-export const getElementName = (element) => (
+export const getElementName = element => (
   element ? element.attributes.attrs.text.text : ''
 )
 
-export const getElementType = (element) => (
+export const getElementType = element => (
   element ? element.attributes.nodeType : 'none'
 )
