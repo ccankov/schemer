@@ -1,8 +1,15 @@
-// import * as APIUtil from '../../util/api_util'
-import { RECEIVE_GRAPH } from './mutations'
+import * as APIUtil from '../../util/api_util'
+import { RECEIVE_GRAPH, FETCH_GRAPH, UPDATE_GRAPH } from './mutations_types'
 
 export default {
-  fetchGraph ({ commit }) {
-    commit(RECEIVE_GRAPH)
+  [FETCH_GRAPH] ({ commit }) {
+    return APIUtil.fetchGraph().then(
+      graph => commit(RECEIVE_GRAPH, graph)
+    )
+  },
+  [UPDATE_GRAPH] ({ commit }, graph) {
+    return APIUtil.updateGraph(graph).then(
+      graph => commit(RECEIVE_GRAPH, graph)
+    )
   }
 }

@@ -1,4 +1,4 @@
-export const RECEIVE_GRAPH = 'RECEIVE_GRAPH'
+import { RECEIVE_GRAPH } from './mutation_types'
 
 export const state = {
   graphJSON: { cells: [] },
