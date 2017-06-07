@@ -45,7 +45,9 @@ export default {
         return getElementName(this.currentElement)
       },
       set: function (val) {
+        if (val.length > 10) val = val.substring(0, 10) + '...'
         this.graph.getCell(this.currentElement.id).attr('text', { text: val })
+        this.graph.getCell(this.currentElement.id).colName = val
         this.commitGraph()
       }
     }
