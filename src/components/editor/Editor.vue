@@ -26,6 +26,7 @@
 
 <script>
 import { createGraph, getElementName } from '../../util/jointjs_util'
+import { RECEIVE_GRAPH } from '../store/mutations'
 import Paper from './Paper'
 export default {
   components: {
@@ -53,7 +54,7 @@ export default {
       this.currentElement = element
     },
     commitGraph: function () {
-      this.$store.commit('receiveGraph', { graph: this.graph })
+      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
     }
   },
   created () {

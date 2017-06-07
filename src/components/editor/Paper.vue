@@ -7,6 +7,7 @@
 
 <script>
 import { createPaper, createTable } from '../../util/jointjs_util'
+import { RECEIVE_GRAPH } from '../store/mutations'
 
 export default {
   props: ['graph'],
@@ -17,7 +18,7 @@ export default {
   },
   methods: {
     commitGraph: function () {
-      this.$store.commit('receiveGraph', { graph: this.graph })
+      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
     }
   },
   mounted () {
