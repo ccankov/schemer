@@ -134,10 +134,18 @@ export const getElementName = element => (
   element ? element.attributes.attrs.text.text : ''
 )
 
+export const setElementName = (element, name) => (
+  element ? element.attr('text', { text: name }) : null
+)
+
 export const getParentId = element => (
   element ? element.attributes.parent : ''
 )
 
 export const getElementType = element => (
   element ? element.attributes.nodeType : 'none'
+)
+
+export const isTable = element => (
+  getElementType(element) === 'table'
 )

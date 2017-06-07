@@ -5,14 +5,23 @@
       <button @click='exportSQL'> Export SQL </button>
     </div>
 
-    <span> {{ currentTable }} </span>
-    <ul>
+    <h3> Current Element: </h3>
+    <ul class='el-list'>
+      <li>
+        <input
+          v-model='currentTableName'/>
+      </li>
       <table-form-column
         v-for='id in columns'
         key='id'
         :isCurrent='currentElement.id === id'
         :column='getCell(id)'>
       </table-form-column>
+      <li>
+        <input
+          v-model='newColName'
+          placeholder='Add a column' />
+      </li>
     </ul>
     <!-- current table -->
     <!-- v-for with list of current cols -->
@@ -20,7 +29,7 @@
 </template>
 
 <script>
-import { getElementName, getElementType, getParentId } from '../../util/jointjs_util'
+import { getElementName, setElementName, isTable, getParentId } from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
 
 export default {
@@ -29,19 +38,33 @@ export default {
   components: {
     'table-form-column': TableFormColumn
   },
+  data: () => ({
+    newColName: ''
+  }),
   computed: {
     currentTable: function () {
-      if (getElementType(this.currentElement) === 'table') {
-        return getElementName(this.currentElement)
+      if (isTable(this.currentElement)) {
+        return this.currentElement
       } else {
-        console.log(this.currentElement)
-        let parentId = getParentId(this.currentElement)
-        return getElementName(this.getCell(parentId))
+        let parent = this.getCell(getParentId(this.currentElement))
+        if (isTable(parent)) {
+          return parent
+        } else {
+          return null
+        }
+      }
+    },
+    currentTableName: {
+      get: function () {
+        return getElementName(this.currentTable)
+      },
+      set: function (val) {
+        setElementName(this.getCell(this.currentTable.id), val)
       }
     },
     columns: function () {
-      if (getElementType(this.currentElement) === 'table') {
-        return this.currentElement.attributes.columns
+      if (this.currentTable) {
+        return this.currentTable.attributes.columns
       } else {
         return []
       }
@@ -54,6 +77,8 @@ export default {
     addTable: function () {
       console.log('nothing yet!')
     },
+    addColumn: function () {
+    },
     exportSQL: function () {
       console.log('nothing yet!')
     }
@@ -62,4 +87,36 @@ export default {
 </script>
 
 <style lang="css">
+  .table-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .table-form h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    text-align: left;
+  }
+
+  .el-list {
+    width: 100%;
+    padding: 0 10px;
+    list-style: none;
+  }
+
+  .el-list li {
+    width: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+
+  .el-list input {
+    width: 80%;
+    height: 100%;
+    padding: 5px;
+    border: none;
+    margin: 0;
+  }
 </style>

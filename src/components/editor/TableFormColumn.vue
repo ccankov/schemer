@@ -1,21 +1,36 @@
 <template>
   <li>
-    {{ colName }}
+    <input v-model='colName'/>
+    <ul v-show='isCurrent'>
+      <span> Col Options go here </span>
+    </ul>
   </li>
 </template>
 
 <script>
-import { getElementName } from '../../util/jointjs_util'
+import { getElementName, setElementName } from '../../util/jointjs_util'
 export default {
-  props: ['column'],
+  props: ['column', 'isCurrent'],
   name: 'column',
   computed: {
-    colName: function () {
-      return getElementName(this.column)
+    colName: {
+      get: function () {
+        return getElementName(this.column)
+      },
+      set: function (val) {
+        setElementName(this.column, val)
+      }
     }
   }
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+  ul {
+    list-style: none;
+  }
+  span {
+    font-size: 10px;
+    margin: 20px auto;
+  }
 </style>
