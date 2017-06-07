@@ -65,7 +65,7 @@ export const createGraph = () => {
 }
 
 export const loadGraphFromJSON = json => {
-  const graph = new joint.dia.Graph()
+  const graph = createGraph()
   graph.fromJSON(json)
   return graph
 }
