@@ -1,12 +1,10 @@
 <template lang="html">
-  <div>
-    <div ref="paper" class="paper"></div>
-    <button @click='increment'> Increment Parent Counter </button>
-  </div>
+  <div ref="paper" class="paper"></div>
 </template>
 
 <script>
 import { createPaper, createTable, addCellsToGraph } from '../../util/jointjs_util'
+import { RECEIVE_GRAPH } from '../../store/mutation_types'
 
 export default {
   props: ['graph'],
@@ -16,8 +14,8 @@ export default {
     }
   },
   methods: {
-    increment: function () {
-      this.$store.commit('incrementCounter')
+    commitGraph: function () {
+      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
     }
   },
   mounted () {
@@ -35,7 +33,7 @@ export default {
     console.log(usersTable)
     // Add the cells to the graph (model)
     addCellsToGraph(usersTable.concat(colId).concat(colUsername), graph)
-    this.$store.commit('updateGraph', { graph })
+    this.commitGraph()
   }
 }
 </script>

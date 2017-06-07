@@ -1,15 +1,15 @@
+import { RECEIVE_GRAPH } from './mutation_types'
+
 export const state = {
-  graphJSON: '',
-  counter: 0
+  graphJSON: { cells: [] },
+  currentUser: {
+    id: 1,
+    username: 'brady'
+  }
 }
 
-export const getters = {}
-
 export const mutations = {
-  updateGraph (state, { graph }) {
+  [RECEIVE_GRAPH] (state, { graph }) {
     state.graphJSON = graph.toJSON()
-  },
-  incrementCounter (state) {
-    state.counter += 1
   }
 }
