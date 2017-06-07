@@ -29,7 +29,7 @@ export default {
 
     // Define sample table with two columns
     const usersTable = createTable('users')
-    const colId = usersTable.attributes.addColumn('id')
+    const colId = usersTable.attributes.addColumn('id', 'integer', { primaryKey: true })
     const colUsername = usersTable.attributes.addColumn('username')
 
     // Add the cells to the graph (model)
