@@ -15,10 +15,7 @@
           <span>Statistics</span>
         </section>
 
-        <section class="preview">
-          <!-- SQL Preview will go here -->
-          <span>SQL Preview</span>
-        </section>
+        <Preview></Preview>
       </section>
     </section>
   </section>
@@ -28,10 +25,12 @@
 import { createGraph, getElementName } from '../../util/jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
+import Preview from './Preview'
 import TableForm from './TableForm'
 export default {
   components: {
     Paper,
+    Preview,
     'table-form': TableForm
   },
   data: function () {
@@ -46,7 +45,11 @@ export default {
         return getElementName(this.currentElement)
       },
       set: function (val) {
-        this.graph.getCell(this.currentElement.id).attr('text', { text: val })
+        const cell = this.graph.getCell(this.currentElement.id)
+        let textVal = val
+        if (val.length > 10) textVal = val.substring(0, 10) + '...'
+        cell.attr('text', { text: textVal })
+        cell.attr('nodeName', { value: val })
         this.commitGraph()
       }
     }

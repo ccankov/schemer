@@ -1,6 +1,6 @@
 <template>
   <li
-    @click='$emit("hey")'>
+    @click='makeCurrent'>
     <input v-model='colName'/>
     <ul v-show='isCurrent'>
       <span> Col Options go here </span>
@@ -22,12 +22,18 @@ export default {
         setElementName(this.column, val)
       }
     }
+  },
+  methods: {
+    makeCurrent: function () {
+    }
   }
 }
 </script>
 
 <style lang="css" scoped>
   ul {
+    padding: 0;
+    margin: 0;
     list-style: none;
   }
   span {

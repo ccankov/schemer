@@ -8,8 +8,7 @@
     <h3> Current Element: </h3>
     <ul class='el-list'>
       <li>
-        <input
-          v-model='currentTableName'/>
+        <input v-model='currentTableName'/>
       </li>
       <table-form-column
         v-for='id in columns'
