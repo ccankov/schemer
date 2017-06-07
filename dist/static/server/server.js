@@ -47,7 +47,7 @@ app.route('/api/dbs')
       if (err) {
         console.log(err)
       } else {
-        console.log(req.body)
+        console.log(req.body) // TODO: actually insert in db
         // db.collection('dbs').insert()
       }
     })
