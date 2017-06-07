@@ -1,4 +1,5 @@
 import joint from 'jointjs'
+// import { Model } from 'backbone-model'
 import $ from 'jquery'
 import * as C from './jointjs_constants'
 

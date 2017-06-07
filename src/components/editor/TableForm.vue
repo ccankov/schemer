@@ -8,8 +8,9 @@
     <span> {{ currentTable }} </span>
     <ul>
       <table-form-column
-        v-for='column in columns'
-        :column='column'>
+        v-for='id in columns'
+        key='id'
+        :column='this.graph.getCell(id)'>
       </table-form-column>
     </ul>
     <!-- current table -->

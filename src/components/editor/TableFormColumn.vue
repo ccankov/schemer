@@ -1,6 +1,6 @@
 <template>
   <li>
-    {{ column }}
+    {{ colName }}
   </li>
 </template>
 

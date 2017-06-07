@@ -15,7 +15,6 @@
         <section class="statistics">
           <!-- Statistics will go here -->
           <span>Statistics</span>
-          {{ counter }}
         </section>
 
         <section class="preview">
