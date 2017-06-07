@@ -84,6 +84,8 @@ const buildAttributes = function () {
   const position = this.attributes.position
   const color = this.attributes.attrs.rect.fill
   const name = this.attributes.colName
+  let textName = name
+  if (textName.length > 10) textName = textName.substring(0, 10) + '...'
   const type = this.attributes.colType
   const options = this.attributes.options
   const selectedOptions = Object.keys(options).filter(key => options[key])
@@ -217,6 +219,9 @@ const addColumn = function (name, type, options = {}) {
 }
 
 export const createTable = (name) => {
+  let textName = name
+  if (textName.length > 10) textName = textName.substring(0, 10) + '...'
+
   // Create table
   const table = new joint.shapes.basic.Rect({
     nodeType: 'table',
@@ -224,8 +229,9 @@ export const createTable = (name) => {
     size: { width: C.WIDTH, height: C.ROW_HEIGHT + 20 },
     attrs: {
       rect: { fill: C.TITLE_COLOR },
-      text: { text: name, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' }
+      text: { text: textName, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' }
     },
+    tableName: name,
     columns: []
   })
   // Bind methods to the table object
@@ -237,7 +243,7 @@ export const createTable = (name) => {
 }
 
 export const getElementName = element => (
-  element ? element.attributes.attrs.text.text : ''
+  element ? element.attributes.tableName : ''
 )
 
 export const getElementType = element => (
