@@ -52,9 +52,10 @@ export const createGraph = () => {
     // Calculate relative offsets
     let relativePos = cell.position({ parentRelative: true })
     let offsetY = relativePos.y - cell.get('originalPosition').y
+    let offsetX = relativePos.x - cell.get('originalPosition').x
 
     // Reset child position if its relative position has changed
-    if (offsetY || relativePos.x) {
+    if (offsetY || offsetX) {
       cell.set('position', cell.previous('position'))
     }
 
@@ -71,36 +72,137 @@ export const loadGraphFromJSON = json => {
   return graph
 }
 
-const buildAttributes = function (options) {
-
+export const addCellsToGraph = function (cells, graph) {
+  cells.forEach(cell => {
+    graph.addCells(cell)
+    cell.set('originalPosition', cell.position({ parentRelative: true }))
+  })
 }
 
-const addColumn = function (name, type, options = {}) {
-  // Column defaults
-  const defaults = {
-    primaryKey: false,
-    allowNull: true,
-    unique: false,
-    defaultVal: null
-  }
+const buildAttributes = function () {
+  // Get relevant properties from column
+  const position = this.attributes.position
+  const color = this.attributes.attrs.rect.fill
+  const name = this.attributes.colName
+  const type = this.attributes.colType
+  const options = this.attributes.options
+  const selectedOptions = Object.keys(options).filter(key => options[key])
+  const optionsStr = selectedOptions.join(', ')
 
-  // Merge custom options with defaults
-  options = Object.assign(defaults, options, { colType: type })
+  // Create new shapes for the name, type, and options
+  const nameShape = new joint.shapes.devs.Model({
+    nodeType: 'columnName',
+    position: { x: position.x, y: position.y },
+    size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: name, 'class': 'col-text' } },
+    z: 1,
+    options
+  })
 
-  // Pull the relevant properties out of the table
-  const { columns, position, size } = this.attributes
-  const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
-  const yPos = position.y + (columns.length * C.ROW_HEIGHT) + C.TITLE_HEIGHT
+  const typeShape = new joint.shapes.devs.Model({
+    nodeType: 'columnType',
+    position: { x: position.x + C.WIDTH / 4, y: position.y },
+    size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: type, 'class': 'col-text' } },
+    z: 1,
+    options
+  })
+
+  const optionsShape = new joint.shapes.devs.Model({
+    nodeType: 'columnOptions',
+    position: { x: position.x + C.WIDTH / 2, y: position.y },
+    size: { width: C.WIDTH / 2, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: optionsStr, 'class': 'col-text' } },
+    z: 1,
+    options
+  })
+
+  // Embed child shapes into the column shape
+  this.embed(nameShape)
+  this.embed(typeShape)
+  this.embed(optionsShape)
+
+  return [nameShape, typeShape, optionsShape]
+}
+
+const addHeaderColumn = function () {
+  // Pull relevant table properties
+  const { position, size } = this.attributes
+  const yPos = position.y + C.TITLE_HEIGHT
+  const color = C.HEADER_COLOR
 
   // Create the column
   const column = new joint.shapes.devs.Model({
     nodeType: 'column',
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: name } },
+    attrs: { rect: { fill: color, 'fill-opacity': 0 }, text: { text: ' ' } },
+    z: 2
+  })
+
+  // Create new shapes for the name, type, and options
+  const nameShape = new joint.shapes.devs.Model({
+    nodeType: 'columnName',
+    position: { x: position.x, y: yPos },
+    size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: ' Name', 'class': 'header-text' } },
+    z: 1
+  })
+
+  const typeShape = new joint.shapes.devs.Model({
+    nodeType: 'columnType',
+    position: { x: position.x + C.WIDTH / 4, y: yPos },
+    size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: 'Type', 'class': 'header-text' } },
+    z: 1
+  })
+
+  const optionsShape = new joint.shapes.devs.Model({
+    nodeType: 'columnOptions',
+    position: { x: position.x + C.WIDTH / 2, y: yPos },
+    size: { width: C.WIDTH / 2, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color }, text: { text: 'Options', 'class': 'header-text' } },
+    z: 1
+  })
+
+  this.resize(size.width, size.height + C.ROW_HEIGHT)
+  this.embed(column)
+
+  column.embed(nameShape)
+  column.embed(typeShape)
+  column.embed(optionsShape)
+
+  return [column, nameShape, typeShape, optionsShape]
+}
+
+const addColumn = function (name, type, options = {}) {
+  // Column defaults
+  const defaults = {
+    'primary key': false,
+    'allow null': false,
+    unique: false,
+    default: null
+  }
+
+  // Merge custom options with defaults
+  options = Object.assign(defaults, options)
+
+  // Pull the relevant properties out of the table
+  const { columns, position, size } = this.attributes
+  const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
+  const yPos = position.y + ((columns.length + 1) * C.ROW_HEIGHT) + C.TITLE_HEIGHT
+
+  // Create the column
+  const column = new joint.shapes.devs.Model({
+    nodeType: 'column',
+    position: { x: position.x, y: yPos },
+    size: { width: C.WIDTH, height: C.ROW_HEIGHT },
+    attrs: { rect: { fill: color, 'fill-opacity': 0 }, text: { text: ' ' } },
+    z: 2,
+    colName: name,
+    colType: type,
     options
   })
-  console.log(column)
   column.attributes.buildAttributes = buildAttributes.bind(column)
 
   // Resize the table to fit new column, embed and track the new column
@@ -108,7 +210,10 @@ const addColumn = function (name, type, options = {}) {
   this.embed(column)
   columns.push(column.id)
 
-  return column
+  // Create sub-elements to hold properties
+  const colAttributes = column.attributes.buildAttributes()
+
+  return [column].concat(colAttributes)
 }
 
 export const createTable = (name) => {
@@ -123,10 +228,12 @@ export const createTable = (name) => {
     },
     columns: []
   })
-  // Bind the addColumn method to the table object
+  // Bind methods to the table object
   table.attributes.addColumn = addColumn.bind(table)
+  table.attributes.addHeaderColumn = addHeaderColumn.bind(table)
+  const headerCells = table.attributes.addHeaderColumn()
 
-  return table
+  return [table].concat(headerCells)
 }
 
 export const getElementName = element => (
