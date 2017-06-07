@@ -1,6 +1,8 @@
 <template lang="html">
   <section class="editor">
     <section class="table-form">
+      <button @click='saveGraph'>Save Graph to DB</button>
+
       <!-- Table form component will go here -->
       <span>Forms and things</span>
       <br>
@@ -26,7 +28,7 @@
 
 <script>
 import { createGraph, getElementName } from '../../util/jointjs_util'
-import { RECEIVE_GRAPH } from '../store/mutations'
+import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
 export default {
   components: {
@@ -55,6 +57,9 @@ export default {
     },
     commitGraph: function () {
       this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
+    },
+    saveGraph: function () {
+      this.$store.dispatch(UPDATE_GRAPH, { graph: this.graph })
     }
   },
   created () {

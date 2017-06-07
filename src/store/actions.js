@@ -1,5 +1,5 @@
-import * as APIUtil from '../../util/api_util'
-import { RECEIVE_GRAPH, FETCH_GRAPH, UPDATE_GRAPH } from './mutations_types'
+import * as APIUtil from '../util/api_util'
+import { RECEIVE_GRAPH, FETCH_GRAPH, UPDATE_GRAPH } from './mutation_types'
 
 export default {
   [FETCH_GRAPH] ({ commit }) {

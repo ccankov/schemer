@@ -1,13 +1,10 @@
 <template lang="html">
-  <div>
-    <div ref="paper" class="paper"></div>
-    <button @click='increment'> Increment Parent Counter </button>
-  </div>
+  <div ref="paper" class="paper"></div>
 </template>
 
 <script>
 import { createPaper, createTable } from '../../util/jointjs_util'
-import { RECEIVE_GRAPH } from '../store/mutations'
+import { RECEIVE_GRAPH } from '../../store/mutation_types'
 
 export default {
   props: ['graph'],
