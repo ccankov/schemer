@@ -13,7 +13,6 @@
         <section class="statistics">
           <!-- Statistics will go here -->
           <span>Statistics</span>
-          {{ counter }}
         </section>
 
         <section class="preview">
@@ -39,27 +38,27 @@ export default {
     }
   },
   computed: {
-    counter: function () {
-      return this.$store.state.counter
-    },
     currentElementName: {
       get: function () {
         return getElementName(this.currentElement)
       },
       set: function (val) {
         this.graph.getCell(this.currentElement.id).attr('text', { text: val })
-        this.$store.commit('updateGraph', { graph: this.graph })
+        this.commitGraph()
       }
     }
   },
   methods: {
     receiveElement: function (element) {
       this.currentElement = element
+    },
+    commitGraph: function () {
+      this.$store.commit('receiveGraph', { graph: this.graph })
     }
   },
   created () {
     this.graph = createGraph()
-    this.$store.commit('updateGraph', { graph: this.graph })
+    this.commitGraph()
   }
 }
 </script>

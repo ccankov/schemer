@@ -16,8 +16,8 @@ export default {
     }
   },
   methods: {
-    increment: function () {
-      this.$store.commit('incrementCounter')
+    commitGraph: function () {
+      this.$store.commit('receiveGraph', { graph: this.graph })
     }
   },
   mounted () {
@@ -34,7 +34,7 @@ export default {
 
     // Add the cells to the graph (model)
     graph.addCells([usersTable, colId, colUsername])
-    this.$store.commit('updateGraph', { graph })
+    this.commitGraph()
   }
 }
 </script>

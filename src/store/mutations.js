@@ -1,15 +1,16 @@
 export const state = {
-  graphJSON: '',
-  counter: 0
+  graphJSON: { cells: [] },
+  currentUser: null
 }
 
-export const getters = {}
-
 export const mutations = {
-  updateGraph (state, { graph }) {
+  receiveGraph (state, { graph }) {
     state.graphJSON = graph.toJSON()
   },
-  incrementCounter (state) {
-    state.counter += 1
+  receiveCurrentUser (state, { currentUser }) {
+    state.currentUser = currentUser
+  },
+  removeCurrentUser (state) {
+    state.currentUser = null
   }
 }
