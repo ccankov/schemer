@@ -72,7 +72,7 @@ export const loadGraphFromJSON = json => {
 }
 
 const buildAttributes = function (options) {
-  
+
 }
 
 const addColumn = function (name, type, options = {}) {
