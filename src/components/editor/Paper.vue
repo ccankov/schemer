@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { createPaper, createTable } from '../../util/jointjs_util'
+import { createPaper, createTable, addCellsToGraph } from '../../util/jointjs_util'
 
 export default {
   props: ['graph'],
@@ -29,11 +29,12 @@ export default {
 
     // Define sample table with two columns
     const usersTable = createTable('users')
-    const colId = usersTable.attributes.addColumn('id', 'integer', { primaryKey: true })
-    const colUsername = usersTable.attributes.addColumn('username')
+    const colId = usersTable[0].attributes.addColumn('id', 'integer', { 'primary key': true, 'allow null': false })
+    const colUsername = usersTable[0].attributes.addColumn('username', 'string', { 'allow null': false })
 
+    console.log(usersTable)
     // Add the cells to the graph (model)
-    graph.addCells([usersTable, colId, colUsername])
+    addCellsToGraph(usersTable.concat(colId).concat(colUsername), graph)
     this.$store.commit('updateGraph', { graph })
   }
 }
@@ -43,5 +44,14 @@ export default {
   .joint-paper {
     width: 100% !important;
     overflow: hidden;
+  }
+
+  .col-text {
+    font-size: 12px;
+  }
+
+  .header-text {
+    font-weight: bold;
+    font-size: 12px;
   }
 </style>
