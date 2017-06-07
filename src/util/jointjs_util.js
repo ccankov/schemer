@@ -71,7 +71,12 @@ export const loadGraphFromJSON = json => {
   return graph
 }
 
+const buildAttributes = function (options) {
+  
+}
+
 const addColumn = function (name, type, options = {}) {
+  // Column defaults
   const defaults = {
     primaryKey: false,
     allowNull: true,
@@ -79,7 +84,8 @@ const addColumn = function (name, type, options = {}) {
     defaultVal: null
   }
 
-  options = Object.assign(defaults, options, { type })
+  // Merge custom options with defaults
+  options = Object.assign(defaults, options, { colType: type })
 
   // Pull the relevant properties out of the table
   const { columns, position, size } = this.attributes
@@ -94,6 +100,8 @@ const addColumn = function (name, type, options = {}) {
     attrs: { rect: { fill: color }, text: { text: name } },
     options
   })
+  console.log(column)
+  column.attributes.buildAttributes = buildAttributes.bind(column)
 
   // Resize the table to fit new column, embed and track the new column
   this.resize(size.width, size.height + C.ROW_HEIGHT)
