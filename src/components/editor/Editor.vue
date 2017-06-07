@@ -17,10 +17,7 @@
           <span>Statistics</span>
         </section>
 
-        <section class="preview">
-          <!-- SQL Preview will go here -->
-          <span>SQL Preview</span>
-        </section>
+        <Preview></Preview>
       </section>
     </section>
   </section>
@@ -30,9 +27,11 @@
 import { createGraph, getElementName } from '../../util/jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
+import Preview from './Preview'
 export default {
   components: {
-    Paper
+    Paper,
+    Preview
   },
   data: function () {
     return {
