@@ -65,7 +65,13 @@ export const createGraph = () => {
   return graph
 }
 
-const addColumn = (name) => {
+export const loadGraphFromJSON = json => {
+  const graph = createGraph()
+  graph.fromJSON(json)
+  return graph
+}
+
+const addColumn = function (name) {
   // Pull the relevant properties out of the table
   const { columns, position, size } = this.attributes
   const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
@@ -81,7 +87,7 @@ const addColumn = (name) => {
   // Resize the table to fit new column, embed and track the new column
   this.resize(size.width, size.height + C.ROW_HEIGHT)
   this.embed(column)
-  columns.push(column)
+  columns.push(column.id)
 
   return column
 }
@@ -89,18 +95,25 @@ const addColumn = (name) => {
 export const createTable = (name) => {
   // Create table
   const table = new joint.shapes.basic.Rect({
+    nodeType: 'table',
     position: { x: 20, y: 20 },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT + 20 },
     attrs: {
       rect: { fill: C.TITLE_COLOR },
       text: { text: name, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' }
     },
-    columns: [],
-    addColumn
+    columns: []
   })
-
   // Bind the addColumn method to the table object
-  table.attributes.addColumn = table.attributes.addColumn.bind(table)
+  table.attributes.addColumn = addColumn.bind(table)
 
   return table
 }
+
+export const getElementName = element => (
+  element ? element.attributes.attrs.text.text : ''
+)
+
+export const getElementType = element => (
+  element ? element.attributes.nodeType : 'none'
+)
