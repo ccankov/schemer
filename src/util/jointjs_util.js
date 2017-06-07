@@ -71,7 +71,16 @@ export const loadGraphFromJSON = json => {
   return graph
 }
 
-const addColumn = function (name) {
+const addColumn = function (name, type, options = {}) {
+  const defaults = {
+    primaryKey: false,
+    allowNull: true,
+    unique: false,
+    defaultVal: null
+  }
+
+  options = Object.assign(defaults, options, { type })
+
   // Pull the relevant properties out of the table
   const { columns, position, size } = this.attributes
   const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
@@ -79,9 +88,11 @@ const addColumn = function (name) {
 
   // Create the column
   const column = new joint.shapes.devs.Model({
+    nodeType: 'column',
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
-    attrs: { rect: { fill: color }, text: { text: name } }
+    attrs: { rect: { fill: color }, text: { text: name } },
+    options
   })
 
   // Resize the table to fit new column, embed and track the new column
