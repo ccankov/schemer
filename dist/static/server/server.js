@@ -51,7 +51,7 @@ app.route('/api/dbs')
         // db.collection('dbs').insert()
       }
     })
-    res.json(req.body)
+    res.send('hello')
   })
 
 app.use(serveStatic(__dirname))
