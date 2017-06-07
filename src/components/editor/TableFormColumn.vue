@@ -1,6 +1,5 @@
 <template>
-  <li
-    @click='makeCurrent'>
+  <li>
     <input v-model='colName'/>
     <ul v-show='isCurrent'>
       <span> Col Options go here </span>
@@ -25,6 +24,7 @@ export default {
   },
   methods: {
     makeCurrent: function () {
+      this.$emit('setCurrent', this.column.id)
     }
   }
 }

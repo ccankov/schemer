@@ -61,7 +61,7 @@ export default {
     },
     columns: function () {
       if (this.currentTable) {
-        return this.currentTable.attributes.columns
+        return this.currentTable.attributes.attrs.columns.value
       } else {
         return []
       }
@@ -71,10 +71,6 @@ export default {
     getCell: function (id) {
       return this.graph.getCell(id)
     },
-    setCurrent: function (id) {
-      console.log('setting current')
-      this.currentElement = this.getCell(id)
-    },
     addTable: function () {
       console.log('nothing yet!')
     },
@@ -82,6 +78,12 @@ export default {
     },
     exportSQL: function () {
       console.log('nothing yet!')
+    }
+  },
+  events: {
+    setCurrent: function (id) {
+      console.log('hey')
+      this.currentElement = this.getCell(id)
     }
   }
 }
