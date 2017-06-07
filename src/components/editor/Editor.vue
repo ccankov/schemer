@@ -45,7 +45,8 @@ export default {
         return getElementName(this.currentElement)
       },
       set: function (val) {
-        this.graph.getCell(this.currentElement.id).attr('text', { text: val })
+        this.graph.getCell(this.currentElement.id).attr(
+        'text', { text: val })
         this.commitGraph()
       }
     }

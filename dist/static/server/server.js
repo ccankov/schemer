@@ -3,37 +3,56 @@ var express = require('express')
 var serveStatic = require('serve-static')
 var MongoClient = require('mongodb').MongoClient
 var url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
+var bodyParser = require('body-parser')
 
 const app = express()
 
-app.route('/api/dbs').get((req, res) => {
-  MongoClient.connect(url, (err, db) => {
-    console.log(err)
-    let userId = req.query.id || req.params.id
-    if (userId) {
-      db.collection('dbs').find({ 'user_id': userId }).toArray(function (err, data) {
-        if (err) {
-          console.log(err)
-          return res(err)
-        } else {
-          console.log(data)
-          return res.json(data)
-        }
-      })
-    } else {
-      db.collection('dbs').find().toArray(function (err, data) {
-        if (err) {
-          console.log(err)
-          return res(err)
-        } else {
-          console.log(data)
-          return res.json(data)
-        }
-      })
-    }
-    // res.redirect('/')
+app.use(bodyParser.json())        // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
+  extended: true
+}))
+
+app.route('/api/dbs')
+  .get((req, res) => {
+    MongoClient.connect(url, (err, db) => {
+      console.log(err)
+      let userId = req.query.id || req.params.id
+      if (userId) {
+        db.collection('dbs').find({ 'user_id': userId }).toArray(function (err, data) {
+          if (err) {
+            console.log(err)
+            return res(err)
+          } else {
+            console.log(data)
+            return res.json(data)
+          }
+        })
+      } else {
+        db.collection('dbs').find().toArray(function (err, data) {
+          if (err) {
+            console.log(err)
+            return res(err)
+          } else {
+            console.log(data)
+            return res.json(data)
+          }
+        })
+      }
+      // res.redirect('/')
+    })
   })
-})
+  .post((req, res) => {
+    console.log('req received')
+    MongoClient.connect(url, (err, db) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(req.body)
+        // db.collection('dbs').insert()
+      }
+    })
+    res.json(req.body)
+  })
 
 app.use(serveStatic(__dirname))
 var port = process.env.PORT || 5000
