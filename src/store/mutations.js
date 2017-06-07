@@ -2,7 +2,10 @@ import { RECEIVE_GRAPH } from './mutation_types'
 
 export const state = {
   graphJSON: { cells: [] },
-  currentUser: null
+  currentUser: {
+    id: 1,
+    username: 'brady'
+  }
 }
 
 export const mutations = {
