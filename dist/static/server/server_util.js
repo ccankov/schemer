@@ -1,4 +1,3 @@
-
 export const parseJson = (json) => {
   let cells = json.cells // array of table Objects
   let tableArray = [];
@@ -18,6 +17,7 @@ export const parseJson = (json) => {
         return {
           // [colId]:
           name: columnObject[colId].attrs.text.text,
+          type: columnObject[colId].options.colType,
           options: {
             boolean: booleans,
             variable: {
@@ -37,6 +37,17 @@ export const parseJson = (json) => {
 }
 
 export const createSQL = (json) => {
-  tables = parseJson(json)
-
+  let tables = parseJson(json)
+  let tableText = tables.map(table => {
+    let headerText = `CREATE TABLE ${table.name} \n`
+    let columnsText = table.columns.map(column => {
+      let boolConstraints = column.options.boolean.join(' ')
+      if (column.options.variable.default) {
+        boolConstraints += ` DEFAULT ${column.options.variable.default}`
+      }
+      return `    ${column.name} ${column.type} ${boolConstraints}`
+    })
+    return headerText + columnsText.join('\n')
+  })
+  return tableText.join('\n')
 }
