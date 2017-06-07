@@ -23,8 +23,6 @@
           placeholder='Add a column' />
       </li>
     </ul>
-    <!-- current table -->
-    <!-- v-for with list of current cols -->
   </section>
 </template>
 
@@ -73,6 +71,10 @@ export default {
   methods: {
     getCell: function (id) {
       return this.graph.getCell(id)
+    },
+    setCurrent: function (id) {
+      console.log('setting current')
+      this.currentElement = this.getCell(id)
     },
     addTable: function () {
       console.log('nothing yet!')

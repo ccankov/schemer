@@ -1,5 +1,6 @@
 <template>
-  <li>
+  <li
+    @click='$emit("hey")'>
     <input v-model='colName'/>
     <ul v-show='isCurrent'>
       <span> Col Options go here </span>
