@@ -219,23 +219,3 @@ export const createTable = (name) => {
 
   return [table].concat(headerCells)
 }
-
-export const getElementName = element => (
-  element ? element.attributes.attrs.text.text : ''
-)
-
-export const setElementName = (element, name) => (
-  element ? element.attr('text', { text: name }) : null
-)
-
-export const getParentId = element => (
-  element ? element.attributes.parent : ''
-)
-
-export const getElementType = element => (
-  element ? element.attributes.attrs.nodeType.value : 'none'
-)
-
-export const isTable = element => (
-  getElementType(element) === 'table'
-)
