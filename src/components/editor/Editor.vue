@@ -11,28 +11,27 @@
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
-        <section class="statistics">
-          <!-- Statistics will go here -->
-          <span>Statistics</span>
-        </section>
-
-        <Preview></Preview>
+        <Statistics :json="json"></Statistics>
+        <Preview :sql="sql"></Preview>
       </section>
     </section>
   </section>
 </template>
 
 <script>
+import { createSQL, parseJson } from '../../util/sql_util.js'
 import { createGraph, getElementName } from '../../util/jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
 import Preview from './Preview'
 import TableForm from './TableForm'
+import Statistics from './Statistics'
 export default {
   components: {
     Paper,
     Preview,
-    'table-form': TableForm
+    'table-form': TableForm,
+    Statistics
   },
   data: function () {
     return {
@@ -41,6 +40,13 @@ export default {
     }
   },
   computed: {
+    json: function () {
+      return parseJson(this.$store.state.graphJSON)
+    },
+    sql: function () {
+      let json = this.$store.state.graphJSON
+      return createSQL(json)
+    },
     currentElementName: {
       get: function () {
         return getElementName(this.currentElement)
@@ -107,10 +113,5 @@ export default {
 
   .additional-info {
     display: flex;
-  }
-
-  .additional-info > section {
-    border: 1px solid black;
-    flex: 1;
   }
 </style>
