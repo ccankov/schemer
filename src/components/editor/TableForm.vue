@@ -110,7 +110,7 @@ export default {
     box-sizing: border-box;
   }
 
-  .el-list input {
+  .el-list li > input {
     width: 80%;
     height: 100%;
     padding: 5px;
