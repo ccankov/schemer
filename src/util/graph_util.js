@@ -101,11 +101,13 @@ class Graph {
 
     // Mount the table in the graph object
     this.addCells(tableCells)
+
+    return tableCells[0]
   }
 
-  addColumn (table, newColName, type = 'integer') {
+  addColumn (table, newColName, type = 'integer', options = {}) {
     // Create the column on the table
-    let colCells = table.attributes.addColumn(newColName, type)
+    let colCells = table.attributes.addColumn(newColName, type, options)
 
     // Mount the column in the graph object
     this.addCells(colCells)
