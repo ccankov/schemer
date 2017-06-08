@@ -87,6 +87,7 @@ export default {
     display: flex;
     width: 100%;
     height: 100%;
+    max-height: 97vh;
     border: 1px solid black;
   }
 
@@ -110,5 +111,7 @@ export default {
 
   .additional-info {
     display: flex;
+    height: 20vh;
+    max-height: 20vh;
   }
 </style>

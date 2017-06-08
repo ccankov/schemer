@@ -1,7 +1,7 @@
 <template lang="html">
   <section class="statistics">
     <!-- Statistics will go here -->
-    <span>Statistics</span>
+    <span class="header">Statistics</span>
     <div class="stats">
       <p class="stats-line">
         <span>Tables</span>
@@ -34,16 +34,27 @@ export default {
   .statistics {
     border: 1px solid black;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    font-weight: bold;
+    border-top: 1px solid black;
+    border-bottom: 2px solid black;
+    background-color: #BBB;
   }
 
   .stats {
     margin: 0;
-    background-color:#EEEEEE;
+    background-color:#EEE;
+    height: 100%;
   }
 
   .stats-line {
     margin: 0;
     display: flex;
+    line-height: 2;
     justify-content: space-between;
     padding: 0 20px;
   }

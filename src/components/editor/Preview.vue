@@ -1,7 +1,9 @@
 <template lang="html">
   <section class="sql-preview">
-    <span>SQL Preview</span>
-    <p class="code">{{sql}}</p>
+    <span class="header">SQL Preview</span>
+    <pre>
+      <code class="code">{{sql}}</code>
+    </pre>
   </section>
 </template>
 
@@ -19,10 +21,32 @@ export default {
     flex-direction: column;
   }
 
+  pre {
+    display: flex;
+    background-color:#EEEEEE;
+    padding: 3px;
+    margin: 0;
+    overflow-y: scroll;
+    height: 100%;
+  }
+
   .code {
+    text-align: left;
     margin: 0;
     white-space: pre;
-    background-color:#EEEEEE;
-    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
   }
 </style>
