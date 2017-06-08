@@ -17,21 +17,14 @@ export default {
     },
     colName: {
       get: function () {
-        if (this.column) {
-          return this.column.attributes.attrs.nodeName.value
-        } else {
-          return ''
-        }
+        return this.column.getName()
       },
-      set: function (val) {
-        let textVal = val
-        if (val.length > 10) textVal = val.substring(0, 10) + '...'
-        this.column.attr('nodeName', { value: val })
-        let shapeCell = this.graph.getCell(
-          this.column.attributes.embeds[0]
-        )
-        shapeCell.attr('text', { text: textVal, 'ref-x': 0.5, 'ref-y': 0.3 })
-        shapeCell.attr('nodeName', { value: val })
+      set: function (name) {
+        this.column.setName(name)
+
+        let shapeCell = this.graph.getCell(this.column.embeds()[0])
+        console.log(shapeCell)
+        shapeCell.setName(name)
         this.graph.commit()
       }
     }

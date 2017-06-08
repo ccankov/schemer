@@ -11,7 +11,7 @@
         <input v-model='currentTableName'/>
       </li>
       <table-form-column
-        v-for='id in columns'
+        v-for='id in currentTable.columns()'
         key='id'
         :id='id'
         :isCurrent='currentElement.id === id'
@@ -43,8 +43,6 @@ export default {
   }),
   computed: {
     currentTable: function () {
-      console.log(this.currentElement.isTable())
-      console.log('getting current table')
       if (this.currentElement.isTable()) {
         return this.currentElement
       } else {
@@ -52,7 +50,6 @@ export default {
         if (parent.isTable()) {
           return parent
         } else {
-          console.log('didnt find any table')
           return null
         }
       }
@@ -65,14 +62,10 @@ export default {
         this.currentTable.setName(name)
         this.graph.commit()
       }
-    },
-    columns: function () {
-      if (this.currentTable) {
-        return this.currentTable.element.attributes.attrs.columns.value
-      } else {
-        return []
-      }
     }
+    // columns: function () {
+    //   return this.currentTable.columns()
+    // }
   },
   methods: {
     addTable: function () {

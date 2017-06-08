@@ -8,8 +8,15 @@ class Cell {
   }
 
   setName (name) {
-    this.element.attr('text', { text: name })
+    let textVal = name
+    if (name.length > 10) textVal = name.substring(0, 10) + '...'
     this.element.attr('nodeName', { value: name })
+    if (this.isCol()) {
+
+    } else {
+      this.element.attr('text', { text: textVal })
+    }
+
     return name
   }
 
@@ -31,6 +38,14 @@ class Cell {
 
   isCol () {
     return this.type() === 'column'
+  }
+
+  columns () {
+    if (this.isTable()) {
+      return this.element.attributes.attrs.columns.value
+    } else {
+      return []
+    }
   }
 }
 
