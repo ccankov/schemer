@@ -66,7 +66,8 @@ export default {
   },
   methods: {
     addTable: function () {
-      this.graph.addTable()
+      const newTable = this.graph.addTable()
+      this.sendElement(newTable)
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
