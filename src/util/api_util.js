@@ -9,10 +9,10 @@ export const fetchGraph = (userId) => (
   })
 )
 
-export const updateGraph = (graph) => (
+export const updateGraph = (graphStr) => (
   $.ajax({
     method: 'post',
     url: '/api/dbs',
-    data: {graph: JSON.stringify(graph)}
+    data: {graph: graphStr}
   })
 )
