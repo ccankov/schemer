@@ -63,9 +63,6 @@ export default {
         this.graph.commit()
       }
     }
-    // columns: function () {
-    //   return this.currentTable.columns()
-    // }
   },
   methods: {
     addTable: function () {
@@ -73,7 +70,7 @@ export default {
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
-      this.graph.addColumn(this.currentTable, this.newColName)
+      this.graph.addColumn(this.currentTable.element, this.newColName)
       this.newColName = ''
     },
     sendElement: function (element) {
