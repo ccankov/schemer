@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import '../../assets/joint.css'
 import { createPaper } from '../../util/jointjs_util'
 
 export default {

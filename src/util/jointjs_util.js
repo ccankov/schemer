@@ -221,7 +221,11 @@ const addColumn = function (name, type, options = {}) {
   // Resize the table to fit new column, embed and track the new column
   this.resize(size.width, size.height + C.ROW_HEIGHT)
   this.embed(column)
-  columns.push(column.id)
+  this.attributes.attrs.columns.value =
+    this.attributes.attrs.columns.value.concat(column.id)
+
+  // using push causes mad vuex
+  // columns.push(column.id)
 
   // Create sub-elements to hold properties
   const colAttributes = column.attributes.buildAttributes()
