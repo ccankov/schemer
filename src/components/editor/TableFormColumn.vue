@@ -3,8 +3,7 @@
     <input v-model='colName'/>
     <div class='col-options' v-show='isCurrent'>
 
-      <label>
-        Type:
+      <label>Type:
         <select v-model='colType'>
           <option value='integer' checked='colType === "integer"'>Integer</option>
           <option value='string' checked='colType === "string"'>String</option>
@@ -12,16 +11,16 @@
         </select>
       </label>
 
-      <label for="notNULL">
-        not NULL:
+      <label>Primary Key:
+        <input type="checkbox" value="primary key" v-model="options">
+      </label>
+      <label>not NULL:
         <input type="checkbox" value="not NULL" v-model="options">
       </label>
-      <label>
-        Unique:
+      <label>Unique:
         <input type="checkbox" value="unique" v-model="options">
       </label>
-      <label>
-        Indexed:
+      <label>Indexed:
         <input type="checkbox" value="indexed" v-model="options">
       </label>
 
@@ -34,9 +33,6 @@
 export default {
   props: ['id', 'isCurrent', 'graph'],
   name: 'column',
-  data: () => ({
-    options: []
-  }),
   computed: {
     column: function () {
       return this.graph.getCell(this.id)
@@ -63,6 +59,14 @@ export default {
         typeCell.setName(type)
         typeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         this.graph.commit()
+      }
+    },
+    colOptions: {
+      get: function () {
+
+      },
+      set: function (options) {
+
       }
     }
   },

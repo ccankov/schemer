@@ -64,6 +64,8 @@ class Cell {
     }
   }
 
+  // column only
+
   getColType () {
     if (!this.isCol()) return null
     return this.element.attributes.attrs.colType.value
@@ -72,6 +74,22 @@ class Cell {
   setColType (type) {
     if (!this.isCol()) return null
     this.element.attr('colType', { value: type })
+  }
+
+  getColOptions () {
+    let options = []
+    const optionsAttr = this.element.attributes.attrs.options
+    for (let option in optionsAttr) {
+      if (optionsAttr[option]) {
+        options.push(option)
+      }
+    }
+
+    return options
+  }
+
+  setColOptions (options) {
+    console.log('hey')
   }
 }
 
