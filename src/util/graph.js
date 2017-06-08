@@ -3,6 +3,9 @@ import * as JointUtil from './jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../store/mutation_types'
 import Cell from './cell'
 
+// source code for joint.dia.Graph is in:
+// node_modules/jointjs/src/joint.dia.graph.js
+
 class Graph {
   constructor ($store, json = null) {
     this.$store = $store
