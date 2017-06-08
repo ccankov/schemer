@@ -40,29 +40,29 @@ export const createGraph = () => {
     const parentId = cell.get('parent')
 
     // Move the element if it doesn't have a parent
-    if (!parentId) return
+    if (!parentId) {
+      // Avoid collisions with other tables
+      let cells = cell.graph.getCells()
+      cells.forEach(c => {
+        if (c.id === cell.id) {
+          return
+        }
+        if (c.attributes.attrs.nodeType.value === 'table') {
+          if (cell.getBBox().intersect(c.getBBox())) {
+            cell.set('position', cell.previous('position'))
+          }
+        }
+      })
+      return
+    }
 
     // Calculate relative offsets
     let relativePos = cell.position({ parentRelative: true })
     let offsetY = relativePos.y - cell.get('originalPosition').y
     let offsetX = relativePos.x - cell.get('originalPosition').x
 
-    // Avoid collisions with other tables
-    let intersect = false
-
-    if (cell.attributes.attrs.nodeType.value === 'table') {
-      let cells = cell.graph.toJSON().cells
-      cells.forEach(c => {
-        if (c.attrs.nodeType.value === 'table') {
-          if (cell.getBBox().intersect(c.getBBox())) {
-            intersect = true
-          }
-        }
-      })
-    }
-
     // Reset child position if its relative position has changed
-    if (offsetY || offsetX || intersect) {
+    if (offsetY || offsetX) {
       cell.set('position', cell.previous('position'))
     }
 
