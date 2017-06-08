@@ -6,20 +6,15 @@
 </template>
 
 <script>
-import {createSQL} from '../../util/sql_util.js'
-
 export default {
-  computed: {
-    sql: function () {
-      let json = this.$store.state.graphJSON
-      return createSQL(json)
-    }
-  }
+  props: ['sql']
 }
 </script>
 
 <style lang="css">
   .sql-preview {
+    flex: 1;
+    border: 1px solid black;
     display: flex;
     flex-direction: column;
   }
