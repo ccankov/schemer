@@ -13,8 +13,9 @@
       <table-form-column
         v-for='id in columns'
         key='id'
+        :id='id'
         :isCurrent='currentElement.id === id'
-        :column='getCell(id)'
+        :graph='graph'
         v-on:send-element='sendElement'>
       </table-form-column>
       <li>
@@ -83,7 +84,6 @@ export default {
     },
     addTable: function () {
       let tableCells = createTable('New Table')
-      console.log(tableCells)
       addCellsToGraph(tableCells, this.graph)
     },
     addColumn: function () {

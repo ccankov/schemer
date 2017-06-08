@@ -8,18 +8,33 @@
 </template>
 
 <script>
-import { getElementName } from '../../util/jointjs_util'
 export default {
-  props: ['column', 'isCurrent'],
+  props: ['id', 'isCurrent', 'graph'],
   name: 'column',
   computed: {
+    column: function () {
+      return this.graph.getCell(this.id)
+    },
     colName: {
       get: function () {
-        return getElementName(this.column)
+        if (this.column) {
+          return this.column.attributes.attrs.nodeName.value
+        } else {
+          return ''
+        }
       },
       set: function (val) {
         console.log(this.column)
-        console.log(val)
+
+        let textVal = val
+        if (val.length > 10) textVal = val.substring(0, 10) + '...'
+        this.column.attr('text', { text: textVal })
+        this.columnn.attr('nodeName', { value: val })
+        let shapeCell = this.graph.getCell(
+          this.column.attributes.attr.nodeName.shapeId
+        )
+        shapeCell.attr('text', { text: textVal })
+        shapeCell.attr('nodeName', { value: val })
       }
     }
   },
