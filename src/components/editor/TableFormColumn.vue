@@ -24,14 +24,15 @@ export default {
         }
       },
       set: function (val) {
-        console.log(this.column)
-
         let textVal = val
         if (val.length > 10) textVal = val.substring(0, 10) + '...'
-        this.column.attr('text', { text: textVal })
-        this.columnn.attr('nodeName', { value: val })
+        this.column.attr('nodeName', { value: val })
+
+        console.log(this.column)
+        console.log(this.column.attributes.attrs.nodeName.shapeId)
+
         let shapeCell = this.graph.getCell(
-          this.column.attributes.attr.nodeName.shapeId
+          this.column.attributes.attrs.nodeName.shapeId
         )
         shapeCell.attr('text', { text: textVal })
         shapeCell.attr('nodeName', { value: val })
