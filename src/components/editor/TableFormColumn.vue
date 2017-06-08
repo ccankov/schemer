@@ -66,7 +66,11 @@ export default {
         return this.column.getColOptions()
       },
       set: function (options) {
-        
+        this.column.setColOptions(options)
+        let optionsCell = this.graph.getCell(this.column.embeds()[2])
+        optionsCell.setName(options.toString())
+        optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        this.graph.commit()
       }
     }
   },

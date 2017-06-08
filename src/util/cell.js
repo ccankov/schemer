@@ -33,6 +33,7 @@ class Cell {
         options[key] = currentOptions[key]
       }
     }
+
     this.element.attr(attrName, options)
   }
 
@@ -88,8 +89,11 @@ class Cell {
     return options
   }
 
-  setColOptions (options) {
-    console.log('hey')
+  setColOptions (optionsArr) {
+    let options = {}
+    optionsArr.forEach(option => { options[option] = true })
+
+    this.setAttr('options', options)
   }
 }
 
