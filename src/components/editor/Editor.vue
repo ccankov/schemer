@@ -1,7 +1,6 @@
 <template lang="html">
   <section class="editor">
     <section class="table-form">
-      <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
       <table-form
         :graph='graph'
         v-on:send-element='receiveElement'
@@ -22,7 +21,6 @@
 import { createSQL, parseJson } from '../../util/sql_util.js'
 import { getElementName } from '../../util/jointjs_util'
 import Graph from '../../util/graph_util'
-import { UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
 import Preview from './Preview'
 import TableForm from './TableForm'
@@ -58,7 +56,7 @@ export default {
         if (val.length > 10) textVal = val.substring(0, 10) + '...'
         cell.attr('text', { text: textVal })
         cell.attr('nodeName', { value: val })
-        this.commitGraph()
+        this.graph.commit()
       }
     }
   },
@@ -70,10 +68,8 @@ export default {
       this.currentElement = this.getCell(id)
     },
     getCell: function (id) {
+      // want this to return a Cell object, with rename methods
       this.graph.getCell(id)
-    },
-    saveGraph: function () {
-      this.$store.dispatch(UPDATE_GRAPH, { graphStr: this.graph.stringify() })
     }
   },
   created () {

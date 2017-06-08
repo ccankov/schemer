@@ -34,12 +34,9 @@ import {
   getElementName,
   setElementName,
   isTable,
-  getParentId,
-  createTable,
-  addCellsToGraph
+  getParentId
 } from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
-import { RECEIVE_GRAPH } from '../../store/mutation_types'
 
 export default {
   name: 'table-form',
@@ -86,21 +83,15 @@ export default {
       return this.graph.getCell(id)
     },
     addTable: function () {
-      let tableCells = createTable('New Table')
-      addCellsToGraph(tableCells, this.graph)
-      this.commitGraph()
+      this.graph.addTable()
     },
     addColumn: function () {
-      let colCells = this.currentTable.attributes.addColumn(this.newColName, 'integer')
-      addCellsToGraph(colCells, this.graph)
+      // optional argument for type - defaults to integer
+      this.graph.addColumn(this.currentTable, this.newColName)
       this.newColName = ''
-      this.commitGraph()
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
-    },
-    commitGraph: function () {
-      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
     },
     exportSQL: function () {
       console.log('nothing yet!')
