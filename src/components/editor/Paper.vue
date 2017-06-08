@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { createPaper, createTable, addCellsToGraph } from '../../util/jointjs_util'
+import { createPaper } from '../../util/jointjs_util'
 
 export default {
   props: ['graph'],
@@ -14,20 +14,12 @@ export default {
   },
   mounted () {
     // Set up paper
-    // maybe change this.graph.graph
     this.paper = createPaper(this.$refs.paper, this.graph.graph, this)
 
     // Define sample table with two columns
     const usersTable = this.graph.addTable('users')
-
-
-    const usersTable = createTable('users')
-    const colId = usersTable[0].attributes.addColumn('id', 'integer', { 'primary key': true, 'allow null': false })
-    const colUsername = usersTable[0].attributes.addColumn('username', 'string', { 'allow null': false })
-
-    // Add the cells to the graph (model)
-    addCellsToGraph(usersTable.concat(colId).concat(colUsername), graph)
-    this.graph.commit()
+    this.graph.addColumn(usersTable, 'id', 'integer', { 'primary key': true, 'allow null': false })
+    this.graph.addColumn(usersTable, 'username', 'string', { 'allow null': false })
   }
 }
 </script>
