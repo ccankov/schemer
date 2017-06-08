@@ -25,6 +25,7 @@ export default {
         let shapeCell = this.graph.getCell(this.column.embeds()[0])
         console.log(shapeCell)
         shapeCell.setName(name)
+        shapeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         this.graph.commit()
       }
     }

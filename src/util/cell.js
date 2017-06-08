@@ -20,6 +20,18 @@ class Cell {
     return name
   }
 
+  setAttr (attrName, options) {
+    let currentOptions = this.element.attributes.attrs[attrName]
+    // currentOptions is lazily evaluated, cant use Object.assign
+
+    for (let key in currentOptions) {
+      if (!options[key]) {
+        options[key] = currentOptions[key]
+      }
+    }
+    this.element.attr(attrName, options)
+  }
+
   parentId () {
     return this.element.attributes.parent
   }
