@@ -67,7 +67,7 @@ export default {
       set: function (val) {
         setElementName(this.currentTable, val)
         this.currentTable.attr('nodeName', { value: val })
-        this.commitGraph()
+        this.graph.commit()
       }
     },
     columns: function () {

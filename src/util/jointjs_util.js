@@ -176,8 +176,8 @@ const addColumn = function (name, type, options = {}) {
       rect: { fill: color, 'fill-opacity': 0 },
       text: { text: ' ' },
       nodeType: { value: 'column' },
-      colType: { value: type, shapeId: null },
-      nodeName: { value: name, shapeId: null },
+      colType: { value: type },
+      nodeName: { value: name },
       options
     },
     z: 2
