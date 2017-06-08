@@ -4,18 +4,12 @@
 
 <script>
 import { createPaper, createTable, addCellsToGraph } from '../../util/jointjs_util'
-import { RECEIVE_GRAPH } from '../../store/mutation_types'
 
 export default {
   props: ['graph'],
   data () {
     return {
       paper: null
-    }
-  },
-  methods: {
-    commitGraph: function () {
-      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
     }
   },
   mounted () {
@@ -32,7 +26,7 @@ export default {
 
     // Add the cells to the graph (model)
     addCellsToGraph(usersTable.concat(colId).concat(colUsername), graph)
-    this.commitGraph()
+    this.graph.commit()
   }
 }
 </script>

@@ -13,14 +13,14 @@ class Graph {
 
     this.createGraph = this.createGraph.bind(this)
     this.addCells = this.addCells.bind(this)
-    this.commitGraph = this.commitGraph.bind(this)
+    this.commit = this.commit.bind(this)
     this.getCell = this.getCell.bind(this)
     this.addTable = this.addTable.bind(this)
     this.addColumn = this.addColumn.bind(this)
     this.toJSON = this.toJSON.bind(this)
     this.stringify = this.stringify.bind(this)
 
-    this.commitGraph()
+    this.commit()
   }
 
   createGraph () {
@@ -74,7 +74,7 @@ class Graph {
       cell.set('originalPosition', cell.position({ parentRelative: true }))
     })
     // Update the graph object in the store
-    this.commitGraph()
+    this.commit()
   }
 
   toJSON () {
