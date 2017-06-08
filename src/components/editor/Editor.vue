@@ -10,13 +10,15 @@
           <h2>Welcome, {{$store.state.currentUser.username}}</h2>
         </section>
       </nav>
+      <section class="db-info">
+        <h1>{{$store.state.dbName}}</h1>
+      </section>
       <section class="table-form">
         <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
         <table-form
         :graph='graph'
         v-on:send-element='receiveElement'
         :currentElement='currentElement'></table-form>
-
       </section>
     </section>
     <section class="body">
@@ -116,9 +118,9 @@ export default {
     margin: 0;
     padding: 5px 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-content: center;
-    border: 2px solid black;
+    border-bottom: 1px solid black;
     width: 100%;
   }
 
@@ -140,6 +142,7 @@ export default {
 
   .schemer-user h1 {
     font-size: 1.8em;
+    color: #1c56b2;
     margin: 0;
   }
 
@@ -147,6 +150,15 @@ export default {
     font-size: 1.1em;
     font-weight: normal;
     margin: 0;
+  }
+
+  .db-info {
+    width: 100%;
+  }
+
+  .db-info h1 {
+    font-size: 1.5em;
+    margin: 10px auto 0 auto;
   }
 
   .table-form {
