@@ -63,6 +63,16 @@ class Cell {
       return []
     }
   }
+
+  getColType () {
+    if (!this.isCol()) return null
+    return this.element.attributes.attrs.colType.value
+  }
+
+  setColType (type) {
+    if (!this.isCol()) return null
+    this.element.attr('colType', { value: type })
+  }
 }
 
 export default Cell

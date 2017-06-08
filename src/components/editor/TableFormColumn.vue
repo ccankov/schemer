@@ -2,7 +2,13 @@
   <li @click='sendCurrent'>
     <input v-model='colName'/>
     <ul v-show='isCurrent'>
-      <span> Col Options go here </span>
+      <li>
+        <select v-model='colType'>
+          <option value='integer' checked='colType === "integer"'>Integer</option>
+          <option value='string' checked='colType === "string"'>String</option>
+          <option value='boolean' checked='colType === "boolean"'>Boolean</option>
+        </select>
+      </li>
     </ul>
   </li>
 </template>
@@ -21,10 +27,21 @@ export default {
       },
       set: function (name) {
         this.column.setName(name)
-
-        let shapeCell = this.graph.getCell(this.column.embeds()[0])
-        shapeCell.setName(name)
-        shapeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        let nameCell = this.graph.getCell(this.column.embeds()[0])
+        nameCell.setName(name)
+        nameCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        this.graph.commit()
+      }
+    },
+    colType: {
+      get: function () {
+        return this.column.getColType()
+      },
+      set: function (type) {
+        this.column.setColType(type)
+        let typeCell = this.graph.getCell(this.column.embeds()[1])
+        typeCell.setName(type)
+        typeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         this.graph.commit()
       }
     }
