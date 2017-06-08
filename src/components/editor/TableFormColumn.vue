@@ -27,14 +27,10 @@ export default {
         let textVal = val
         if (val.length > 10) textVal = val.substring(0, 10) + '...'
         this.column.attr('nodeName', { value: val })
-
-        console.log(this.column)
-        console.log(this.column.attributes.attrs.nodeName.shapeId)
-
         let shapeCell = this.graph.getCell(
-          this.column.attributes.attrs.nodeName.shapeId
+          this.column.attributes.embeds[0]
         )
-        shapeCell.attr('text', { text: textVal })
+        shapeCell.attr('text', { text: textVal, 'ref-x': 0.5, 'ref-y': 0.3 })
         shapeCell.attr('nodeName', { value: val })
       }
     }
