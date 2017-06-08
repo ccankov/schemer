@@ -42,20 +42,27 @@ export const createGraph = () => {
     // Move the element if it doesn't have a parent
     if (!parentId) return
 
-    // Set originalPosition to the relative position of the column
-    if (!cell.get('originalPosition')) {
-      cell.set('position', cell.previous('position'))
-      cell.set('originalPosition', cell.position({ parentRelative: true }))
-      cell.set('position', newPosition)
-    }
-
     // Calculate relative offsets
     let relativePos = cell.position({ parentRelative: true })
     let offsetY = relativePos.y - cell.get('originalPosition').y
     let offsetX = relativePos.x - cell.get('originalPosition').x
 
+    // Avoid collisions with other tables
+    let intersect = false
+
+    if (cell.attributes.attrs.nodeType.value === 'table') {
+      let cells = cell.graph.toJSON().cells
+      cells.forEach(c => {
+        if (c.attrs.nodeType.value === 'table') {
+          if (cell.getBBox().intersect(c.getBBox())) {
+            intersect = true
+          }
+        }
+      })
+    }
+
     // Reset child position if its relative position has changed
-    if (offsetY || offsetX) {
+    if (offsetY || offsetX || intersect) {
       cell.set('position', cell.previous('position'))
     }
 
