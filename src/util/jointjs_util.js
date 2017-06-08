@@ -10,7 +10,10 @@ export const createPaper = (element, graph, component) => {
     height: 600,
     gridSize: 10,
     model: graph,
-    drawGrid: true
+    drawGrid: {
+      name: 'mesh',
+      color: '#EEE'
+    }
   })
 
   paper.scaleContentToFit({
@@ -105,7 +108,7 @@ const addHeaderColumn = function () {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color, 'fill-opacity': 0 },
+      rect: { fill: color, 'fill-opacity': 0, 'class': 'header-rect' },
       text: { text: ' ' },
       nodeType: { value: 'header' }
     },
@@ -179,7 +182,7 @@ const addColumn = function (name, type, options = {}) {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color, 'fill-opacity': 0 },
+      rect: { fill: color, 'fill-opacity': 0, 'class': 'column-rect' },
       text: { text: ' ' },
       nodeType: { value: 'column' },
       colType: { value: type },
