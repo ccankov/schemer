@@ -69,6 +69,7 @@ export default {
       },
       set: function (val) {
         setElementName(this.getCell(this.currentTable.id), val)
+        this.commitGraph()
       }
     },
     columns: function () {
