@@ -1,12 +1,23 @@
 <template lang="html">
   <section class="editor">
-    <section class="table-form">
-      <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
-      <table-form
+    <section class="side-bar">
+      <nav class="side-nav">
+        <div class="home-button">
+          <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+        </div>
+        <section class=schemer-user>
+          <h1>Schemer</h1>
+          <h2>Welcome, {{$store.state.currentUser.username}}</h2>
+        </section>
+      </nav>
+      <section class="table-form">
+        <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
+        <table-form
         :graph='graph'
         v-on:send-element='receiveElement'
         :currentElement='currentElement'></table-form>
 
+      </section>
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -92,6 +103,50 @@ export default {
     height: 100%;
     max-height: 97vh;
     border: 1px solid black;
+  }
+
+  .side-bar {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side-nav {
+    margin: 0;
+    padding: 5px 0;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    border: 2px solid black;
+    width: 100%;
+  }
+
+  .home-button {
+    text-align: center;
+    vertical-align: center;
+    margin: auto 5px auto 10px;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 10px;
+  }
+
+  .schemer-user {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 15px;
+    justify-content: space-around;
+  }
+
+  .schemer-user h1 {
+    font-size: 1.8em;
+    margin: 0;
+  }
+
+  .schemer-user h2 {
+    font-size: 1.1em;
+    font-weight: normal;
+    margin: 0;
   }
 
   .table-form {
