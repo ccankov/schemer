@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getElementName, setElementName } from '../../util/jointjs_util'
+import { getElementName } from '../../util/jointjs_util'
 export default {
   props: ['column', 'isCurrent'],
   name: 'column',
@@ -18,7 +18,8 @@ export default {
         return getElementName(this.column)
       },
       set: function (val) {
-        setElementName(this.column, val)
+        console.log(this.column)
+        console.log(val)
       }
     }
   },

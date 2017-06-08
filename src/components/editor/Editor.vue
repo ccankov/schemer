@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     receiveElement: function (element) {
-      console.log(element)
       this.currentElement = element
     },
     setCurrent: function (id) {

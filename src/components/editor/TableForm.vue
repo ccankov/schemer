@@ -6,7 +6,7 @@
     </div>
 
     <h3> Current Element: </h3>
-    <ul class='el-list'>
+    <ul class='el-list' v-if='currentElement'>
       <li>
         <input v-model='currentTableName'/>
       </li>
@@ -24,6 +24,7 @@
           placeholder='Add a column' />
       </li>
     </ul>
+    <span v-else='currentElement'> Nothing Selected </span>
   </section>
 </template>
 
