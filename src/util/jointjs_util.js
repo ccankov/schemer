@@ -199,11 +199,8 @@ const addHeaderColumn = function () {
   this.embed(column)
 
   column.embed(nameShape)
-  column.attr('nodeName', { shapeId: nameShape.id })
   column.embed(typeShape)
-  column.attr('colType', { shapeId: typeShape.id })
   column.embed(optionsShape)
-  column.attr('options', { shapeId: optionsShape.id })
 
   return [column, nameShape, typeShape, optionsShape]
 }
@@ -234,8 +231,8 @@ const addColumn = function (name, type, options = {}) {
       rect: { fill: color, 'fill-opacity': 0 },
       text: { text: ' ' },
       nodeType: { value: 'column' },
-      colType: { value: type },
-      nodeName: { value: name },
+      colType: { value: type, shapeId: null },
+      nodeName: { value: name, shapeId: null },
       options
     },
     z: 2

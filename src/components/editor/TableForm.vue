@@ -21,7 +21,7 @@
       <li>
         <input
           v-model='newColName'
-          :keyup.enter='addColumn'
+          v-on:keyup.enter='addColumn'
           placeholder='Add a column' />
       </li>
     </ul>
