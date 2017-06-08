@@ -14,7 +14,7 @@
         v-for='id in currentTable.columns()'
         key='id'
         :id='id'
-        :isCurrent='currentElement.id === id'
+        :isCurrent='currentElement.getId() === id'
         :graph='graph'
         v-on:send-element='sendElement'>
       </table-form-column>

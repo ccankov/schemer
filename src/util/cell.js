@@ -3,6 +3,10 @@ class Cell {
     this.element = element
   }
 
+  getId () {
+    return this.element.id
+  }
+
   getName () {
     return this.element.attributes.attrs.nodeName.value
   }
