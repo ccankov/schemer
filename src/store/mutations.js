@@ -10,11 +10,7 @@ export const state = {
 }
 
 export const mutations = {
-  [RECEIVE_GRAPH] (state, { graph }) {
-    if (typeof graph === 'string') {
-      state.graphJSON = JSON.parse(graph)
-    } else {
-      state.graphJSON = graph.toJSON()
-    }
+  [RECEIVE_GRAPH] (state, { graphJSON }) {
+    state.graphJSON = graphJSON
   }
 }
