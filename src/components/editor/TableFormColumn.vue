@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { RECEIVE_GRAPH } from '../../store/mutation_types'
+
 export default {
   props: ['id', 'isCurrent', 'graph'],
   name: 'column',
@@ -32,6 +34,7 @@ export default {
         )
         shapeCell.attr('text', { text: textVal, 'ref-x': 0.5, 'ref-y': 0.3 })
         shapeCell.attr('nodeName', { value: val })
+        this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
       }
     }
   },
