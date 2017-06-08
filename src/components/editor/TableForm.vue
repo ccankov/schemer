@@ -11,10 +11,10 @@
         <input v-model='currentTableName'/>
       </li>
       <table-form-column
-        v-for='id in columns'
+        v-for='id in currentTable.columns()'
         key='id'
         :id='id'
-        :isCurrent='currentElement.id === id'
+        :isCurrent='currentElement.getId() === id'
         :graph='graph'
         v-on:send-element='sendElement'>
       </table-form-column>
@@ -30,12 +30,6 @@
 </template>
 
 <script>
-import {
-  getElementName,
-  setElementName,
-  isTable,
-  getParentId
-} from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
 
 export default {
@@ -49,11 +43,11 @@ export default {
   }),
   computed: {
     currentTable: function () {
-      if (isTable(this.currentElement)) {
+      if (this.currentElement.isTable()) {
         return this.currentElement
       } else {
-        let parent = this.getCell(getParentId(this.currentElement))
-        if (isTable(parent)) {
+        let parent = this.graph.getCell(this.currentElement.parentId())
+        if (parent.isTable()) {
           return parent
         } else {
           return null
@@ -62,32 +56,21 @@ export default {
     },
     currentTableName: {
       get: function () {
-        return getElementName(this.currentTable)
+        return this.currentTable.getName()
       },
-      set: function (val) {
-        setElementName(this.currentTable, val)
-        this.currentTable.attr('nodeName', { value: val })
+      set: function (name) {
+        this.currentTable.setName(name)
         this.graph.commit()
-      }
-    },
-    columns: function () {
-      if (this.currentTable) {
-        return this.currentTable.attributes.attrs.columns.value
-      } else {
-        return []
       }
     }
   },
   methods: {
-    getCell: function (id) {
-      return this.graph.getCell(id)
-    },
     addTable: function () {
       this.graph.addTable()
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
-      this.graph.addColumn(this.currentTable, this.newColName)
+      this.graph.addColumn(this.currentTable.element, this.newColName)
       this.newColName = ''
     },
     sendElement: function (element) {
