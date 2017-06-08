@@ -7,8 +7,8 @@ export default {
       graphStr => commit(RECEIVE_GRAPH, { graphJSON: JSON.parse(graphStr) })
     )
   },
-  [UPDATE_GRAPH] ({ commit }, { graphJSON }) {
-    return APIUtil.updateGraph(graphJSON).then(
+  [UPDATE_GRAPH] ({ commit }, { graphStr }) {
+    return APIUtil.updateGraph(graphStr).then(
       graphStr => commit(RECEIVE_GRAPH, { graphJSON: JSON.parse(graphStr) })
     )
   }

@@ -20,8 +20,9 @@
 
 <script>
 import { createSQL, parseJson } from '../../util/sql_util.js'
-import { createGraph, getElementName } from '../../util/jointjs_util'
-import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
+import { getElementName } from '../../util/jointjs_util'
+import Graph from '../../util/graph_util'
+import { UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
 import Preview from './Preview'
 import TableForm from './TableForm'
@@ -71,16 +72,12 @@ export default {
     getCell: function (id) {
       this.graph.getCell(id)
     },
-    commitGraph: function () {
-      this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
-    },
     saveGraph: function () {
-      this.$store.dispatch(UPDATE_GRAPH, { graph: this.graph })
+      this.$store.dispatch(UPDATE_GRAPH, { graphStr: this.graph.stringify() })
     }
   },
   created () {
-    this.graph = createGraph()
-    this.commitGraph()
+    this.graph = new Graph(this.$store)
   }
 }
 </script>

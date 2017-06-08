@@ -1,6 +1,6 @@
 import joint from 'jointjs'
 import * as JointUtil from './jointjs_util'
-import { RECEIVE_GRAPH } from '../store/mutation_types'
+import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../store/mutation_types'
 
 class Graph {
   constructor ($store, json = null) {
@@ -19,6 +19,8 @@ class Graph {
     this.addColumn = this.addColumn.bind(this)
     this.toJSON = this.toJSON.bind(this)
     this.stringify = this.stringify.bind(this)
+
+    this.commitGraph()
   }
 
   createGraph () {
@@ -85,9 +87,14 @@ class Graph {
     return JSON.stringify(this.toJSON())
   }
 
-  commitGraph () {
+  commit () {
     // Commit the graph to the store
     this.$store.commit(RECEIVE_GRAPH, { graphJSON: this.toJSON() })
+  }
+
+  save () {
+    // dispatch async action to backend
+    this.$store.dispatch(UPDATE_GRAPH, { graphStr: this.stringify() })
   }
 
   getCell (id) {
