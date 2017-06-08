@@ -43,6 +43,7 @@ export default {
     border-top: 1px solid black;
     border-bottom: 2px solid black;
     background-color: #BBB;
+    color: #000;
   }
 
   .stats {
