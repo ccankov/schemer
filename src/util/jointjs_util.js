@@ -8,8 +8,14 @@ export const createPaper = (element, graph, component) => {
     el: element,
     width: $(element).width(),
     height: 600,
-    gridSize: 1,
-    model: graph
+    gridSize: 10,
+    model: graph,
+    drawGrid: true
+  })
+
+  paper.scaleContentToFit({
+    padding: 0,
+    preserveAspectRatio: false
   })
 
   // Adjust the size of the paper on window resize

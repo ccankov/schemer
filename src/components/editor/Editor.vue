@@ -109,7 +109,7 @@ export default {
   .schemer-user {
     display: flex;
     flex-direction: column;
-    margin: 0px 15px;
+    margin: 0px 12px;
     justify-content: space-around;
   }
 
