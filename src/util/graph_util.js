@@ -1,6 +1,7 @@
 import joint from 'jointjs'
 import * as JointUtil from './jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../store/mutation_types'
+import Cell from './cell'
 
 class Graph {
   constructor ($store, json = null) {
@@ -99,7 +100,7 @@ class Graph {
 
   getCell (id) {
     // Get and return the cell with the specified id
-    return this.graph.getCell(id)
+    return new Cell(this.graph.getCell(id))
   }
 
   addTable (name = 'New Table') {

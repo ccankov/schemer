@@ -19,8 +19,8 @@
 
 <script>
 import { createSQL, parseJson } from '../../util/sql_util.js'
-import { getElementName } from '../../util/jointjs_util'
 import Graph from '../../util/graph_util'
+import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
 import TableForm from './TableForm'
@@ -45,31 +45,16 @@ export default {
     sql: function () {
       let json = this.$store.state.graphJSON
       return createSQL(json)
-    },
-    currentElementName: {
-      get: function () {
-        return getElementName(this.currentElement)
-      },
-      set: function (val) {
-        const cell = this.graph.getCell(this.currentElement.id)
-        let textVal = val
-        if (val.length > 10) textVal = val.substring(0, 10) + '...'
-        cell.attr('text', { text: textVal })
-        cell.attr('nodeName', { value: val })
-        this.graph.commit()
-      }
     }
   },
   methods: {
     receiveElement: function (element) {
-      this.currentElement = element
+      console.log('new element')
+      console.log(element)
+      this.currentElement = new Cell(element)
     },
     setCurrent: function (id) {
-      this.currentElement = this.getCell(id)
-    },
-    getCell: function (id) {
-      // want this to return a Cell object, with rename methods
-      this.graph.getCell(id)
+      this.currentElement = this.graph.getCell(id)
     }
   },
   created () {

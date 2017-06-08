@@ -4,7 +4,7 @@ class Cell {
   }
 
   getName () {
-    return this.element.attributes.attrs.nodeName
+    return this.element.attributes.attrs.nodeName.value
   }
 
   setName (name) {
@@ -26,11 +26,11 @@ class Cell {
   }
 
   isTable () {
-    return this.type === 'table'
+    return this.type() === 'table'
   }
 
   isCol () {
-    return this.type === 'column'
+    return this.type() === 'column'
   }
 }
 

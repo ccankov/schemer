@@ -30,12 +30,6 @@
 </template>
 
 <script>
-import {
-  getElementName,
-  setElementName,
-  isTable,
-  getParentId
-} from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
 
 export default {
@@ -49,39 +43,38 @@ export default {
   }),
   computed: {
     currentTable: function () {
-      if (isTable(this.currentElement)) {
+      console.log(this.currentElement.isTable())
+      console.log('getting current table')
+      if (this.currentElement.isTable()) {
         return this.currentElement
       } else {
-        let parent = this.getCell(getParentId(this.currentElement))
-        if (isTable(parent)) {
+        let parent = this.graph.getCell(this.currentElement.parentId())
+        if (parent.isTable()) {
           return parent
         } else {
+          console.log('didnt find any table')
           return null
         }
       }
     },
     currentTableName: {
       get: function () {
-        return getElementName(this.currentTable)
+        return this.currentTable.getName()
       },
-      set: function (val) {
-        setElementName(this.currentTable, val)
-        this.currentTable.attr('nodeName', { value: val })
+      set: function (name) {
+        this.currentTable.setName(name)
         this.graph.commit()
       }
     },
     columns: function () {
       if (this.currentTable) {
-        return this.currentTable.attributes.attrs.columns.value
+        return this.currentTable.element.attributes.attrs.columns.value
       } else {
         return []
       }
     }
   },
   methods: {
-    getCell: function (id) {
-      return this.graph.getCell(id)
-    },
     addTable: function () {
       this.graph.addTable()
     },
