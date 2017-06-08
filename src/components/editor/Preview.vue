@@ -1,7 +1,7 @@
 <template lang="html">
   <section class="sql-preview">
     <span>SQL Preview</span>
-    <span class="code">{{sql}}</span>
+    <p class="code">{{sql}}</p>
   </section>
 </template>
 
@@ -20,6 +20,7 @@ export default {
   }
 
   .code {
+    margin: 0;
     white-space: pre;
     background-color:#EEEEEE;
     font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;

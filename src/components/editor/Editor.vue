@@ -12,7 +12,7 @@
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
-        <Statistics :sql="sql"></Statistics>
+        <Statistics :json="json"></Statistics>
         <Preview :sql="sql"></Preview>
       </section>
     </section>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { createSQL } from '../../util/sql_util.js'
+import { createSQL, parseJson } from '../../util/sql_util.js'
 import { createGraph, getElementName } from '../../util/jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
@@ -39,6 +39,9 @@ export default {
     }
   },
   computed: {
+    json: function () {
+      return parseJson(this.$store.state.graphJSON)
+    },
     sql: function () {
       let json = this.$store.state.graphJSON
       return createSQL(json)
