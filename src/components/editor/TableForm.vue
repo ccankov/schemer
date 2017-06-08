@@ -68,7 +68,8 @@ export default {
         return getElementName(this.currentTable)
       },
       set: function (val) {
-        setElementName(this.getCell(this.currentTable.id), val)
+        setElementName(this.currentTable, val)
+        this.currentTable.attr('nodeName', { value: val })
         this.commitGraph()
       }
     },
