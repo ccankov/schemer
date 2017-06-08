@@ -19,7 +19,7 @@
 
 <script>
 import { createSQL, parseJson } from '../../util/sql_util.js'
-import Graph from '../../util/graph_util'
+import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
@@ -49,12 +49,7 @@ export default {
   },
   methods: {
     receiveElement: function (element) {
-      console.log('new element')
-      console.log(element)
       this.currentElement = new Cell(element)
-    },
-    setCurrent: function (id) {
-      this.currentElement = this.graph.getCell(id)
     }
   },
   created () {
