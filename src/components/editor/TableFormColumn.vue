@@ -12,19 +12,19 @@
       </label>
 
       <label>Primary Key:
-        <input type="checkbox" value="primary key" v-model="options">
+        <input type="checkbox" value="primary key" v-model="colOptions">
       </label>
       <label>not NULL:
-        <input type="checkbox" value="not NULL" v-model="options">
+        <input type="checkbox" value="not NULL" v-model="colOptions">
       </label>
       <label>Unique:
-        <input type="checkbox" value="unique" v-model="options">
+        <input type="checkbox" value="unique" v-model="colOptions">
       </label>
       <label>Indexed:
-        <input type="checkbox" value="indexed" v-model="options">
+        <input type="checkbox" value="indexed" v-model="colOptions">
       </label>
 
-      <span> {{ options.toString() }} </span>
+      <span> {{ colOptions.toString() }} </span>
     </div>
   </li>
 </template>
@@ -63,10 +63,10 @@ export default {
     },
     colOptions: {
       get: function () {
-
+        return this.column.getColOptions()
       },
       set: function (options) {
-
+        
       }
     }
   },
