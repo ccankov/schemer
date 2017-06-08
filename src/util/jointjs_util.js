@@ -31,61 +31,6 @@ export const createPaper = (element, graph, component) => {
   )
 }
 
-export const createGraph = () => {
-  // Initialize graph
-  const graph = new joint.dia.Graph()
-
-  // Handle bounding child elements inside parent element
-  graph.on('change:position', (cell, newPosition) => {
-    const parentId = cell.get('parent')
-
-    // Move the element if it doesn't have a parent
-    if (!parentId) {
-      // Avoid collisions with other tables
-      let cells = cell.graph.getCells()
-      cells.forEach(c => {
-        if (c.id === cell.id) {
-          return
-        }
-        if (c.attributes.attrs.nodeType.value === 'table') {
-          if (cell.getBBox().intersect(c.getBBox())) {
-            cell.set('position', cell.previous('position'))
-          }
-        }
-      })
-      return
-    }
-
-    // Calculate relative offsets
-    let relativePos = cell.position({ parentRelative: true })
-    let offsetY = relativePos.y - cell.get('originalPosition').y
-    let offsetX = relativePos.x - cell.get('originalPosition').x
-
-    // Reset child position if its relative position has changed
-    if (offsetY || offsetX) {
-      cell.set('position', cell.previous('position'))
-    }
-
-    // Update originalPosition
-    cell.set('originalPosition', cell.position({ parentRelative: true }))
-  })
-
-  return graph
-}
-
-export const loadGraphFromJSON = json => {
-  const graph = createGraph()
-  graph.fromJSON(json)
-  return graph
-}
-
-export const addCellsToGraph = function (cells, graph) {
-  cells.forEach(cell => {
-    graph.addCells(cell)
-    cell.set('originalPosition', cell.position({ parentRelative: true }))
-  })
-}
-
 const buildAttributes = function () {
   // Get relevant properties from column
   const position = this.attributes.position
@@ -231,8 +176,8 @@ const addColumn = function (name, type, options = {}) {
       rect: { fill: color, 'fill-opacity': 0 },
       text: { text: ' ' },
       nodeType: { value: 'column' },
-      colType: { value: type, shapeId: null },
-      nodeName: { value: name, shapeId: null },
+      colType: { value: type },
+      nodeName: { value: name },
       options
     },
     z: 2
