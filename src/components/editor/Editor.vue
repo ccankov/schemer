@@ -114,6 +114,7 @@ export default {
 
   .additional-info {
     display: flex;
+    height: 20vh;
     max-height: 20vh;
   }
 </style>
