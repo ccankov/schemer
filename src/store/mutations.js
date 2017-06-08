@@ -5,7 +5,8 @@ export const state = {
   currentUser: {
     id: 1,
     username: 'brady'
-  }
+  },
+  dbName: 'LibaryDB'
 }
 
 export const mutations = {

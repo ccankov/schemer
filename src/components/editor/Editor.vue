@@ -1,13 +1,12 @@
 <template lang="html">
   <section class="editor">
     <section class="table-form">
-      <button @click='saveGraph'>Save Graph to DB</button>
+      <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
+      <table-form
+        :graph='graph'
+        v-on:send-element='receiveElement'
+        :currentElement='currentElement'></table-form>
 
-      <!-- Table form component will go here -->
-      <span>Forms and things</span>
-      <br>
-      <span>{{ currentElementName }}</span>
-      <input v-model="currentElementName">
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -25,11 +24,13 @@ import { createGraph, getElementName } from '../../util/jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../../store/mutation_types'
 import Paper from './Paper'
 import Preview from './Preview'
+import TableForm from './TableForm'
 import Statistics from './Statistics'
 export default {
   components: {
     Paper,
     Preview,
+    'table-form': TableForm,
     Statistics
   },
   data: function () {
@@ -63,6 +64,12 @@ export default {
   methods: {
     receiveElement: function (element) {
       this.currentElement = element
+    },
+    setCurrent: function (id) {
+      this.currentElement = this.getCell(id)
+    },
+    getCell: function (id) {
+      this.graph.getCell(id)
     },
     commitGraph: function () {
       this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })

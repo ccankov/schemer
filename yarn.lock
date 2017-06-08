@@ -851,6 +851,20 @@ babylon@^6.11.0, babylon@^6.13.0, babylon@^6.15.0, babylon@^6.17.0:
   version "6.17.2"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.17.2.tgz#201d25ef5f892c41bae49488b08db0dd476e9f5c"
 
+backbone-helpers@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/backbone-helpers/-/backbone-helpers-1.0.6.tgz#1130c5629e71c6fb6f40df05cc0eea8ff0866faa"
+  dependencies:
+    underscore "1.8.3"
+
+backbone-model@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/backbone-model/-/backbone-model-1.0.10.tgz#06702f1a2158ae19fc68329d79ec320db0932ad5"
+  dependencies:
+    backbone-helpers "1.0.6"
+    green-mesa-backbone-events "1.0.6"
+    underscore "1.8.3"
+
 backbone@1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.3.3.tgz#4cc80ea7cb1631ac474889ce40f2f8bc683b2999"
@@ -2800,6 +2814,12 @@ graphlib@1.0.7, graphlib@^1.0.5:
   dependencies:
     lodash "^3.10.0"
 
+green-mesa-backbone-events@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/green-mesa-backbone-events/-/green-mesa-backbone-events-1.0.6.tgz#5c7798f246cdc7d470052eb10dd6588bece8cb27"
+  dependencies:
+    underscore "1.8.3"
+
 growl@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
@@ -3825,7 +3845,7 @@ lodash@3.10.1, lodash@^3.10.0, lodash@^3.8.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@4.17.4, lodash@^4.0.0, lodash@^4.0.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.5.0:
+lodash@^4.0.0, lodash@^4.0.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.5.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -5078,19 +5098,7 @@ readable-stream@1.1.x:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@2, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.2.2, readable-stream@^2.2.6:
-  version "2.2.10"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.10.tgz#effe72bb7c884c0dd335e2379d526196d9d011ee"
-  dependencies:
-    core-util-is "~1.0.0"
-    inherits "~2.0.1"
-    isarray "~1.0.0"
-    process-nextick-args "~1.0.6"
-    safe-buffer "^5.0.1"
-    string_decoder "~1.0.0"
-    util-deprecate "~1.0.1"
-
-readable-stream@2.2.7:
+readable-stream@2, readable-stream@2.2.7, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.2.2, readable-stream@^2.2.6:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.7.tgz#07057acbe2467b22042d36f98c5ad507054e95b1"
   dependencies:
@@ -6085,7 +6093,7 @@ ultron@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.0.tgz#b07a2e6a541a815fc6a34ccd4533baec307ca864"
 
-underscore@>=1.8.3, underscore@^1.8.3:
+underscore@1.8.3, underscore@>=1.8.3, underscore@^1.8.3:
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 

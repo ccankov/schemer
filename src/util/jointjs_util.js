@@ -40,13 +40,20 @@ export const createGraph = () => {
     const parentId = cell.get('parent')
 
     // Move the element if it doesn't have a parent
-    if (!parentId) return
-
-    // Set originalPosition to the relative position of the column
-    if (!cell.get('originalPosition')) {
-      cell.set('position', cell.previous('position'))
-      cell.set('originalPosition', cell.position({ parentRelative: true }))
-      cell.set('position', newPosition)
+    if (!parentId) {
+      // Avoid collisions with other tables
+      let cells = cell.graph.getCells()
+      cells.forEach(c => {
+        if (c.id === cell.id) {
+          return
+        }
+        if (c.attributes.attrs.nodeType.value === 'table') {
+          if (cell.getBBox().intersect(c.getBBox())) {
+            cell.set('position', cell.previous('position'))
+          }
+        }
+      })
+      return
     }
 
     // Calculate relative offsets
@@ -83,8 +90,8 @@ const buildAttributes = function () {
   // Get relevant properties from column
   const position = this.attributes.position
   const color = this.attributes.attrs.rect.fill
-  const name = this.attributes.attrs.nodeName.value
-  let textName = name
+  const name = this.attributes.attrs.nodeName
+  let textName = name.value
   if (textName.length > 10) textName = textName.substring(0, 10) + '...'
   const type = this.attributes.attrs.colType.value
   const options = this.attributes.attrs.options
@@ -97,7 +104,7 @@ const buildAttributes = function () {
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
     attrs: {
       rect: { fill: color },
-      text: { text: name, 'class': 'col-text' },
+      text: { text: name.value, 'class': 'col-text' },
       nodeType: { value: 'columnName' },
       options
     },
@@ -192,8 +199,11 @@ const addHeaderColumn = function () {
   this.embed(column)
 
   column.embed(nameShape)
+  column.attr('nodeName', { shapeId: nameShape.id })
   column.embed(typeShape)
+  column.attr('colType', { shapeId: typeShape.id })
   column.embed(optionsShape)
+  column.attr('options', { shapeId: optionsShape.id })
 
   return [column, nameShape, typeShape, optionsShape]
 }
@@ -257,7 +267,8 @@ export const createTable = (name) => {
       nodeType: { value: 'table' },
       nodeName: { value: name },
       columns: { value: [] }
-    }
+    },
+    z: 0
   })
   // Bind methods to the table object
   table.attributes.addColumn = addColumn.bind(table)
@@ -268,9 +279,21 @@ export const createTable = (name) => {
 }
 
 export const getElementName = element => (
-  element ? element.attributes.attrs.nodeName.value : ''
+  element ? element.attributes.attrs.text.text : ''
+)
+
+export const setElementName = (element, name) => (
+  element ? element.attr('text', { text: name }) : null
+)
+
+export const getParentId = element => (
+  element ? element.attributes.parent : ''
 )
 
 export const getElementType = element => (
   element ? element.attributes.attrs.nodeType.value : 'none'
+)
+
+export const isTable = element => (
+  getElementType(element) === 'table'
 )
