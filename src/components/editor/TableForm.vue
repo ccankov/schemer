@@ -14,7 +14,8 @@
         v-for='id in columns'
         key='id'
         :isCurrent='currentElement.id === id'
-        :column='getCell(id)'>
+        :column='getCell(id)'
+        v-on:send-element='sendElement'>
       </table-form-column>
       <li>
         <input
@@ -89,14 +90,11 @@ export default {
       addCellsToGraph(colCells, this.graph)
       this.newColName = ''
     },
+    sendElement: function (element) {
+      this.$emit('send-element', element)
+    },
     exportSQL: function () {
       console.log('nothing yet!')
-    }
-  },
-  events: {
-    setCurrent: function (id) {
-      console.log('hey')
-      this.currentElement = this.getCell(id)
     }
   }
 }

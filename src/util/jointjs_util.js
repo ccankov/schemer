@@ -261,7 +261,7 @@ export const createTable = (name) => {
       nodeName: { value: name },
       columns: { value: [] }
     },
-    z: 0`
+    z: 0
   })
   // Bind methods to the table object
   table.attributes.addColumn = addColumn.bind(table)

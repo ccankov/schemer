@@ -4,6 +4,7 @@
       <!-- <button @click='saveGraph'>Save Graph to DB</button> -->
       <table-form
         :graph='graph'
+        v-on:send-element='receiveElement'
         :currentElement='currentElement'></table-form>
 
     </section>
@@ -56,7 +57,14 @@ export default {
   },
   methods: {
     receiveElement: function (element) {
+      console.log(element)
       this.currentElement = element
+    },
+    setCurrent: function (id) {
+      this.currentElement = this.getCell(id)
+    },
+    getCell: function (id) {
+      this.graph.getCell(id)
     },
     commitGraph: function () {
       this.$store.commit(RECEIVE_GRAPH, { graph: this.graph })
