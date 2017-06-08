@@ -9,7 +9,21 @@ export const createPaper = (element, graph, component) => {
     width: $(element).width(),
     height: 600,
     gridSize: 1,
-    model: graph
+    model: graph,
+    defaultLink: new joint.dia.Link({
+      router: { name: 'manhattan' },
+      connector: { name: 'rounded' },
+      attrs: {
+        '.connection': {
+          stroke: '#333333',
+          'stroke-width': 3
+        },
+        '.marker-target': {
+          fill: '#333333',
+          d: 'M 10 0 L 0 5 L 10 10 z'
+        }
+      }
+    })
   })
 
   // Adjust the size of the paper on window resize
@@ -179,6 +193,26 @@ const addColumn = function (name, type, options = {}) {
       colType: { value: type },
       nodeName: { value: name },
       options
+    },
+    inPorts: [''],
+    outPorts: [' '],
+    ports: {
+      groups: {
+        'in': {
+          attrs: {
+            '.port-body': {
+              fill: '#FFFFFF'
+            }
+          }
+        },
+        'out': {
+          attrs: {
+            '.port-body': {
+              fill: '#FFFFFF'
+            }
+          }
+        }
+      }
     },
     z: 2
   })

@@ -30,14 +30,15 @@ class Graph {
 
     // Handle bounding child elements inside parent element
     graph.on('change:position', (cell, newPosition) => {
-      const parentId = cell.get('parent')
+      // const parentId = cell.get('parent')
 
+      console.log(cell.attributes.attrs.nodeType.value)
       // Move the element if it doesn't have a parent
-      if (!parentId) {
+      if (cell.attributes.attrs.nodeType.value === 'table') {
         // Avoid collisions with other tables
         let cells = cell.graph.getCells()
         cells.forEach(c => {
-          if (c.id === cell.id) {
+          if (c.id === cell.id || c.attributes.type === 'link') {
             return
           }
           if (c.attributes.attrs.nodeType.value === 'table') {
