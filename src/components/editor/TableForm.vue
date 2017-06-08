@@ -71,8 +71,9 @@ export default {
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
-      this.graph.addColumn(this.currentTable.element, this.newColName)
+      const newCol = this.graph.addColumn(this.currentTable.element, this.newColName)
       this.newColName = ''
+      this.sendElement(newCol)
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
