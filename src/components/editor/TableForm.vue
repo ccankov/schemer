@@ -11,10 +11,10 @@
         <input v-model='currentTableName'/>
       </li>
       <table-form-column
-        v-for='id in currentTable.columns()'
+        v-for='id in columns'
         key='id'
         :id='id'
-        :isCurrent='currentElement.getId() === id'
+        :isCurrent='currentElement.id === id'
         :graph='graph'
         v-on:send-element='sendElement'>
       </table-form-column>
@@ -30,6 +30,12 @@
 </template>
 
 <script>
+import {
+  getElementName,
+  setElementName,
+  isTable,
+  getParentId
+} from '../../util/jointjs_util'
 import TableFormColumn from './TableFormColumn'
 
 export default {
@@ -43,11 +49,11 @@ export default {
   }),
   computed: {
     currentTable: function () {
-      if (this.currentElement.isTable()) {
+      if (isTable(this.currentElement)) {
         return this.currentElement
       } else {
-        let parent = this.graph.getCell(this.currentElement.parentId())
-        if (parent.isTable()) {
+        let parent = this.getCell(getParentId(this.currentElement))
+        if (isTable(parent)) {
           return parent
         } else {
           return null
@@ -56,24 +62,33 @@ export default {
     },
     currentTableName: {
       get: function () {
-        return this.currentTable.getName()
+        return getElementName(this.currentTable)
       },
-      set: function (name) {
-        this.currentTable.setName(name)
+      set: function (val) {
+        setElementName(this.currentTable, val)
+        this.currentTable.attr('nodeName', { value: val })
         this.graph.commit()
+      }
+    },
+    columns: function () {
+      if (this.currentTable) {
+        return this.currentTable.attributes.attrs.columns.value
+      } else {
+        return []
       }
     }
   },
   methods: {
+    getCell: function (id) {
+      return this.graph.getCell(id)
+    },
     addTable: function () {
-      const newTable = this.graph.addTable()
-      this.sendElement(newTable)
+      this.graph.addTable()
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
-      const newCol = this.graph.addColumn(this.currentTable.element, this.newColName)
+      this.graph.addColumn(this.currentTable, this.newColName)
       this.newColName = ''
-      this.sendElement(newCol)
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
@@ -88,6 +103,9 @@ export default {
 <style lang="css">
   .table-form {
     display: flex;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
   }
@@ -111,7 +129,7 @@ export default {
     box-sizing: border-box;
   }
 
-  .el-list li > input {
+  .el-list input {
     width: 80%;
     height: 100%;
     padding: 5px;
