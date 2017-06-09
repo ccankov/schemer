@@ -23,7 +23,7 @@
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
-        <Statistics :json="json"></Statistics>
+        <Statistics></Statistics>
         <Preview :sql="sql"></Preview>
       </section>
     </section>

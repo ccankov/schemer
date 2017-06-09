@@ -5,7 +5,7 @@
     <div class="stats">
       <p class="stats-line">
         <span>Tables</span>
-        <span>{{ json.length }}</span>
+        <span>{{ tableCount }}</span>
       </p>
       <p class="stats-line">
         <span>Columns</span>
@@ -13,7 +13,7 @@
       </p>
       <p class="stats-line">
         <span>Connections</span>
-        <span>0</span>
+        <span>{{ connectionCount }}</span>
       </p>
     </div>
   </section>
@@ -21,10 +21,23 @@
 
 <script>
 export default {
-  props: ['json'],
   computed: {
+    tableCount: function () {
+      return this.countType('table')
+    },
     columnCount: function () {
-      return this.json.reduce((acc, table) => acc + table.columns.length, 0)
+      return this.countType('column')
+    },
+    connectionCount: function () {
+      return this.countType('link')
+    }
+  },
+  methods: {
+    countType: function (type) {
+      let cells = this.$store.state.graphJSON.cells
+      return cells.filter((cell) => {
+        return cell.attrs.nodeType.value === type
+      }).length
     }
   }
 }
