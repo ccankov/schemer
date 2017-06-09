@@ -2,6 +2,7 @@ export const parseJson = (json) => {
   let cells = json.cells // array of table Objects
   let tableArray = []
   let columnObject = {}
+  let indexArray = []
   cells.forEach(cell => {
     if (cell.attrs.nodeType.value === 'column') {
       columnObject[cell.id] = cell
@@ -14,6 +15,14 @@ export const parseJson = (json) => {
         columnObject[colId].attrs.options.notNull ? booleans.push('NOT NULL') : null
         columnObject[colId].attrs.options.unique ? booleans.push('UNIQUE') : null
         columnObject[colId].attrs.options.primaryKey ? booleans.push('PRIMARY KEY') : null
+        if (columnObject[colId].attrs.options.indexed) {
+          let colName = columnObject[colId].attrs.nodeName.value
+          indexArray.push({
+            name: `${colName}_index`,
+            table: `${cell.attrs.nodeName.value}`,
+            colName
+          })
+        }
         return {
           // [colId]:
           name: columnObject[colId].attrs.nodeName.value,
@@ -33,11 +42,17 @@ export const parseJson = (json) => {
       })
     }
   })
-  return tableArray
+  return {
+    tables: tableArray,
+    indices: indexArray
+  }
 }
 
 export const createSQL = (json) => {
-  let tables = parseJson(json)
+  let dbCreate = `CREATE DATABASE ${json.dbName}\n`
+  let dbInfo = parseJson(json)
+  let tables = dbInfo.tables
+  let indices = dbInfo.indices
   let tableText = tables.map(table => {
     let headerText = `CREATE TABLE ${table.name} \n`
     let columnsText = table.columns.map(column => {
@@ -47,7 +62,10 @@ export const createSQL = (json) => {
       }
       return `    ${column.name} ${column.type} ${boolConstraints}`
     })
-    return headerText + columnsText.join('\n')
+    return headerText + columnsText.join('\n') + '\n'
   })
-  return tableText.join('\n')
+  let indexText = indices.map(index => {
+    return (`CREATE INDEX ${index.name}\nON ${index.table} (${index.colName})\n`)
+  })
+  return `${dbCreate}\n${tableText.join('\n')}\n${indexText.join('\n')}`
 }
