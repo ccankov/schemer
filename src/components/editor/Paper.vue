@@ -1,6 +1,7 @@
 <template lang="html">
   <section class="paper-container">
     <div ref="paper" class="paper"></div>
+    <span class='errors' v-show='errors'>{{ errors }}</span>
   </section>
 </template>
 
@@ -15,6 +16,15 @@ export default {
       paper: null
     }
   },
+  computed: {
+    errors: function () {
+      if (this.$store.state.errors.length !== 0) {
+        return this.$store.state.errors.join(', ')
+      } else {
+        return null
+      }
+    }
+  },
   mounted () {
     // Set up paper
     this.paper = createPaper(this.$refs.paper, this.graph, this)
@@ -26,7 +36,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
   .paper-container{
     height: 550px;
     width: 100%;
@@ -61,5 +71,18 @@ export default {
   .header-text {
     font-weight: bold;
     font-size: 12px;
+  }
+
+  .errors {
+    background: red;
+    color: white;
+    border-radius: 5px;
+    font-weight: 700;
+    position: absolute;
+    bottom: 25%;
+    left: 48%;
+    transform: translateX(50%);
+    padding: 5px;
+    text-transform: uppercase;
   }
 </style>

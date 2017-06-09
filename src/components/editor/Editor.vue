@@ -139,6 +139,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    position: relative;
   }
 
   .table-form button {
