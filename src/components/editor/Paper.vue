@@ -19,7 +19,7 @@ export default {
 
     // Define sample table with two columns
     const usersTable = this.graph.addTable('users')
-    this.graph.addColumn(usersTable, 'id', 'integer', { 'primary key': true, 'allow null': false })
+    this.graph.addColumn(usersTable, 'id', 'integer', { 'primary key': true, 'not NULL': false })
     this.graph.addColumn(usersTable, 'username', 'string', { 'allow null': false })
   }
 }

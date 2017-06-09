@@ -71,8 +71,9 @@ export default {
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
-      this.graph.addColumn(this.currentTable.element, this.newColName)
+      const newCol = this.graph.addColumn(this.currentTable.element, this.newColName)
       this.newColName = ''
+      this.sendElement(newCol)
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
@@ -110,7 +111,7 @@ export default {
     box-sizing: border-box;
   }
 
-  .el-list input {
+  .el-list li > input {
     width: 80%;
     height: 100%;
     padding: 5px;
