@@ -56,6 +56,18 @@ export const createPaper = (element, graph, component) => {
     }
   })
 
+  $(window).resize(() => {
+    let container = document.querySelector('.paper-container')
+    console.log(paper.options.width)
+    console.log(container.offsetWidth)
+    if (paper.options.width < container.offsetWidth) {
+      paper.setDimensions(container.offsetWidth, paper.options.height)
+    }
+    if (paper.options.height < container.offsetHeight) {
+      paper.setDimensions(paper.options.width, container.offsetHeight)
+    }
+  })
+
   // When clicking a JointJS element, emit event containing element model
   paper.on('cell:pointerdown',
     (cellView) => {
