@@ -18,15 +18,19 @@
         :id='id'
         :isCurrent='currentElement.getId() === id'
         :graph='graph'
-        v-on:send-element='sendElement'>
+        v-on:send-element='sendElement'
+        v-on:remove-column='removeColumn'>
       </table-form-column>
       <li>
-        <label>+
+        <label>
           <input
             v-model='newColName'
-            v-on:keyup.enter='addColumn'
             placeholder='Add a column' />
+          <button @click='addColumn'> + </button>
         </label>
+      </li>
+      <li>
+        <button @click='removeTable'> Delete Table </button>
       </li>
     </ul>
     <span v-else='currentElement'> Nothing Selected </span>
@@ -71,6 +75,15 @@ export default {
     addTable: function () {
       const newTable = this.graph.addTable()
       this.sendElement(newTable)
+    },
+    removeTable: function () {
+      console.log('coming soon')
+    },
+    removeColumn: function (id) {
+      // this.graph.removeColumn(this.currentTable.element, id)
+      this.currentTable.element.attributes.removeColumn(id)
+      this.graph.commit()
+      // this.sendElement(this.currentTable)
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
