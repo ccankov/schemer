@@ -16,11 +16,6 @@ export const createPaper = (element, graph, component) => {
     }
   })
 
-  paper.scaleContentToFit({
-    padding: 0,
-    preserveAspectRatio: false
-  })
-
   // Adjust the size of the paper on window resize
   $(window).resize(() => {
     const canvas = $(element)
