@@ -38,14 +38,23 @@ export const createPaper = (element, graph, component) => {
       ]
     }),
     validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
-      // Prevent connections to items that are not ports
-      if (!magnetS || !magnetT) {
+      const sourceOptions = cellViewS.model.attributes.attrs.options
+      const targetOptions = cellViewT.model.attributes.attrs.options
+      // Prevent invalid connections and ones to items that are not ports
+      if (!magnetS || !magnetT || !sourceOptions || !targetOptions) {
         return false
+      } else {
+        const sourcePrimaryOrUnique = (sourceOptions['primaryKey'] || sourceOptions['unique'])
+        const targetPrimaryOrUnique = (targetOptions['primaryKey'] || targetOptions['unique'])
+        if ((!sourcePrimaryOrUnique && !targetPrimaryOrUnique)) {
+          return false
+        }
       }
       // Prevent loop linking
       return (magnetS !== magnetT)
     },
     snapLinks: { radius: 75 },
+    markAvailable: true,
     linkPinning: false,
     restrictTranslate: function () {
       return { x: 0,
