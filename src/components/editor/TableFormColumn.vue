@@ -5,16 +5,22 @@
     </label>
     <div class='col-options' v-show='isCurrent'>
 
-      <label>Type:
-        <select v-model='baseType'>
-          <option
-            v-for='type in colTypes'
-            :value='type'>
-            {{ type }}
-          </option>
-        </select>
-        <input v-show='customType' :value='customType' @keyup.enter='setCustomType'/>
-      </label>
+        <label>Type:
+          <div class='type'>
+          <select v-model='baseType'>
+            <option
+              v-for='type in colTypes'
+              :value='type'>
+              {{ type }}
+            </option>
+          </select>
+          <input
+          class='custom-type'
+          v-show='customType'
+          :value='customType'
+          @keyup.enter='setCustomType'/>
+        </div>
+        </label>
 
 
       <!-- disable last 3 if primarKey checked -->
@@ -134,6 +140,11 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+
+  .custom-type {
+    max-width: 20px;
+  }
+
   span {
     font-size: 10px;
     margin: 20px auto;
