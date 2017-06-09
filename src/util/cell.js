@@ -29,10 +29,12 @@ class Cell {
     // currentOptions is lazily evaluated, cant use Object.assign
 
     for (let key in options) {
-      currentOptions[key] = options[key]
+      if (options[key] === undefined) {
+        options[key] = currentOptions[key]
+      }
     }
 
-    this.element.attr(attrName, currentOptions)
+    this.element.attr(attrName, options)
   }
 
   parentId () {
