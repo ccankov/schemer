@@ -9,7 +9,7 @@ export const createPaper = (element, graph, component) => {
     width: $(element).width(),
     height: 600,
     gridSize: 1,
-    model: graph,
+    model: graph.graph,
     defaultLink: new joint.dia.Link({
       router: { name: 'manhattan' },
       connector: { name: 'rounded' },
@@ -21,9 +21,12 @@ export const createPaper = (element, graph, component) => {
         '.marker-target': {
           fill: '#333333',
           d: 'M 10 0 L 0 5 L 10 10 z'
-        }
+        },
+        nodeType: { value: 'link' }
       }
-    })
+    }),
+    snapLinks: { radius: 75 },
+    linkPinning: false
   })
 
   // Adjust the size of the paper on window resize
@@ -43,6 +46,57 @@ export const createPaper = (element, graph, component) => {
       component.$emit('send-element', cellView.model)
     },
   )
+
+  paper.on('link:connect',
+    (cellView) => {
+      graph.commit()
+    },
+  )
+
+  // Handle bounding child elements inside parent element
+  graph.graph.on('change:position', (cell, newPosition) => {
+    // Update links when an element moves
+    const links = graph.getLinks()
+    links.forEach(link => {
+      if (cell.id !== link.id &&
+        cell.attributes.type !== 'link' &&
+        cell.attributes.attrs.nodeType.value === 'table') {
+        paper.findViewByModel(link).update()
+      }
+    })
+
+    // Move the element if it doesn't have a parent
+    if (cell.attributes.attrs.nodeType.value === 'table') {
+      // Avoid collisions with other tables
+      let cells = cell.graph.getCells()
+      cells.forEach(c => {
+        if (c.id === cell.id || c.attributes.type === 'link') {
+          return
+        }
+        if (c.attributes.attrs.nodeType.value === 'table') {
+          if (cell.getBBox().intersect(c.getBBox())) {
+            cell.set('position', cell.previous('position'))
+          }
+        }
+      })
+      return
+    }
+
+    // Calculate relative offsets
+    let relativePos = cell.position({ parentRelative: true })
+    let offsetY = relativePos.y - cell.get('originalPosition').y
+    let offsetX = relativePos.x - cell.get('originalPosition').x
+
+    // Reset child position if its relative position has changed
+    if (offsetY || offsetX) {
+      cell.set('position', cell.previous('position'))
+    }
+
+    // Update originalPosition
+    cell.set('originalPosition', cell.position({ parentRelative: true }))
+  })
+
+  return paper
 }
 
 const buildAttributes = function () {
@@ -187,7 +241,7 @@ const addColumn = function (name, type, options = {}) {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color, 'fill-opacity': 0 },
+      rect: { fill: color, 'fill-opacity': 0, 'class': 'column-rect' },
       text: { text: ' ' },
       nodeType: { value: 'column' },
       colType: { value: type },
