@@ -38,14 +38,23 @@ export const createPaper = (element, graph, component) => {
       ]
     }),
     validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
-      // Prevent connections to items that are not ports
-      if (!magnetS || !magnetT) {
+      const sourceOptions = cellViewS.model.attributes.attrs.options
+      const targetOptions = cellViewT.model.attributes.attrs.options
+      // Prevent invalid connections and ones to items that are not ports
+      if (!magnetS || !magnetT || !sourceOptions || !targetOptions) {
         return false
+      } else {
+        const sourcePrimaryOrUnique = (sourceOptions['primaryKey'] || sourceOptions['unique'])
+        const targetPrimaryOrUnique = (targetOptions['primaryKey'] || targetOptions['unique'])
+        if ((!sourcePrimaryOrUnique && !targetPrimaryOrUnique)) {
+          return false
+        }
       }
       // Prevent loop linking
       return (magnetS !== magnetT)
     },
     snapLinks: { radius: 75 },
+    markAvailable: true,
     linkPinning: false,
     restrictTranslate: function () {
       return { x: 0,
@@ -58,8 +67,6 @@ export const createPaper = (element, graph, component) => {
 
   $(window).resize(() => {
     let container = document.querySelector('.paper-container')
-    console.log(paper.options.width)
-    console.log(container.offsetWidth)
     if (paper.options.width < container.offsetWidth) {
       paper.setDimensions(container.offsetWidth, paper.options.height)
     }
@@ -100,29 +107,32 @@ export const createPaper = (element, graph, component) => {
       // }
     }
   )
-  paper.on('link:connect',
-    (cellView) => {
-      // Set relationship type
-      const targetOptions = cellView.targetView.model.attributes.attrs.options
-      const sourceOptions = cellView.sourceView.model.attributes.attrs.options
-      if (targetOptions['primaryKey'] && sourceOptions['primaryKey']) {
-        cellView.model.prop('labels/0/attrs/text/text', '*')
-        cellView.model.prop('labels/1/attrs/text/text', '*')
-      } else if ((targetOptions['primaryKey'] && sourceOptions['unique']) ||
-                 (sourceOptions['primaryKey'] && targetOptions['unique'])) {
-        cellView.model.prop('labels/0/attrs/text/text', '1')
-        cellView.model.prop('labels/1/attrs/text/text', '1')
-      } else if (targetOptions['unique'] || targetOptions['primaryKey']) {
-        cellView.model.prop('labels/0/attrs/text/text', '*')
-        cellView.model.prop('labels/1/attrs/text/text', '1')
-      } else if (sourceOptions['unique'] || sourceOptions['primaryKey']) {
-        cellView.model.prop('labels/0/attrs/text/text', '1')
-        cellView.model.prop('labels/1/attrs/text/text', '*')
-      }
-      // Commit the graph when a new link is created
-      graph.commit()
-    },
-  )
+  paper.on('link:connect', (cellView) => {
+    // Set relationship type
+    const targetOptions = cellView.targetView.model.attributes.attrs.options
+    const sourceOptions = cellView.sourceView.model.attributes.attrs.options
+    if (targetOptions['primaryKey'] && sourceOptions['primaryKey']) {
+      cellView.model.prop('labels/0/attrs/text/text', '*')
+      cellView.model.prop('labels/1/attrs/text/text', '*')
+    } else if ((targetOptions['primaryKey'] && sourceOptions['unique']) ||
+               (sourceOptions['primaryKey'] && targetOptions['unique'])) {
+      cellView.model.prop('labels/0/attrs/text/text', '1')
+      cellView.model.prop('labels/1/attrs/text/text', '1')
+    } else if (targetOptions['unique'] || targetOptions['primaryKey']) {
+      cellView.model.prop('labels/0/attrs/text/text', '*')
+      cellView.model.prop('labels/1/attrs/text/text', '1')
+    } else if (sourceOptions['unique'] || sourceOptions['primaryKey']) {
+      cellView.model.prop('labels/0/attrs/text/text', '1')
+      cellView.model.prop('labels/1/attrs/text/text', '*')
+    }
+    // Commit the graph when a new link is created
+    graph.commit()
+  })
+
+  graph.graph.on('remove', (cell) => {
+    // Commit the graph when a cell is removed
+    graph.commit()
+  })
 
   // Handle bounding child elements inside parent element
   graph.graph.on('change:position', (cell, newPosition) => {

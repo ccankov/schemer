@@ -73,6 +73,10 @@ export default {
     font-size: 12px;
   }
 
+  .available-magnet {
+    fill: yellow;
+  }
+
   .errors {
     background: red;
     color: white;
