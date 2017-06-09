@@ -1,3 +1,5 @@
 export const RECEIVE_GRAPH = 'RECEIVE_GRAPH'
 export const FETCH_GRAPH = 'FETCH_GRAPH'
 export const UPDATE_GRAPH = 'UPDATE_GRAPH'
+export const RECEIVE_ERRORS = 'RECEIVE_ERRORS'
+export const CLEAR_ERRORS = 'CLEAR_ERRORS'
