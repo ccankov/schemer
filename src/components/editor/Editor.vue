@@ -11,7 +11,11 @@
         </section>
       </nav>
       <section class="db-info">
-        <h1>{{$store.state.dbName}}</h1>
+        <h1 v-if='editName'>
+          <input v-model='dbName' placeholder='Name your DB'/>
+        </h1>
+        <h1 v-else='editName'>{{dbName}}</h1>
+        <button @click='toggleEdit'>{{btnStr}}</button>
       </section>
       <section class="table-form">
         <table-form
@@ -31,7 +35,7 @@
 </template>
 
 <script>
-import { CLEAR_ERRORS, RECEIVE_ERRORS } from '../../store/mutation_types'
+import { CLEAR_ERRORS, RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util.js'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
@@ -49,10 +53,15 @@ export default {
   data: function () {
     return {
       graph: null,
-      currentElement: null
+      currentElement: null,
+      editName: false,
+      dbName: this.$store.state.graphJSON.dbName
     }
   },
   computed: {
+    btnStr: function () {
+      return this.editName ? 'Done' : 'Edit'
+    },
     json: function () {
       return parseJson(this.$store.state.graphJSON)
     },
@@ -65,6 +74,12 @@ export default {
     receiveElement: function (element) {
       this.currentElement = new Cell(element)
       this.$store.commit(CLEAR_ERRORS)
+    },
+    toggleEdit: function () {
+      if (this.editName) {
+        this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
+      }
+      this.editName = !this.editName
     }
   },
   created () {
