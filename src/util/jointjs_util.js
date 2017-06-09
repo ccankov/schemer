@@ -222,7 +222,8 @@ const addColumn = function (name, type, options = {}) {
   // Column defaults
   const defaults = {
     'primary key': false,
-    'allow null': false,
+    'not NULL': false,
+    indexed: false,
     unique: false,
     default: null
   }

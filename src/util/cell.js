@@ -13,7 +13,7 @@ class Cell {
 
   setName (name) {
     let textVal = name
-    if (name.length > 10) textVal = name.substring(0, 10) + '...'
+    if (name.length > 15) textVal = name.substring(0, 15) + '...'
     this.element.attr('nodeName', { value: name })
     if (this.isCol()) {
 
@@ -28,11 +28,12 @@ class Cell {
     let currentOptions = this.element.attributes.attrs[attrName]
     // currentOptions is lazily evaluated, cant use Object.assign
 
-    for (let key in currentOptions) {
-      if (!options[key]) {
+    for (let key in options) {
+      if (options[key] === undefined) {
         options[key] = currentOptions[key]
       }
     }
+
     this.element.attr(attrName, options)
   }
 
@@ -62,6 +63,44 @@ class Cell {
     } else {
       return []
     }
+  }
+
+  // column only
+
+  getColType () {
+    if (!this.isCol()) return null
+    return this.element.attributes.attrs.colType.value
+  }
+
+  setColType (type) {
+    if (!this.isCol()) return null
+    this.element.attr('colType', { value: type })
+  }
+
+  getColOptions () {
+    let options = []
+    const optionsAttr = this.element.attributes.attrs.options
+    for (let option in optionsAttr) {
+      if (optionsAttr[option]) {
+        options.push(option)
+      }
+    }
+
+    return options
+  }
+
+  setColOptions (optionsArr) {
+    let options = {
+      'primary key': false,
+      'not NULL': false,
+      indexed: false,
+      unique: false,
+      default: null
+    }
+
+    optionsArr.forEach(option => { options[option] = true })
+
+    this.setAttr('options', options)
   }
 }
 

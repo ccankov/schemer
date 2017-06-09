@@ -82,7 +82,6 @@ class Graph {
 
     // Mount the table in the graph object
     this.addCells(tableCells)
-
     return tableCells[0]
   }
 
@@ -92,6 +91,7 @@ class Graph {
 
     // Mount the column in the graph object
     this.addCells(colCells)
+    return colCells[0]
   }
 }
 
