@@ -22,7 +22,7 @@
         v-on:remove-column='removeColumn'>
       </table-form-column>
       <li>
-        <label>
+        <label class='add-col'>
           <input
             v-model='newColName'
             placeholder='Add a column' />
@@ -80,10 +80,7 @@ export default {
       console.log('coming soon')
     },
     removeColumn: function (id) {
-      // this.graph.removeColumn(this.currentTable.element, id)
-      this.currentTable.element.attributes.removeColumn(id)
-      this.graph.commit()
-      // this.sendElement(this.currentTable)
+      this.graph.removeColumn(this.currentTable.element, id)
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
@@ -141,4 +138,7 @@ export default {
     text-align: left;
   }
 
+  .add-col button {
+    margin: 0;
+  }
 </style>
