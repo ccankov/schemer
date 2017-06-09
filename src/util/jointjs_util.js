@@ -89,8 +89,17 @@ export const createPaper = (element, graph, component) => {
     }
   )
   paper.on('link:connect',
-    // Commit the graph when a new link is created
     (cellView) => {
+      // Set relationship type
+      const targetOptions = cellView.targetView.model.attributes.attrs.options
+      const sourceOptions = cellView.sourceView.model.attributes.attrs.options
+      if (targetOptions['primary key'] && sourceOptions['primary key']) {
+        cellView.model.prop('labels/0/attrs/text/text', '*')
+        cellView.model.prop('labels/1/attrs/text/text', '*')
+      } else if (targetOptions['primary key'] && sourceOptions['']) {
+
+      }
+      // Commit the graph when a new link is created
       graph.commit()
     },
   )
