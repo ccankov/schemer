@@ -97,6 +97,16 @@ export const parseJson = (json) => {
         }
       ]
     }
+    indexArray.push({
+      name: `${sourceName}_index`,
+      table: `${source.tableName}`,
+      colName: sourceName
+    })
+    indexArray.push({
+      name: `${targetName}_index`,
+      table: `${source.tableName}`,
+      colName: targetName
+    })
     tableArray.push(newTable)
   })
   return {
