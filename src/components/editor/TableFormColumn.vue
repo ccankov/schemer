@@ -10,13 +10,11 @@
           <option
             v-for='type in colTypes'
             :value='type'
-            selected='colType === type'>
+            selected='colType.toLowerCase().startsWith(type)'>
             {{ type }}
           </option>
         </select>
-      </label>
-      <label v-show='colType === "varchar"'>
-        
+        <input v-show='customType' :value='customType' @keyup.enter='setCustomType'/>
       </label>
 
       <label>Primary Key:
@@ -77,7 +75,6 @@ export default {
         return this.column.getColType()
       },
       set: function (type) {
-        console.log(type)
         this.column.setColType(type)
         let typeCell = this.graph.getCell(this.column.embeds()[1])
         typeCell.setName(type)
@@ -99,11 +96,24 @@ export default {
     },
     colTypes: function () {
       return this.languageTypes[this.$store.state.graphJSON.sqlLang]
+    },
+    customType: function () {
+      const lowerColType = this.colType.toLowerCase()
+      if (lowerColType.startsWith('float') ||
+            lowerColType.startsWith('var')) {
+        const reg = lowerColType.match(/.*\((\d+)\).*/)
+        return reg ? reg[1] : '16'
+      } else {
+        return null
+      }
     }
   },
   methods: {
     sendCurrent: function () {
       this.$emit('send-element', this.column.element)
+    },
+    setCustomType: function (e) {
+      this.colType = `${this.colType}(${e.target.value})`
     }
   }
 }
