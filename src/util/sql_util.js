@@ -89,7 +89,6 @@ export const parseJson = (json) => {
         }
       ]
     }
-    console.log(newTable)
     tableArray.push(newTable)
   })
   return {
@@ -102,7 +101,6 @@ export const parseJson = (json) => {
 export const createSQL = (json) => {
   let dbCreate = `CREATE DATABASE ${json.dbName}\n`
   let dbInfo = parseJson(json)
-  console.log(dbInfo)
   let tables = dbInfo.tables
   let indices = dbInfo.indices
   let tableText = tables.map(table => {
