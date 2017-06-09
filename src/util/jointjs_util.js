@@ -52,7 +52,9 @@ export const createPaper = (element, graph, component) => {
   // When clicking a JointJS element, emit event containing element model
   paper.on('cell:pointerdown',
     (cellView) => {
-      component.$emit('send-element', cellView.model)
+      if (cellView.model.attributes.type !== 'link') {
+        component.$emit('send-element', cellView.model)
+      }
     },
   )
 

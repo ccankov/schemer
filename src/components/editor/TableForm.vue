@@ -8,7 +8,9 @@
     <h3> Current Element: </h3>
     <ul class='el-list' v-if='currentElement'>
       <li>
-        <input v-model='currentTableName'/>
+        <label> Table:
+          <input v-model='currentTableName'/>
+        </label>
       </li>
       <table-form-column
         v-for='id in currentTable.columns()'
@@ -19,10 +21,12 @@
         v-on:send-element='sendElement'>
       </table-form-column>
       <li>
-        <input
-          v-model='newColName'
-          v-on:keyup.enter='addColumn'
-          placeholder='Add a column' />
+        <label>+
+          <input
+            v-model='newColName'
+            v-on:keyup.enter='addColumn'
+            placeholder='Add a column' />
+        </label>
       </li>
     </ul>
     <span v-else='currentElement'> Nothing Selected </span>
@@ -110,10 +114,18 @@ export default {
     box-sizing: border-box;
   }
   .el-list li > input {
-    width: 80%;
-    height: 100%;
     padding: 5px;
     border: none;
     margin: 0;
   }
+
+  .el-list li > label {
+    padding: 8px 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+  }
+
 </style>
