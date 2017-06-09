@@ -23,6 +23,7 @@ class Graph {
     this.addColumn = this.addColumn.bind(this)
     this.toJSON = this.toJSON.bind(this)
     this.stringify = this.stringify.bind(this)
+    this.getLinks = this.getLinks.bind(this)
 
     this.commit()
   }
@@ -30,41 +31,6 @@ class Graph {
   createGraph () {
     // Initialize graph
     const graph = new joint.dia.Graph()
-
-    // Handle bounding child elements inside parent element
-    graph.on('change:position', (cell, newPosition) => {
-      const parentId = cell.get('parent')
-
-      // Move the element if it doesn't have a parent
-      if (!parentId) {
-        // Avoid collisions with other tables
-        let cells = cell.graph.getCells()
-        cells.forEach(c => {
-          if (c.id === cell.id) {
-            return
-          }
-          if (c.attributes.attrs.nodeType.value === 'table') {
-            if (cell.getBBox().intersect(c.getBBox())) {
-              cell.set('position', cell.previous('position'))
-            }
-          }
-        })
-        return
-      }
-
-      // Calculate relative offsets
-      let relativePos = cell.position({ parentRelative: true })
-      let offsetY = relativePos.y - cell.get('originalPosition').y
-      let offsetX = relativePos.x - cell.get('originalPosition').x
-
-      // Reset child position if its relative position has changed
-      if (offsetY || offsetX) {
-        cell.set('position', cell.previous('position'))
-      }
-
-      // Update originalPosition
-      cell.set('originalPosition', cell.position({ parentRelative: true }))
-    })
 
     return graph
   }
@@ -104,6 +70,10 @@ class Graph {
   getCell (id) {
     // Get and return the cell with the specified id
     return new Cell(this.graph.getCell(id))
+  }
+
+  getLinks () {
+    return this.graph.getCells().filter(cell => cell.attributes.type === 'link')
   }
 
   addTable (name = 'New Table') {
