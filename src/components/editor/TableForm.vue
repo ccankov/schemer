@@ -120,7 +120,7 @@ export default {
   }
 
   .el-list li > label {
-    padding: 10px;
+    padding: 8px 5px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
