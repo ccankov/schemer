@@ -65,6 +65,14 @@ export const parseJson = (json) => {
   joinArray.forEach(join => {
     let source = join.source
     let target = join.target
+    let sourceName = `${source.tableName}_id`
+    let targetName = `${target.tableName}_id`
+    let tableName = `${source.tableName}_${target.tableName}_join`
+    if (target === source) {
+      sourceName = `${source.tableName}_id`
+      targetName = `${target.tableName}_id2`
+      tableName = `${source.tableName}_self_join`
+    }
     let options = {
       boolean: ['NOT NULL'],
       variable: {
@@ -73,16 +81,16 @@ export const parseJson = (json) => {
       }
     }
     let newTable = {
-      name: `${source.tableName}_${target.tableName}_join`,
+      name: tableName,
       columns: [
         {
-          name: `${source.tableName}_id`,
+          name: sourceName,
           type: `${source.colType.value}`,
           references: source,
           options
         },
         {
-          name: `${target.tableName}_id`,
+          name: targetName,
           type: `${target.colType.value}`,
           references: target,
           options
