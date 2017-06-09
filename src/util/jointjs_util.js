@@ -9,11 +9,44 @@ export const createPaper = (element, graph, component) => {
     width: $(element).width(),
     height: 520,
     gridSize: 10,
-    model: graph,
     drawGrid: {
       name: 'mesh',
       color: '#EEE'
-    }
+    },
+    model: graph.graph,
+    defaultLink: new joint.dia.Link({
+      router: { name: 'manhattan' },
+      connector: { name: 'rounded' },
+      attrs: {
+        '.connection': {
+          stroke: '#333333',
+          'stroke-width': 3
+        },
+        '.marker-source': {
+          fill: '#333333',
+          d: 'M 10 0 L 0 5 L 10 10 z'
+        },
+        '.marker-target': {
+          fill: '#333333',
+          d: 'M 10 0 L 0 5 L 10 10 z'
+        },
+        nodeType: { value: 'link' }
+      },
+      labels: [
+        { position: 30, attrs: { text: { text: '1..n' } } },
+        { position: -30, attrs: { text: { text: '*' } } }
+      ]
+    }),
+    validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
+      // Prevent connections to items that are not ports
+      if (!magnetS || !magnetT) {
+        return false
+      }
+      // Prevent loop linking
+      return (magnetS !== magnetT)
+    },
+    snapLinks: { radius: 75 },
+    linkPinning: false
   })
 
   // When clicking a JointJS element, emit event containing element model
@@ -37,6 +70,55 @@ export const createPaper = (element, graph, component) => {
       }
     }
   )
+  paper.on('link:connect',
+    // Commit the graph when a new link is created
+    (cellView) => {
+      graph.commit()
+    },
+  )
+
+  // Handle bounding child elements inside parent element
+  graph.graph.on('change:position', (cell, newPosition) => {
+    // Update links when an element moves
+    const links = graph.getLinks()
+    links.forEach(link => {
+      if (cell.id !== link.id &&
+        cell.attributes.type !== 'link' &&
+        cell.attributes.attrs.nodeType.value === 'table') {
+        paper.findViewByModel(link).update()
+      }
+    })
+
+    // Move the element if it doesn't have a parent
+    if (cell.attributes.attrs.nodeType.value === 'table') {
+      // Avoid collisions with other tables
+      let cells = cell.graph.getCells()
+      cells.forEach(c => {
+        if (c.id === cell.id || c.attributes.type === 'link') {
+          return
+        }
+        if (c.attributes.attrs.nodeType.value === 'table') {
+          if (cell.getBBox().intersect(c.getBBox())) {
+            cell.set('position', cell.previous('position'))
+          }
+        }
+      })
+      return
+    }
+
+    // Calculate relative offsets
+    let relativePos = cell.position({ parentRelative: true })
+    let offsetY = relativePos.y - cell.get('originalPosition').y
+    let offsetX = relativePos.x - cell.get('originalPosition').x
+
+    // Reset child position if its relative position has changed
+    if (offsetY || offsetX) {
+      cell.set('position', cell.previous('position'))
+    }
+
+    // Update originalPosition
+    cell.set('originalPosition', cell.position({ parentRelative: true }))
+  })
 
   return paper
 }
@@ -164,7 +246,8 @@ const addColumn = function (name, type, options = {}) {
   // Column defaults
   const defaults = {
     'primary key': false,
-    'allow null': false,
+    'not NULL': false,
+    indexed: false,
     unique: false,
     default: null
   }
@@ -189,6 +272,26 @@ const addColumn = function (name, type, options = {}) {
       colType: { value: type },
       nodeName: { value: name },
       options
+    },
+    inPorts: [''],
+    outPorts: [' '],
+    ports: {
+      groups: {
+        'in': {
+          attrs: {
+            '.port-body': {
+              fill: '#FFFFFF'
+            }
+          }
+        },
+        'out': {
+          attrs: {
+            '.port-body': {
+              fill: '#FFFFFF'
+            }
+          }
+        }
+      }
     },
     z: 2
   })

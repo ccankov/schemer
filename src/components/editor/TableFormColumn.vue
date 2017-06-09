@@ -1,9 +1,29 @@
 <template>
   <li @click='sendCurrent'>
     <input v-model='colName'/>
-    <ul v-show='isCurrent'>
-      <span> Col Options go here </span>
-    </ul>
+    <div class='col-options' v-show='isCurrent'>
+
+      <label>Type:
+        <select v-model='colType'>
+          <option value='integer' checked='colType === "integer"'>Integer</option>
+          <option value='string' checked='colType === "string"'>String</option>
+          <option value='boolean' checked='colType === "boolean"'>Boolean</option>
+        </select>
+      </label>
+
+      <label>Primary Key:
+        <input type="checkbox" value="primary key" v-model="colOptions">
+      </label>
+      <label>not NULL:
+        <input type="checkbox" value="not NULL" v-model="colOptions">
+      </label>
+      <label>Unique:
+        <input type="checkbox" value="unique" v-model="colOptions">
+      </label>
+      <label>Indexed:
+        <input type="checkbox" value="indexed" v-model="colOptions">
+      </label>
+    </div>
   </li>
 </template>
 
@@ -21,10 +41,33 @@ export default {
       },
       set: function (name) {
         this.column.setName(name)
-
-        let shapeCell = this.graph.getCell(this.column.embeds()[0])
-        shapeCell.setName(name)
-        shapeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        let nameCell = this.graph.getCell(this.column.embeds()[0])
+        nameCell.setName(name)
+        nameCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        this.graph.commit()
+      }
+    },
+    colType: {
+      get: function () {
+        return this.column.getColType()
+      },
+      set: function (type) {
+        this.column.setColType(type)
+        let typeCell = this.graph.getCell(this.column.embeds()[1])
+        typeCell.setName(type)
+        typeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        this.graph.commit()
+      }
+    },
+    colOptions: {
+      get: function () {
+        return this.column.getColOptions()
+      },
+      set: function (options) {
+        this.column.setColOptions(options)
+        let optionsCell = this.graph.getCell(this.column.embeds()[2])
+        optionsCell.setName(options.toString())
+        optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         this.graph.commit()
       }
     }
@@ -38,10 +81,16 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  .col-options {
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .col-options label {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
   }
   span {
     font-size: 10px;

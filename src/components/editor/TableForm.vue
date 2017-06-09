@@ -31,7 +31,6 @@
 
 <script>
 import TableFormColumn from './TableFormColumn'
-
 export default {
   name: 'table-form',
   props: ['currentElement', 'graph'],
@@ -71,8 +70,9 @@ export default {
     },
     addColumn: function () {
       // optional argument for type - defaults to integer
-      this.graph.addColumn(this.currentTable.element, this.newColName)
+      const newCol = this.graph.addColumn(this.currentTable.element, this.newColName)
       this.newColName = ''
+      this.sendElement(newCol)
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
@@ -87,30 +87,29 @@ export default {
 <style lang="css">
   .table-form {
     display: flex;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
   }
-
   .table-form h3 {
     margin: 0;
     padding: 0;
     font-size: 16px;
     text-align: left;
   }
-
   .el-list {
     width: 100%;
     padding: 0 10px;
     list-style: none;
   }
-
   .el-list li {
     width: 100%;
     border: 1px solid black;
     box-sizing: border-box;
   }
-
-  .el-list input {
+  .el-list li > input {
     width: 80%;
     height: 100%;
     padding: 5px;
