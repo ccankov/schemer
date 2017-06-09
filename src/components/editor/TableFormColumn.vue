@@ -14,6 +14,8 @@
           <option value='boolean' checked='colType === "boolean"'>Boolean</option>
         </select>
       </label>
+      <label v-show colType === 'varchar'>
+      </label>
 
       <label>Primary Key:
         <input type="checkbox" value="primaryKey" v-model="colOptions">
@@ -27,14 +29,31 @@
       <label>Indexed:
         <input type="checkbox" value="indexed" v-model="colOptions">
       </label>
+
     </div>
   </li>
 </template>
 
 <script>
+// col deletion
+// table deletion
+//
+
+// text inputs
+// float, var*
+
 export default {
   props: ['id', 'isCurrent', 'graph'],
   name: 'column',
+  data: () => ({
+    languageTypes: {
+      'postgreSQL': ['varchar', 'text', 'varbit', 'integer', 'float', 'serial', 'boolean', 'date', 'timestamp'],
+      'access': ['text', 'memo', 'byte', 'integer', 'long', 'single', 'double', 'currency', 'autoNumber', 'data/time', 'yes/no', 'OleObject', 'hyperlink'],
+      'mySQL': ['VARCHAR', 'TEXT', 'BLOB', 'INT', 'FLOAT', 'DATETIME', 'TIMESTAMP'],
+      'SQL Server': ['varchar', 'text', 'bit', 'int', 'float', 'money', 'datetime', 'timestamp'],
+      'oracle': ['VARCHAR2', 'LONG', 'DATE', 'BINARY FLOAT', 'TIMESTAMP', 'ROWID', 'BLOB', 'CLOB', 'BFILE']
+    }
+  }),
   computed: {
     column: function () {
       return this.graph.getCell(this.id)
