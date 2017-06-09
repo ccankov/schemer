@@ -14,7 +14,8 @@
           <option value='boolean' checked='colType === "boolean"'>Boolean</option>
         </select>
       </label>
-      <label v-show colType === 'varchar'>
+      <label v-show='colType === "varchar"'>
+        
       </label>
 
       <label>Primary Key:
