@@ -118,4 +118,5 @@ export default {
     border: none;
     margin: 0;
   }
+
 </style>
