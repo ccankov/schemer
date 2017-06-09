@@ -18,13 +18,29 @@ export const createPaper = (element, graph, component) => {
           stroke: '#333333',
           'stroke-width': 3
         },
+        '.marker-source': {
+          fill: '#333333',
+          d: 'M 10 0 L 0 5 L 10 10 z'
+        },
         '.marker-target': {
           fill: '#333333',
           d: 'M 10 0 L 0 5 L 10 10 z'
         },
         nodeType: { value: 'link' }
-      }
+      },
+      labels: [
+        { position: 30, attrs: { text: { text: '1..n' } } },
+        { position: -30, attrs: { text: { text: '*' } } }
+      ]
     }),
+    validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
+      // Prevent connections to items that are not ports
+      if (!magnetS || !magnetT) {
+        return false
+      }
+      // Prevent loop linking
+      return (magnetS !== magnetT)
+    },
     snapLinks: { radius: 75 },
     linkPinning: false
   })
@@ -48,6 +64,7 @@ export const createPaper = (element, graph, component) => {
   )
 
   paper.on('link:connect',
+    // Commit the graph when a new link is created
     (cellView) => {
       graph.commit()
     },
