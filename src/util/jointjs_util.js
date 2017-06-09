@@ -56,8 +56,6 @@ export const createPaper = (element, graph, component) => {
     }
   })
 
-  window.paper = paper
-
   // When clicking a JointJS element, emit event containing element model
   paper.on('cell:pointerdown',
     (cellView) => {
