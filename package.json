@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
+    "file-saver": "^1.3.3",
     "jointjs": "^1.1.0",
     "mongodb": "^2.2.28",
     "node-sass": "^4.5.3",
