@@ -33,8 +33,8 @@ export const createPaper = (element, graph, component) => {
         nodeType: { value: 'link' }
       },
       labels: [
-        { position: 30, attrs: { text: { text: '1..n' } } },
-        { position: -30, attrs: { text: { text: '*' } } }
+        { position: 30, attrs: { text: { text: ' ' } } },
+        { position: -30, attrs: { text: { text: ' ' } } }
       ]
     }),
     validateConnection: function (cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
@@ -101,8 +101,25 @@ export const createPaper = (element, graph, component) => {
     }
   )
   paper.on('link:connect',
-    // Commit the graph when a new link is created
     (cellView) => {
+      // Set relationship type
+      const targetOptions = cellView.targetView.model.attributes.attrs.options
+      const sourceOptions = cellView.sourceView.model.attributes.attrs.options
+      if (targetOptions['primaryKey'] && sourceOptions['primaryKey']) {
+        cellView.model.prop('labels/0/attrs/text/text', '*')
+        cellView.model.prop('labels/1/attrs/text/text', '*')
+      } else if ((targetOptions['primaryKey'] && sourceOptions['unique']) ||
+                 (sourceOptions['primaryKey'] && targetOptions['unique'])) {
+        cellView.model.prop('labels/0/attrs/text/text', '1')
+        cellView.model.prop('labels/1/attrs/text/text', '1')
+      } else if (targetOptions['unique'] || targetOptions['primaryKey']) {
+        cellView.model.prop('labels/0/attrs/text/text', '*')
+        cellView.model.prop('labels/1/attrs/text/text', '1')
+      } else if (sourceOptions['unique'] || sourceOptions['primaryKey']) {
+        cellView.model.prop('labels/0/attrs/text/text', '1')
+        cellView.model.prop('labels/1/attrs/text/text', '*')
+      }
+      // Commit the graph when a new link is created
       graph.commit()
     },
   )
