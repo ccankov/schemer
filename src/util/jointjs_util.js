@@ -371,6 +371,14 @@ const addColumn = function (name, type, options = {}) {
   return [column].concat(colAttributes)
 }
 
+// const resizeTable = () => {
+//
+// }
+//
+// const removeColumn = (id) => {
+//
+// }
+
 export const createTable = (name) => {
   let textName = name
   if (textName.length > 10) textName = textName.substring(0, 10) + '...'
