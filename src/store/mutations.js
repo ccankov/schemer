@@ -7,7 +7,7 @@ export const state = {
     username: 'brady'
   },
   dbName: 'LibaryDB',
-  errors: ['Learn some SQL']
+  errors: ['Dont do that']
 }
 
 export const mutations = {
