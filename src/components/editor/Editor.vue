@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { CLEAR_ERRORS, RECEIVE_ERRORS } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util.js'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
@@ -63,10 +64,12 @@ export default {
   methods: {
     receiveElement: function (element) {
       this.currentElement = new Cell(element)
+      this.$store.commit(CLEAR_ERRORS)
     }
   },
   created () {
     this.graph = new Graph(this.$store)
+    this.$store.commit(RECEIVE_ERRORS, { errors: ['select an element'] })
   }
 }
 </script>
