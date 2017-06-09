@@ -9,6 +9,8 @@
         <select v-model='colType'>
           <option value='integer' checked='colType === "integer"'>Integer</option>
           <option value='string' checked='colType === "string"'>String</option>
+          <option value='text' checked='colType === "text"'>Text</option>
+          <option value='date' checked='colType === "date"'>Date</option>
           <option value='boolean' checked='colType === "boolean"'>Boolean</option>
         </select>
       </label>
