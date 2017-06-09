@@ -6,17 +6,18 @@
     <div class='col-options' v-show='isCurrent'>
 
       <label>Type:
-        <select v-model='colType'>
+        <select v-model='baseType'>
           <option
             v-for='type in colTypes'
-            :value='type'
-            selected='colType.toLowerCase().startsWith(type)'>
+            :value='type'>
             {{ type }}
           </option>
         </select>
         <input v-show='customType' :value='customType' @keyup.enter='setCustomType'/>
       </label>
 
+
+      <!-- disable last 3 if primarKey checked -->
       <label>Primary Key:
         <input type="checkbox" value="primaryKey" v-model="colOptions">
       </label>
@@ -37,10 +38,6 @@
 <script>
 // col deletion
 // table deletion
-//
-
-// text inputs
-// float, var*
 
 export default {
   props: ['id', 'isCurrent', 'graph'],
@@ -70,18 +67,6 @@ export default {
         this.graph.commit()
       }
     },
-    colType: {
-      get: function () {
-        return this.column.getColType()
-      },
-      set: function (type) {
-        this.column.setColType(type)
-        let typeCell = this.graph.getCell(this.column.embeds()[1])
-        typeCell.setName(type)
-        typeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
-        this.graph.commit()
-      }
-    },
     colOptions: {
       get: function () {
         return this.column.getColOptions()
@@ -97,8 +82,16 @@ export default {
     colTypes: function () {
       return this.languageTypes[this.$store.state.graphJSON.sqlLang]
     },
+    baseType: {
+      get: function () {
+        return this.column.getColType().split('(')[0]
+      },
+      set: function (type) {
+        this.setColType(type)
+      }
+    },
     customType: function () {
-      const lowerColType = this.colType.toLowerCase()
+      const lowerColType = this.column.getColType().toLowerCase()
       if (lowerColType.startsWith('float') ||
             lowerColType.startsWith('var')) {
         const reg = lowerColType.match(/.*\((\d+)\).*/)
@@ -112,9 +105,19 @@ export default {
     sendCurrent: function () {
       this.$emit('send-element', this.column.element)
     },
-    setCustomType: function (e) {
-      this.colType = `${this.colType}(${e.target.value})`
+    setColType: function (type) {
+      this.column.setColType(type)
+      let typeCell = this.graph.getCell(this.column.embeds()[1])
+      typeCell.setName(type)
+      typeCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+      this.graph.commit()
+    },
+    setCustomType: function (event) {
+      this.setColType(`${this.baseType}(${event.target.value})`)
     }
+  },
+  created () {
+    window.col = this.column
   }
 }
 </script>
