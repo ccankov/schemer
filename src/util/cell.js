@@ -28,13 +28,11 @@ class Cell {
     let currentOptions = this.element.attributes.attrs[attrName]
     // currentOptions is lazily evaluated, cant use Object.assign
 
-    for (let key in currentOptions) {
-      if (!options[key]) {
-        options[key] = currentOptions[key]
-      }
+    for (let key in options) {
+      currentOptions[key] = options[key]
     }
 
-    this.element.attr(attrName, options)
+    this.element.attr(attrName, currentOptions)
   }
 
   parentId () {
@@ -90,7 +88,13 @@ class Cell {
   }
 
   setColOptions (optionsArr) {
-    let options = {}
+    let options = {
+      'primary key': false,
+      'not NULL': false,
+      unique: false,
+      default: null
+    }
+
     optionsArr.forEach(option => { options[option] = true })
 
     this.setAttr('options', options)
