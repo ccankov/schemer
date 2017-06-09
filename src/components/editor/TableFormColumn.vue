@@ -16,10 +16,10 @@
       </label>
 
       <label>Primary Key:
-        <input type="checkbox" value="primary key" v-model="colOptions">
+        <input type="checkbox" value="primaryKey" v-model="colOptions">
       </label>
       <label>not NULL:
-        <input type="checkbox" value="not NULL" v-model="colOptions">
+        <input type="checkbox" value="notNull" v-model="colOptions">
       </label>
       <label>Unique:
         <input type="checkbox" value="unique" v-model="colOptions">

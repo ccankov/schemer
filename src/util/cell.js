@@ -91,8 +91,8 @@ class Cell {
 
   setColOptions (optionsArr) {
     let options = {
-      'primary key': false,
-      'not NULL': false,
+      primaryKey: false,
+      notNull: false,
       indexed: false,
       unique: false,
       default: null

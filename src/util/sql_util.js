@@ -11,7 +11,7 @@ export const parseJson = (json) => {
     if (cell.attrs.nodeType.value === 'table') {
       let tableCols = cell.attrs.columns.value.map(colId => {
         let booleans = []
-        columnObject[colId].attrs.options.allowNull ? null : booleans.push('NOT NULL')
+        columnObject[colId].attrs.options.notNull ? booleans.push('NOT NULL') : null
         columnObject[colId].attrs.options.unique ? booleans.push('UNIQUE') : null
         columnObject[colId].attrs.options.primaryKey ? booleans.push('PRIMARY KEY') : null
         return {
