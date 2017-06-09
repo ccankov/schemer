@@ -54,6 +54,7 @@ export const createPaper = (element, graph, component) => {
       return (magnetS !== magnetT)
     },
     snapLinks: { radius: 75 },
+    markAvailable: true,
     linkPinning: false,
     restrictTranslate: function () {
       return { x: 0,
