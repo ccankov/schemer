@@ -1,5 +1,7 @@
 <template lang="html">
-  <div ref="paper" class="paper"></div>
+  <section class="paper-container">
+    <div ref="paper" class="paper"></div>
+  </section>
 </template>
 
 <script>
@@ -16,7 +18,6 @@ export default {
   mounted () {
     // Set up paper
     this.paper = createPaper(this.$refs.paper, this.graph, this)
-
     // Define sample table with two columns
     const usersTable = this.graph.addTable('users')
     this.graph.addColumn(usersTable, 'id', 'integer', { 'primary key': true, 'not NULL': false })
@@ -26,13 +27,35 @@ export default {
 </script>
 
 <style lang="scss">
+  .paper-container{
+    height: 550px;
+    width: 100%;
+    max-width: initial;
+    overflow: scroll;
+  }
+
   .joint-paper {
-    width: 100% !important;
     overflow: hidden;
   }
 
   .col-text {
     font-size: 12px;
+  }
+
+  .column-rect {
+    cursor: pointer;
+  }
+
+  .column-rect + .label{
+    cursor: pointer;
+  }
+
+  .header-rect {
+    cursor: default;
+  }
+
+  .header-rect + .label{
+    cursor: default;
   }
 
   .header-text {

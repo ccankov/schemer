@@ -31,7 +31,6 @@ class Graph {
   createGraph () {
     // Initialize graph
     const graph = new joint.dia.Graph()
-
     return graph
   }
 

@@ -7,8 +7,12 @@ export const createPaper = (element, graph, component) => {
   const paper = new joint.dia.Paper({
     el: element,
     width: $(element).width(),
-    height: 600,
-    gridSize: 1,
+    height: 520,
+    gridSize: 10,
+    drawGrid: {
+      name: 'mesh',
+      color: '#EEE'
+    },
     model: graph.graph,
     defaultLink: new joint.dia.Link({
       router: { name: 'manhattan' },
@@ -45,17 +49,6 @@ export const createPaper = (element, graph, component) => {
     linkPinning: false
   })
 
-  // Adjust the size of the paper on window resize
-  $(window).resize(() => {
-    const canvas = $(element)
-    paper.setDimensions(canvas.width(), 600)
-  })
-
-  // Bound elements inside paper
-  paper.options.restrictTranslate = function (cellView) {
-    return cellView.paper.getArea()
-  }
-
   // When clicking a JointJS element, emit event containing element model
   paper.on('cell:pointerdown',
     (cellView) => {
@@ -63,6 +56,20 @@ export const createPaper = (element, graph, component) => {
     },
   )
 
+  paper.on('cell:pointermove',
+    (cellView, evt, x, y) => {
+      let bbox = cellView.getBBox()
+      let container = document.querySelector('.paper-container')
+      if (bbox.x + bbox.width >= paper.options.width) {
+        paper.setDimensions(paper.options.width + paper.options.gridSize, paper.options.height)
+        container.scrollLeft = paper.options.width
+      }
+      if (bbox.y + bbox.height >= paper.options.height) {
+        paper.setDimensions(paper.options.width, paper.options.height + paper.options.gridSize)
+        container.scrollTop = paper.options.height
+      }
+    }
+  )
   paper.on('link:connect',
     // Commit the graph when a new link is created
     (cellView) => {
@@ -184,7 +191,7 @@ const addHeaderColumn = function () {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color, 'fill-opacity': 0 },
+      rect: { fill: color, 'fill-opacity': 0, 'class': 'header-rect' },
       text: { text: ' ' },
       nodeType: { value: 'header' }
     },
