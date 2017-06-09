@@ -5,7 +5,8 @@
       <pre>
         <code class="code">{{sql}}</code>
       </pre>
-      <label>SQL Language:
+      <label>
+        <span>SQL Language:</span>
         <select v-model='sqlLang'>
           <option v-for='lang in languages'>{{lang}}</option>
         </select>
@@ -49,11 +50,19 @@ export default {
   }
 
   pre {
+    flex: 2;
     display: flex;
     background-color:#EEEEEE;
     padding: 3px;
     margin: 0;
     overflow-y: scroll;
+  }
+
+  .sql-body label {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
   }
 
   .code {
