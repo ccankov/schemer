@@ -2,7 +2,6 @@
   <section class='table-form'>
     <div class='bts'>
       <button @click='addTable'> Add Table </button>
-      <button @click='exportSQL'> Export SQL </button>
     </div>
 
     <h3> Current Element: </h3>
@@ -80,9 +79,6 @@ export default {
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
-    },
-    exportSQL: function () {
-      console.log('nothing yet!')
     }
   }
 }
