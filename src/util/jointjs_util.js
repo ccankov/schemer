@@ -46,7 +46,14 @@ export const createPaper = (element, graph, component) => {
       return (magnetS !== magnetT)
     },
     snapLinks: { radius: 75 },
-    linkPinning: false
+    linkPinning: false,
+    restrictTranslate: function () {
+      return { x: 0,
+        y: 0,
+        width: 1000000,
+        height: 1000000
+      }
+    }
   })
 
   // When clicking a JointJS element, emit event containing element model
@@ -67,16 +74,18 @@ export const createPaper = (element, graph, component) => {
         paper.setDimensions(paper.options.width + paper.options.gridSize, paper.options.height)
         container.scrollLeft = paper.options.width
       } else if (bbox2.x + bbox2.width >= container.offsetWidth) {
-        // paper.setDimensions(paper.options.width - paper.options.gridSize, paper.options.height)
         paper.setDimensions(bbox2.x + bbox2.width, paper.options.height)
       }
       if (bbox.y + bbox.height >= paper.options.height) {
         paper.setDimensions(paper.options.width, paper.options.height + paper.options.gridSize)
         container.scrollTop = paper.options.height
       } else if (bbox2.y + bbox2.height >= container.offsetHeight) {
-        // paper.setDimensions(paper.options.width, paper.options.height - paper.options.gridSize)
         paper.setDimensions(paper.options.width, bbox2.y + bbox2.height)
       }
+
+      // if (bbox.x <= (container.scrollLeft - 10)) {
+      //   container.scrollLeft = bbox.x + 10
+      // }
     }
   )
   paper.on('link:connect',
