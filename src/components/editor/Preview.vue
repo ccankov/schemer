@@ -4,12 +4,34 @@
     <pre>
       <code class="code">{{sql}}</code>
     </pre>
+    <section class='sql-options'>
+      <label>SQL Language:
+        <select v-model='sqlLang'>
+          <option v-for='lang in languages'>{{lang}}</option>
+        </select>
+      </label>
+    </section>
   </section>
 </template>
 
 <script>
+import { RECEIVE_LANGUAGE } from '../../store/mutation_types'
+
 export default {
-  props: ['sql']
+  props: ['sql'],
+  data: () => ({
+    languages: ['postgreSQL', 'access', 'mySQL', 'SQL Server', 'oracle']
+  }),
+  computed: {
+    sqlLang: {
+      get: function () {
+        return this.$store.state.graphJSON.sqlLang
+      },
+      set: function (newLang) {
+        this.$store.commit(RECEIVE_LANGUAGE, { sqlLang: newLang })
+      }
+    }
+  }
 }
 </script>
 
