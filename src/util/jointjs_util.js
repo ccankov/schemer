@@ -59,14 +59,21 @@ export const createPaper = (element, graph, component) => {
   paper.on('cell:pointermove',
     (cellView, evt, x, y) => {
       let bbox = cellView.getBBox()
+      let bbox2 = paper.getContentBBox()
       let container = document.querySelector('.paper-container')
       if (bbox.x + bbox.width >= paper.options.width) {
         paper.setDimensions(paper.options.width + paper.options.gridSize, paper.options.height)
         container.scrollLeft = paper.options.width
+      } else if (bbox2.x + bbox2.width >= container.offsetWidth) {
+        // paper.setDimensions(paper.options.width - paper.options.gridSize, paper.options.height)
+        paper.setDimensions(bbox2.x + bbox2.width, paper.options.height)
       }
       if (bbox.y + bbox.height >= paper.options.height) {
         paper.setDimensions(paper.options.width, paper.options.height + paper.options.gridSize)
         container.scrollTop = paper.options.height
+      } else if (bbox2.y + bbox2.height >= container.offsetHeight) {
+        // paper.setDimensions(paper.options.width, paper.options.height - paper.options.gridSize)
+        paper.setDimensions(paper.options.width, bbox2.y + bbox2.height)
       }
     }
   )
