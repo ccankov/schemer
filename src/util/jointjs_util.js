@@ -67,8 +67,6 @@ export const createPaper = (element, graph, component) => {
 
   $(window).resize(() => {
     let container = document.querySelector('.paper-container')
-    console.log(paper.options.width)
-    console.log(container.offsetWidth)
     if (paper.options.width < container.offsetWidth) {
       paper.setDimensions(container.offsetWidth, paper.options.height)
     }
