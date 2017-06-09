@@ -23,8 +23,6 @@
       <label>Indexed:
         <input type="checkbox" value="indexed" v-model="colOptions">
       </label>
-
-      <span> {{ colOptions.toString() }} </span>
     </div>
   </li>
 </template>

@@ -13,7 +13,7 @@ class Cell {
 
   setName (name) {
     let textVal = name
-    if (name.length > 10) textVal = name.substring(0, 10) + '...'
+    if (name.length > 15) textVal = name.substring(0, 15) + '...'
     this.element.attr('nodeName', { value: name })
     if (this.isCol()) {
 
@@ -93,6 +93,7 @@ class Cell {
     let options = {
       'primary key': false,
       'not NULL': false,
+      indexed: false,
       unique: false,
       default: null
     }

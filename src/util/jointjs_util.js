@@ -155,6 +155,7 @@ const addColumn = function (name, type, options = {}) {
   const defaults = {
     'primary key': false,
     'not NULL': false,
+    indexed: false,
     unique: false,
     default: null
   }
