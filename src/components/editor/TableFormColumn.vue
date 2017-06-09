@@ -1,6 +1,8 @@
 <template>
   <li @click='sendCurrent'>
-    <input v-model='colName'/>
+    <label> Column:
+      <input v-model='colName'/>
+    </label>
     <div class='col-options' v-show='isCurrent'>
 
       <label>Type:
