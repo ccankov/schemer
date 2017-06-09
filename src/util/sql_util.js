@@ -3,9 +3,27 @@ export const parseJson = (json) => {
   let tableArray = []
   let columnObject = {}
   let indexArray = []
+  let connectionArray = []
+  let joinArray = []
   cells.forEach(cell => {
     if (cell.attrs.nodeType.value === 'column') {
       columnObject[cell.id] = cell
+    } else if (cell.attrs.nodeType.value === 'link') {
+      connectionArray.push(cell)
+    }
+  })
+  connectionArray.forEach(connection => {
+    let source = columnObject[connection.source.id].attrs
+    let target = columnObject[connection.target.id].attrs
+    if (source.options.primaryKey && target.options.primaryKey) {
+      joinArray.push({
+        source,
+        target
+      })
+    } else if (source.options.primaryKey) {
+      target.options.references = source
+    } else if (target.options.primaryKey) {
+      source.options.references = target
     }
   })
   cells.forEach(cell => {
@@ -15,6 +33,7 @@ export const parseJson = (json) => {
         columnObject[colId].attrs.options.notNull ? booleans.push('NOT NULL') : null
         columnObject[colId].attrs.options.unique ? booleans.push('UNIQUE') : null
         columnObject[colId].attrs.options.primaryKey ? booleans.push('PRIMARY KEY') : null
+        columnObject[colId].attrs.tableName = cell.attrs.nodeName.value
         if (columnObject[colId].attrs.options.indexed) {
           let colName = columnObject[colId].attrs.nodeName.value
           indexArray.push({
@@ -27,6 +46,7 @@ export const parseJson = (json) => {
           // [colId]:
           name: columnObject[colId].attrs.nodeName.value,
           type: columnObject[colId].attrs.colType.value,
+          references: columnObject[colId].attrs.options.references,
           options: {
             boolean: booleans,
             variable: {
@@ -44,13 +64,15 @@ export const parseJson = (json) => {
   })
   return {
     tables: tableArray,
-    indices: indexArray
+    indices: indexArray,
+    connections: connectionArray
   }
 }
 
 export const createSQL = (json) => {
   let dbCreate = `CREATE DATABASE ${json.dbName}\n`
   let dbInfo = parseJson(json)
+  console.log(dbInfo)
   let tables = dbInfo.tables
   let indices = dbInfo.indices
   let tableText = tables.map(table => {
@@ -60,7 +82,12 @@ export const createSQL = (json) => {
       if (column.options.variable.default) {
         boolConstraints += ` DEFAULT ${column.options.variable.default}`
       }
-      return `    ${column.name} ${column.type} ${boolConstraints}`
+      let partialText = `    ${column.name} ${column.type} ${boolConstraints}`
+      if (column.references) {
+        return partialText + `REFERENCES ${column.references.tableName}`
+      } else {
+        return partialText
+      }
     })
     return headerText + columnsText.join('\n') + '\n'
   })
