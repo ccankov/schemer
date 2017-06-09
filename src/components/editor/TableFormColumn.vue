@@ -25,16 +25,31 @@
 
       <!-- disable last 3 if primarKey checked -->
       <label>Primary Key:
-        <input type="checkbox" value="primaryKey" v-model="colOptions">
+        <input
+          type="checkbox"
+          value="primaryKey"
+          v-model="colOptions">
       </label>
       <label>not NULL:
-        <input type="checkbox" value="notNull" v-model="colOptions">
+        <input
+          type="checkbox"
+          value="notNull"
+          :disabled="isPrimaryKey"
+          v-model="colOptions">
       </label>
       <label>Unique:
-        <input type="checkbox" value="unique" v-model="colOptions">
+        <input
+          type="checkbox"
+          value="unique"
+          :disabled="isPrimaryKey"
+          v-model="colOptions">
       </label>
       <label>Indexed:
-        <input type="checkbox" value="indexed" v-model="colOptions">
+        <input
+          type="checkbox"
+          value="indexed"
+          :disabled="isPrimaryKey"
+          v-model="colOptions">
       </label>
 
     </div>
@@ -105,6 +120,9 @@ export default {
       } else {
         return null
       }
+    },
+    isPrimaryKey: function () {
+      return this.colOptions.includes('primaryKey')
     }
   },
   methods: {
