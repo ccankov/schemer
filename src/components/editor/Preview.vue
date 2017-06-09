@@ -1,10 +1,10 @@
 <template lang="html">
   <section class="sql-preview">
     <span class="header">SQL Preview</span>
-    <pre>
-      <code class="code">{{sql}}</code>
-    </pre>
-    <section class='sql-options'>
+    <section class='sql-body'>
+      <pre>
+        <code class="code">{{sql}}</code>
+      </pre>
       <label>SQL Language:
         <select v-model='sqlLang'>
           <option v-for='lang in languages'>{{lang}}</option>
@@ -37,10 +37,15 @@ export default {
 
 <style lang="css">
   .sql-preview {
-    flex: 1;
+    flex: 2;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
+  }
+
+  .sql-body {
+    display: flex;
+    flex-grow: 1;
   }
 
   pre {
@@ -49,7 +54,6 @@ export default {
     padding: 3px;
     margin: 0;
     overflow-y: scroll;
-    height: 100%;
   }
 
   .code {
