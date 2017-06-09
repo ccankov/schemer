@@ -9,14 +9,14 @@
         <select v-model='colType'>
           <option
             v-for='type in colTypes'
-            value='type'
-            checked='colType === type'>
+            :value='type'
+            selected='colType === type'>
             {{ type }}
           </option>
         </select>
       </label>
       <label v-show='colType === "varchar"'>
-
+        
       </label>
 
       <label>Primary Key:
@@ -77,6 +77,7 @@ export default {
         return this.column.getColType()
       },
       set: function (type) {
+        console.log(type)
         this.column.setColType(type)
         let typeCell = this.graph.getCell(this.column.embeds()[1])
         typeCell.setName(type)
