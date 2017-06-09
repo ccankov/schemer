@@ -62,6 +62,36 @@ export const parseJson = (json) => {
       })
     }
   })
+  joinArray.forEach(join => {
+    let source = join.source
+    let target = join.target
+    let options = {
+      boolean: ['NOT NULL'],
+      variable: {
+        default: null,
+        check: null // TODO: implement on front end
+      }
+    }
+    let newTable = {
+      name: `${source.tableName}_${target.tableName}_join`,
+      columns: [
+        {
+          name: `${source.tableName}_id`,
+          type: `${source.colType.value}`,
+          references: source,
+          options
+        },
+        {
+          name: `${target.tableName}_id`,
+          type: `${target.colType.value}`,
+          references: target,
+          options
+        }
+      ]
+    }
+    console.log(newTable)
+    tableArray.push(newTable)
+  })
   return {
     tables: tableArray,
     indices: indexArray,
@@ -84,7 +114,7 @@ export const createSQL = (json) => {
       }
       let partialText = `    ${column.name} ${column.type} ${boolConstraints}`
       if (column.references) {
-        return partialText + `REFERENCES ${column.references.tableName}`
+        return partialText + ` REFERENCES ${column.references.tableName}`
       } else {
         return partialText
       }
