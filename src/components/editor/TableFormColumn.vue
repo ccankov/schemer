@@ -15,7 +15,7 @@
         </select>
       </label>
       <label v-show='colType === "varchar"'>
-        
+
       </label>
 
       <label>Primary Key:
