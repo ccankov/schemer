@@ -18,6 +18,7 @@ export default {
   mounted () {
     // Set up paper
     this.paper = createPaper(this.$refs.paper, this.graph.graph, this)
+    window.paper = this.paper
     // Define sample table with two columns
     const usersTable = this.graph.addTable('users')
     this.graph.addColumn(usersTable, 'id', 'integer', { 'primary key': true, 'allow null': false })
@@ -29,11 +30,12 @@ export default {
 <style lang="scss">
   .paper-container{
     height: 550px;
+    width: 100%;
+    max-width: initial;
     overflow: scroll;
   }
 
   .joint-paper {
-    width: 100% !important;
     overflow: hidden;
   }
 

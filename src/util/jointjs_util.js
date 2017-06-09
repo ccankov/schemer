@@ -7,7 +7,7 @@ export const createPaper = (element, graph, component) => {
   const paper = new joint.dia.Paper({
     el: element,
     width: $(element).width(),
-    height: 600,
+    height: 520,
     gridSize: 10,
     model: graph,
     drawGrid: {
@@ -16,23 +16,29 @@ export const createPaper = (element, graph, component) => {
     }
   })
 
-  // Adjust the size of the paper on window resize
-  $(window).resize(() => {
-    const canvas = $(element)
-    paper.setDimensions(canvas.width(), 600)
-  })
-
-  // Bound elements inside paper
-  paper.options.restrictTranslate = function (cellView) {
-    return cellView.paper.getArea()
-  }
-
   // When clicking a JointJS element, emit event containing element model
   paper.on('cell:pointerdown',
     (cellView) => {
       component.$emit('send-element', cellView.model)
     },
   )
+
+  paper.on('cell:pointermove',
+    (cellView, evt, x, y) => {
+      let bbox = cellView.getBBox()
+      let container = document.querySelector('.paper-container')
+      if (bbox.x + bbox.width >= paper.options.width) {
+        paper.setDimensions(paper.options.width + paper.options.gridSize, paper.options.height)
+        container.scrollLeft = paper.options.width
+      }
+      if (bbox.y + bbox.height >= paper.options.height) {
+        paper.setDimensions(paper.options.width, paper.options.height + paper.options.gridSize)
+        container.scrollTop = paper.options.height
+      }
+    }
+  )
+
+  return paper
 }
 
 const buildAttributes = function () {

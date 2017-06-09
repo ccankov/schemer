@@ -149,6 +149,7 @@ export default {
     border: 1px solid black;
     flex: 5;
     display: flex;
+    max-width: 75vw;
     flex-direction: column;
   }
 
