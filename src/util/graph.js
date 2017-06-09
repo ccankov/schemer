@@ -92,6 +92,11 @@ class Graph {
     this.addCells(colCells)
     return colCells[0]
   }
+  removeColumn (table, colId) {
+    // Delete the column with the specified id
+    table.attributes.removeColumn(colId)
+    this.commit()
+  }
 }
 
 export default Graph

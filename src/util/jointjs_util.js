@@ -239,7 +239,7 @@ const buildAttributes = function () {
 
 const addHeaderColumn = function () {
   // Pull relevant table properties
-  const { position, size } = this.attributes
+  const { position } = this.attributes
   const yPos = position.y + C.TITLE_HEIGHT
   const color = C.HEADER_COLOR
 
@@ -289,12 +289,12 @@ const addHeaderColumn = function () {
     z: 1
   })
 
-  this.resize(size.width, size.height + C.ROW_HEIGHT)
   this.embed(column)
 
   column.embed(nameShape)
   column.embed(typeShape)
   column.embed(optionsShape)
+  this.attributes.resizeTable()
 
   return [column, nameShape, typeShape, optionsShape]
 }
@@ -313,7 +313,7 @@ const addColumn = function (name, type, options = {}) {
   options = Object.assign(defaults, options)
 
   // Pull the relevant properties out of the table
-  const { position, size } = this.attributes
+  const { position } = this.attributes
   const columns = this.attributes.attrs.columns.value
   const color = columns.length % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
   const yPos = position.y + ((columns.length + 1) * C.ROW_HEIGHT) + C.TITLE_HEIGHT
@@ -355,13 +355,10 @@ const addColumn = function (name, type, options = {}) {
   column.attributes.buildAttributes = buildAttributes.bind(column)
 
   // Resize the table to fit new column, embed and track the new column
-  this.resize(size.width, size.height + C.ROW_HEIGHT)
   this.embed(column)
   this.attributes.attrs.columns.value =
     this.attributes.attrs.columns.value.concat(column.id)
-
-  // using push causes mad vuex
-  // columns.push(column.id)
+  this.attributes.resizeTable()
 
   // Create sub-elements to hold properties
   const colAttributes = column.attributes.buildAttributes()
@@ -369,13 +366,43 @@ const addColumn = function (name, type, options = {}) {
   return [column].concat(colAttributes)
 }
 
-// const resizeTable = () => {
-//
-// }
-//
-// const removeColumn = (id) => {
-//
-// }
+const resizeTable = function () {
+  // Pull relevant data out of table
+  const position = this.attributes.position
+  const colIds = this.attributes.attrs.columns.value
+  colIds.forEach((colId, idx) => {
+    const col = this.graph.getCell(colId)
+    if (col) {
+      const yPos = position.y + C.TITLE_HEIGHT + (C.ROW_HEIGHT * (idx + 1))
+      const embeds = col.attributes.embeds.map(id => this.graph.getCell(id))
+      const color = idx % 2 === 0 ? C.BG_COLOR_1 : C.BG_COLOR_2
+      this.graph.removeCells([col].concat(embeds))
+      col.prop('position/y', yPos)
+      embeds.forEach(child => {
+        child.prop('position/y', yPos)
+        child.prop('attrs/rect/fill', color)
+        col.embed(child)
+      })
+      this.embed(col)
+      this.graph.addCells([col].concat(embeds))
+      col.set('originalPosition', col.position({ parentRelative: true }))
+    }
+  })
+
+  // Resize the table based on the number of columns
+  this.resize(C.WIDTH, 50 + (C.ROW_HEIGHT * (colIds.length + 1)))
+}
+
+const removeColumn = function (id) {
+  const colIds = this.attributes.attrs.columns.value
+  if (colIds.includes(id)) {
+    const column = this.graph.getCell(id)
+    const embeds = column.attributes.embeds.map(id => this.graph.getCell(id))
+    this.graph.removeCells([column].concat(embeds))
+    this.attributes.attrs.columns.value = colIds.filter(colId => colId !== id)
+    this.attributes.resizeTable()
+  }
+}
 
 export const createTable = (name) => {
   let textName = name
@@ -396,7 +423,9 @@ export const createTable = (name) => {
   })
   // Bind methods to the table object
   table.attributes.addColumn = addColumn.bind(table)
+  table.attributes.removeColumn = removeColumn.bind(table)
   table.attributes.addHeaderColumn = addHeaderColumn.bind(table)
+  table.attributes.resizeTable = resizeTable.bind(table)
   const headerCells = table.attributes.addHeaderColumn()
 
   return [table].concat(headerCells)
