@@ -7,11 +7,12 @@
 
       <label>Type:
         <select v-model='colType'>
-          <option value='integer' checked='colType === "integer"'>Integer</option>
-          <option value='string' checked='colType === "string"'>String</option>
-          <option value='text' checked='colType === "text"'>Text</option>
-          <option value='date' checked='colType === "date"'>Date</option>
-          <option value='boolean' checked='colType === "boolean"'>Boolean</option>
+          <option
+            v-for='type in colTypes'
+            value='type'
+            checked='colType === type'>
+            {{ type }}
+          </option>
         </select>
       </label>
       <label v-show='colType === "varchar"'>
@@ -94,6 +95,9 @@ export default {
         optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         this.graph.commit()
       }
+    },
+    colTypes: function () {
+      return this.languageTypes[this.$store.state.graphJSON.sqlLang]
     }
   },
   methods: {
