@@ -96,19 +96,10 @@ export default {
         this.graph.commit()
       }
     },
-    colOptions: {
-      get: function () {
-        return this.column.getColOptions()
-      },
-      set: function (optionsArr) {
-        debugger
-
-        this.column.setColOptions(optionsArr)
-        let optionsCell = this.graph.getCell(this.column.embeds()[2])
-        optionsCell.setName(optionsArr.join(', '))
-        optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
-        this.graph.commit()
-      }
+    colOptions: function () {
+      let options = this.column.getColOptions()
+      delete options.default
+      return options
     },
     colTypes: function () {
       return this.languageTypes[this.$store.state.graphJSON.sqlLang]
@@ -150,7 +141,18 @@ export default {
       return (this.colOptions.primaryKey && opt !== 'primaryKey')
     },
     toggleColOption: function (opt) {
-      console.log(opt)
+      const currOptions = this.colOptions
+      const options = Object.assign({}, currOptions, {[opt]: !currOptions[opt]})
+      options.default = null
+      const optionsStr = Object.keys(options)
+        .filter(opt => options[opt])
+        .join(', ')
+
+      this.column.setColOptions(options)
+      let optionsCell = this.graph.getCell(this.column.embeds()[2])
+      optionsCell.setName(optionsStr)
+      optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+      this.graph.commit()
     }
   }
 }
