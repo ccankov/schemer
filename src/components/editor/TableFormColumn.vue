@@ -152,6 +152,11 @@ export default {
       let optionsCell = this.graph.getCell(this.column.embeds()[2])
       optionsCell.setName(optionsStr)
       optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+
+      // reset all other primary keys if a primary key is checked
+      if (opt === 'primaryKey' && !currOptions[opt]) {
+        this.$emit('reset-primary-key', this.column.element.id)
+      }
       this.graph.commit()
     }
   }
