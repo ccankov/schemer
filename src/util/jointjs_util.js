@@ -50,6 +50,24 @@ export const createPaper = (element, graph, component) => {
           return false
         }
       }
+      // Prevent connections where the data types do not match
+      if (cellViewS.model.attributes.attrs.colType.value !== cellViewT.model.attributes.attrs.colType.value) {
+        return false
+      }
+      // Prevent duplicate connections
+      let links = graph.getLinks()
+      links = links.slice(0, links.length - 1)
+      let allow = true
+      links.forEach(link => {
+        const sourceId = link.attributes.source.id
+        const targetId = link.attributes.target.id
+        if (sourceId === cellViewS.model.id && targetId === cellViewT.model.id) {
+          allow = false
+        }
+      })
+      if (!allow) {
+        return false
+      }
       // Prevent loop linking
       return (magnetS !== magnetT)
     },
