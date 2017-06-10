@@ -21,6 +21,7 @@ class Graph {
     this.getCell = this.getCell.bind(this)
     this.addTable = this.addTable.bind(this)
     this.addColumn = this.addColumn.bind(this)
+    this.removeColumn = this.removeColumn.bind(this)
     this.toJSON = this.toJSON.bind(this)
     this.stringify = this.stringify.bind(this)
     this.getLinks = this.getLinks.bind(this)
@@ -83,7 +84,6 @@ class Graph {
     this.addCells(tableCells)
     return tableCells[0]
   }
-
   addColumn (table, newColName, type = 'integer', options = {}) {
     // Create the column on the table
     let colCells = table.attributes.addColumn(newColName, type, options)

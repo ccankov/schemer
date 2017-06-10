@@ -4,7 +4,6 @@
       <input v-model='colName'/>
     </label>
     <div class='col-options' v-show='isCurrent'>
-
         <label>Type:
           <div class='type'>
           <select v-model='baseType'>
@@ -51,7 +50,7 @@
           :disabled="isPrimaryKey"
           v-model="colOptions">
       </label>
-
+      <button @click='$emit("remove-column",column.element.id)'>Delete Column</button>
     </div>
   </li>
 </template>
@@ -139,9 +138,6 @@ export default {
     setCustomType: function (event) {
       this.setColType(`${this.baseType}(${event.target.value})`)
     }
-  },
-  created () {
-    window.col = this.column
   }
 }
 </script>
