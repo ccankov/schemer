@@ -92,10 +92,15 @@ export default {
       const graph = this.graph
 
       this.currentTable.columns()
-        .filter(colId => colId !== newPrimaryId)
         .forEach(colId => {
           const colCell = graph.getCell(colId)
-          const options = colCell.setColOptions({ primaryKey: false })
+          let options
+          if (colId === newPrimaryId) {
+            options = { notNull: false, indexed: false, unique: false }
+          } else {
+            options = { primaryKey: false }
+          }
+          options = colCell.setColOptions(options)
 
           const optionsStr = Object.keys(options)
             .filter(opt => options[opt]).join(', ')
