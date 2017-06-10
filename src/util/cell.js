@@ -82,7 +82,9 @@ class Cell {
   }
 
   setColOptions (options) {
-    this.setAttr('options', Object.assign({}, options))
+    options = Object.assign({}, this.getColOptions(), options)
+    this.setAttr('options', options)
+    return options
   }
 }
 

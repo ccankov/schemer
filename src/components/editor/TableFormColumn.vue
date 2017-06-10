@@ -141,20 +141,19 @@ export default {
       return (this.colOptions.primaryKey && opt !== 'primaryKey')
     },
     toggleColOption: function (opt) {
-      const currOptions = this.colOptions
-      const options = Object.assign({}, currOptions, {[opt]: !currOptions[opt]})
-      options.default = null
+      const currOption = this.colOptions[opt]
+      const options = this.column.setColOptions({ [opt]: !currOption })
+
       const optionsStr = Object.keys(options)
         .filter(opt => options[opt])
         .join(', ')
 
-      this.column.setColOptions(options)
       let optionsCell = this.graph.getCell(this.column.embeds()[2])
       optionsCell.setName(optionsStr)
       optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
 
       // reset all other primary keys if a primary key is checked
-      if (opt === 'primaryKey' && !currOptions[opt]) {
+      if (opt === 'primaryKey' && !currOption) {
         this.$emit('reset-primary-key', this.column.element.id)
       }
       this.graph.commit()
