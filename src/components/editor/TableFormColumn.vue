@@ -89,12 +89,14 @@ export default {
     },
     colOptions: {
       get: function () {
-        return this.column.getColOptions()
+        let optionsAttr = this.column.getColOptions()
+        return Object.keys(optionsAttr)
+                .filter(option => optionsAttr[option])
       },
-      set: function (options) {
-        this.column.setColOptions(options)
+      set: function (optionsArr) {
+        this.column.setColOptions(optionsArr)
         let optionsCell = this.graph.getCell(this.column.embeds()[2])
-        optionsCell.setName(options.toString())
+        optionsCell.setName(optionsArr.join(', '))
         optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         this.graph.commit()
       }

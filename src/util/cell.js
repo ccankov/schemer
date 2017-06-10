@@ -78,15 +78,7 @@ class Cell {
   }
 
   getColOptions () {
-    let options = []
-    const optionsAttr = this.element.attributes.attrs.options
-    for (let option in optionsAttr) {
-      if (optionsAttr[option]) {
-        options.push(option)
-      }
-    }
-
-    return options
+    return Object.assign({}, this.element.attributes.attrs.options)
   }
 
   setColOptions (optionsArr) {
