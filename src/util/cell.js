@@ -78,7 +78,9 @@ class Cell {
   }
 
   getColOptions () {
-    return Object.assign({}, this.element.attributes.attrs.options)
+    let options = Object.assign({}, this.element.attributes.attrs.options)
+    delete options.default
+    return options
   }
 
   setColOptions (optionsArr) {

@@ -23,7 +23,7 @@
 
 
       <!-- disable last 3 if primarKey checked -->
-      <label>Primary Key:
+      <!-- <label>Primary Key:
         <input
           type="checkbox"
           value="primaryKey"
@@ -49,7 +49,16 @@
           value="indexed"
           :disabled="isPrimaryKey"
           v-model="colOptions">
+      </label> -->
+      <label
+        v-for='opt in Object.keys(colOptions)'> {{ opt }}
+        <input
+          type='checkbox' :value='opt'
+          :disabled="primaryKeyChecked(opt)"
+          :name='colOptions[opt]'
+          @click='toggleColOption(opt)'>
       </label>
+
       <button @click='$emit("remove-column",column.element.id)'>Delete Column</button>
     </div>
   </li>
@@ -89,11 +98,11 @@ export default {
     },
     colOptions: {
       get: function () {
-        let optionsAttr = this.column.getColOptions()
-        return Object.keys(optionsAttr)
-                .filter(option => optionsAttr[option])
+        return this.column.getColOptions()
       },
       set: function (optionsArr) {
+        debugger
+
         this.column.setColOptions(optionsArr)
         let optionsCell = this.graph.getCell(this.column.embeds()[2])
         optionsCell.setName(optionsArr.join(', '))
@@ -121,9 +130,6 @@ export default {
       } else {
         return null
       }
-    },
-    isPrimaryKey: function () {
-      return this.colOptions.includes('primaryKey')
     }
   },
   methods: {
@@ -139,6 +145,12 @@ export default {
     },
     setCustomType: function (event) {
       this.setColType(`${this.baseType}(${event.target.value})`)
+    },
+    primaryKeyChecked: function (opt) {
+      return (this.colOptions.primaryKey && opt !== 'primaryKey')
+    },
+    toggleColOption: function (opt) {
+      console.log(opt)
     }
   }
 }
