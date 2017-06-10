@@ -90,17 +90,20 @@ export default {
     },
     resetPrimaryKey: function (newPrimaryId) {
       const graph = this.graph
-      console.log(newPrimaryId)
-      let id = this.currentTable.columns().filter(colId => colId !== newPrimaryId)[0]
-      console.log(id)
-      console.log(graph.getCell(id).getName())
 
       this.currentTable.columns()
         .filter(colId => colId !== newPrimaryId)
-        .forEach(colId => graph
-          .getCell(colId)
-          .setColOptions({ primaryKey: false })
-        )
+        .forEach(colId => {
+          const colCell = graph.getCell(colId)
+          const options = colCell.setColOptions({ primaryKey: false })
+
+          const optionsStr = Object.keys(options)
+            .filter(opt => options[opt]).join(', ')
+
+          let optionsCell = graph.getCell(colCell.embeds()[2])
+          optionsCell.setName(optionsStr)
+          optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        })
       this.graph.commit()
     },
     sendElement: function (element) {

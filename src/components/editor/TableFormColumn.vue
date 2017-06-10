@@ -145,8 +145,7 @@ export default {
       const options = this.column.setColOptions({ [opt]: !currOption })
 
       const optionsStr = Object.keys(options)
-        .filter(opt => options[opt])
-        .join(', ')
+        .filter(opt => options[opt]).join(', ')
 
       let optionsCell = this.graph.getCell(this.column.embeds()[2])
       optionsCell.setName(optionsStr)
