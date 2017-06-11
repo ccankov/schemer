@@ -38,7 +38,7 @@ export default {
 
 <style lang="css">
   .paper-container{
-    height: 550px;
+    height: 100%;
     width: 100%;
     max-width: initial;
     overflow: scroll;
