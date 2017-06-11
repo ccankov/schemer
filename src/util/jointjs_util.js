@@ -7,7 +7,7 @@ export const createPaper = (element, graph, component) => {
   const paper = new joint.dia.Paper({
     el: element,
     width: $(element).width(),
-    height: 520,
+    height: $(element).height(),
     gridSize: 10,
     drawGrid: {
       name: 'mesh',
