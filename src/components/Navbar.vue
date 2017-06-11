@@ -55,14 +55,19 @@ export default {
     display: flex;
 
     button {
+      display: block;
+      border-radius: 5px;
       padding: 0 20px;
       margin: 0 20px;
       margin-left: 60px;
       font-family: $heading;
       font-size: 14px;
+      font-weight: bold;
       background-color: $white;
       color: $accent;
       border-color: $accent;
+      border-width: 1px;
+      border-style: solid;
     }
 
     button:hover {
