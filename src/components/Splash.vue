@@ -19,15 +19,21 @@ export default {
   }),
   computed: {
     currentUser: function () {
-      return this.$store.state.currentUser.username
+      let user = this.$store.state.currentUser
+      return user ? user.username : 'no one'
     }
   },
   methods: {
     login: function () {
-      this.$store.dispatch('')
+      this.$store.dispatch(LOGIN, { user:
+        {
+          username: this.username,
+          password: this.password
+        }
+      )
     },
     logout: function () {
-      this.$store.dispatch('')
+      this.$store.dispatch(LOGOUT)
     }
   }
 }

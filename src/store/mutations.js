@@ -1,4 +1,4 @@
-import { RECEIVE_GRAPH } from './mutation_types'
+import { RECEIVE_GRAPH, RECEIVE_CURRENT_USER } from './mutation_types'
 
 export const state = {
   graphJSON: { cells: [] },
@@ -10,6 +10,9 @@ export const state = {
 }
 
 export const mutations = {
+  [RECEIVE_CURRENT_USER] (state, { user }) {
+    state.currentUser = user
+  },
   [RECEIVE_GRAPH] (state, { graphJSON }) {
     state.graphJSON = graphJSON
   }
