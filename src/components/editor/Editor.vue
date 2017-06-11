@@ -1,7 +1,7 @@
 <template lang="html">
   <section class="editor">
     <section class="side-bar">
-      <nav class="side-nav">
+      <!-- <nav class="side-nav">
         <div class="home-button">
           <i class="fa fa-home fa-lg" aria-hidden="true"></i>
         </div>
@@ -9,7 +9,7 @@
           <h1>Schemer</h1>
           <h2>Welcome, {{$store.state.currentUser.username}}</h2>
         </section>
-      </nav>
+      </nav> -->
       <section class="db-info">
         <h1 v-if='editName'>
           <input v-model='dbName' placeholder='Name your DB'/>
@@ -95,7 +95,6 @@ export default {
     width: 100%;
     height: 100%;
     max-height: 97vh;
-    border: 1px solid black;
   }
 
   .side-bar {
