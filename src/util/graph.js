@@ -72,8 +72,23 @@ class Graph {
     return new Cell(this.graph.getCell(id))
   }
 
+  getCells () {
+    return this.graph.getCells()
+      .map(cell => new Cell(cell))
+  }
+
   getLinks () {
     return this.graph.getCells().filter(cell => cell.attributes.type === 'link')
+  }
+
+  getTables () {
+    return this.getCells().filter(cell => cell.isTable())
+  }
+
+  getColumns (tableId) {
+    this.getCell(tableId) // Cell object
+      .columns() // array of ids
+      .map(colId => this.getCell(colId)) // array of Cell objects
   }
 
   addTable (name = 'New Table') {
