@@ -20,13 +20,19 @@ authRoutes.post('/login',
 
 authRoutes.post('/signup',
   (req, res) => {
-    user =
-
-    passport.authenticate('local')(req, res => {
-      res.json({ user })
+    User.createUser(req.body.username, req.body.password,
+    (err, user) => {
+      console.log(err)
+      console.log(user)
+      if (err) {
+        res.status(422).json({errors: [err]})
+      } else {
+        passport.authenticate('local')(req, res => {
+          res.json({ user })
+        })
+      }
     })
-  }
-)
+  })
 
 authRoutes.get('/logout', (req, res) => {
   req.logout()
