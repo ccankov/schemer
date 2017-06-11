@@ -3,11 +3,11 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Editor from '@/components/editor/Editor'
 import Home from '@/components/Home'
-import Splash from '@/components/Splash'
+import Session from '@/components/session'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -15,9 +15,9 @@ export default new Router({
       component: Hello
     },
     {
-      path: '/splash',
-      name: 'splash',
-      component: Splash
+      path: '/session',
+      name: 'session',
+      component: Session
     },
     {
       path: '/home',
@@ -31,3 +31,13 @@ export default new Router({
     }
   ]
 })
+
+// can check if user is logged in to protect certain routes
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  console.log(from)
+  next() // continue
+  // next('/') - redirect
+})
+
+export default router
