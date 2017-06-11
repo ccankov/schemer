@@ -89,12 +89,15 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import '../../assets/app.scss';
+
   .editor {
     display: flex;
     width: 100%;
     height: 100%;
-    max-height: 97vh;
+    box-sizing: border-box;
+    padding-top: 60px;
   }
 
   .side-bar {
@@ -102,6 +105,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-right: 1px solid $light-gray;
   }
 
   .side-nav {
@@ -165,7 +169,6 @@ export default {
   }
 
   .body {
-    border: 1px solid black;
     flex: 5;
     display: flex;
     max-width: 75vw;

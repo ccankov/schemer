@@ -25,12 +25,12 @@ export default {
   @import '../assets/app.scss';
 
   nav {
+    position: fixed;
     box-sizing: border-box;
     height: 60px;
     width: 100%;
     padding: 10px 60px;
     border-bottom: 1px solid $light-gray;
-    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
