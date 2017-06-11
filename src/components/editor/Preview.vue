@@ -83,7 +83,7 @@ export default {
     flex: 5;
     display: flex;
     background-color:#EEEEEE;
-    padding: 3px;
+    padding: 10px 20px;
     margin: 0;
     overflow-y: auto;
   }
@@ -180,6 +180,7 @@ export default {
       background-color: $light-accent;
       border-radius: 50%;
       padding: 10px;
+      box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
     }
 
     .small {
@@ -189,6 +190,9 @@ export default {
 
     .button:hover {
       cursor: pointer;
+      box-shadow: 0 0 6px rgba(0,0,0,.16), 0 6px 12px rgba(0,0,0,.32);
+      -webkit-transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
+      transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
     }
   }
 </style>
