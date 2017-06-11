@@ -14,7 +14,7 @@ dbRoutes.get('/dbs', (req, res) => {
     // passort adds user to request
     const dbs = dbData
       .find(db => db.user_id === req.user.id)
-      .map(db => delete db.graphJSON)
+      .map(db => delete db.graphJSON) // ?
     res.json({ dbs })
   } else {
     res.json({ dbs: [] })
