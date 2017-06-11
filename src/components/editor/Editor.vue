@@ -27,7 +27,7 @@
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
-        <Statistics></Statistics>
+        <!-- <Statistics></Statistics> -->
         <Preview :sql="sql"></Preview>
       </section>
     </section>
@@ -106,11 +106,13 @@ export default {
   }
 
   .side-bar {
-    flex: 1.5;
+    width: 350px;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-right: 1px solid $light-gray;
+    box-sizing: border-box;
   }
 
   .side-nav {
@@ -119,8 +121,8 @@ export default {
     display: flex;
     justify-content: center;
     align-content: center;
-    border-bottom: 1px solid black;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .home-button {
@@ -174,13 +176,18 @@ export default {
   }
 
   .body {
-    flex: 5;
     display: flex;
-    max-width: 75vw;
+    flex: 1;
+    min-width: 600px;
+    max-width: calc(100% - 350px);
     flex-direction: column;
+    box-sizing: border-box;
   }
 
   .additional-info {
+    position: fixed;
+    bottom: 15px;
+    right: 100px;
     display: flex;
     height: 20vh;
     max-height: 20vh;
