@@ -86,7 +86,7 @@ class Graph {
   }
 
   getColumns (tableId) {
-    this.getCell(tableId) // Cell object
+    return this.getCell(tableId) // Cell object
       .columns() // array of ids
       .map(colId => this.getCell(colId)) // array of Cell objects
   }

@@ -22,6 +22,7 @@ export default {
   props: ['graph', 'currentElement'],
   computed: {
     currentTableId: function () {
+      if (!this.currentElement) return null
       if (this.currentElement.isTable()) {
         return this.currentElement.getId()
       } else {
@@ -38,7 +39,6 @@ export default {
     }
   }
 }
-
 
 </script>
 
