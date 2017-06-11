@@ -36,13 +36,16 @@
 
 <script>
 import { CLEAR_ERRORS, RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
-import { createSQL, parseJson } from '../../util/sql_util.js'
+import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
 import TableForm from './TableForm'
 import Statistics from './Statistics'
+
+import { fetchGraph } from '../../util/api_util'
+
 export default {
   components: {
     Paper,
@@ -83,6 +86,8 @@ export default {
     }
   },
   created () {
+    fetchGraph(1).then(res => console.log(res))
+
     this.graph = new Graph(this.$store)
     this.$store.commit(RECEIVE_ERRORS, { errors: ['select an element'] })
   }
