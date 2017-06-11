@@ -44,6 +44,10 @@ export default {
     overflow: scroll;
   }
 
+  .paper {
+    height: 100%;
+  }
+
   .joint-paper {
     overflow: hidden;
   }

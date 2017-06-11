@@ -48,10 +48,12 @@ export default {
 
 <style lang="css">
   .sql-preview {
-    flex: 2;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
+  }
+
+  .sql-preview {
+
   }
 
   .sql-body {
