@@ -5,9 +5,9 @@
         <i class="fa fa-database" aria-hidden="true"></i>
         <span class="logo-text">Schemer</span>
       </div>
-      <button class="button">New Database</button>
-      <a href="#" class="nav-link">Features</a>
-      <a href="#" class="nav-link">About Us</a>
+      <button @click='handleNewDb' class="button">New Database</button>
+      <span @click='goToFeatures' class="nav-link">Features</span>
+      <span @click='goToAbout' class="nav-link">About Us</span>
     </div>
     <div class="right-items">
 
@@ -17,7 +17,22 @@
 
 <script>
 export default {
-  name: 'navbar'
+  name: 'navbar',
+  methods: {
+    handleNewDb: function (e) {
+      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
+      e.preventDefault()
+      this.$router.push('/editor/new')
+    },
+    goToFeatures: function (e) {
+      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
+      this.$router.push('/features/')
+    },
+    goToAbout: function (e) {
+      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
+      this.$router.push('/about/')
+    }
+  }
 }
 </script>
 
@@ -56,6 +71,7 @@ export default {
     }
 
     button:hover {
+      cursor: pointer;
       color: $white;
       background-color: $light-accent;
     }
@@ -78,6 +94,7 @@ export default {
   }
 
   .nav-link {
+    cursor: pointer;
     display: flex;
     align-items: center;
     margin: 0 20px;

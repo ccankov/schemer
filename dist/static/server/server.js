@@ -12,6 +12,20 @@ app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
   extended: true
 }))
 
+app.get('/api/users', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+    if (err) console.log(err)
+    db.collection('users').find()
+      .toArray((err, data) => {
+        if (err) {
+          console.log(err)
+        } else {
+          res.json(data)
+        }
+      })
+  })
+})
+
 app.route('/api/dbs')
   .get((req, res) => {
     MongoClient.connect(url, (err, db) => {
@@ -55,6 +69,6 @@ app.route('/api/dbs')
   })
 
 app.use(serveStatic(__dirname))
-var port = process.env.PORT || 5000
+var port = process.env.PORT || 3000
 app.listen(port)
 console.log('server started ' + port)
