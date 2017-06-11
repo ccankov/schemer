@@ -10,15 +10,60 @@
       <span @click='goToAbout' class="nav-link">About Us</span>
     </div>
     <div class="right-items">
-
+      <h4 v-if="loggedIn">
+        {{userText}}
+      </h4>
+      <button @click='logout' v-if="loggedIn">
+        Log Out
+      </button>
+      <button v-if="!loggedIn">
+        Log In
+      </button>
+      <button v-if="!loggedIn">
+        Sign Up
+      </button>
     </div>
   </nav>
 </template>
 
 <script>
+import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
 export default {
   name: 'navbar',
+  computed: {
+    loggedIn: function () {
+      return Boolean(this.$store.state.currentUser)
+    },
+    userText: function () {
+      let user = this.$store.state.currentUser
+      if (user) {
+        return `Welcome, ${user.username}!`
+      }
+    }
+  },
   methods: {
+    login: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(LOGIN, { user:
+      {
+        username: this.username,
+        password: this.password
+      }
+      })
+    },
+    signup: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(SIGNUP, { user:
+      {
+        username: this.username,
+        password: this.password
+      }
+      })
+    },
+    logout: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(LOGOUT)
+    },
     handleNewDb: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       e.preventDefault()
@@ -79,6 +124,10 @@ export default {
 
   .right-items {
     display: flex;
+  }
+
+  .right-items h4 {
+    margin: 0 10px;
   }
 
   .logo i {
