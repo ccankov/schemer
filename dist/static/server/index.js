@@ -6,6 +6,7 @@ const MongoStore = require('connect-mongo')(session)
 const config = require('./config/main')
 const passport = require('./config/passport')
 const authRoutes = require('./routes/auth_routes')
+const dbRoutes = require('./routes/db_routes')
 
 // create new server
 const server = express()
@@ -25,6 +26,7 @@ server.use(express.static('public'))
 server.use(passport.initialize())
 server.use(passport.session())
 server.use('/api', authRoutes)
+server.use('/api', dbRoutes)
 server.use(serveStatic(__dirname))
 
 server.get('/', (req, res) => {
