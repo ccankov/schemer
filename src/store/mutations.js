@@ -4,7 +4,6 @@ import {
   CLEAR_ERRORS,
   RECEIVE_DBNAME,
   RECEIVE_LANGUAGE,
-  RECEIVE_GRAPH,
   RECEIVE_CURRENT_USER
 } from './mutation_types'
 
