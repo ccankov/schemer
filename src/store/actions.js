@@ -5,12 +5,13 @@ import {
   UPDATE_GRAPH,
   LOGIN,
   LOGOUT,
-  RECEIVE_CURRENT_USER } from './mutation_types'
+  RECEIVE_CURRENT_USER
+} from './mutation_types'
 
 export default {
   [LOGIN] ({ commit }, { user }) {
     return APIUtil.login(user).then(
-      user => console.log(user)
+      user => commit(RECEIVE_CURRENT_USER, user)
     )
   },
   [LOGOUT] ({ commit }) {

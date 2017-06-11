@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { LOGIN, LOGOUT } from '../store/mutation_types'
+
 export default {
   data: () => ({
     username: '',
@@ -24,15 +26,17 @@ export default {
     }
   },
   methods: {
-    login: function () {
+    login: function (e) {
+      e.preventDefault()
       this.$store.dispatch(LOGIN, { user:
-        {
-          username: this.username,
-          password: this.password
-        }
-      )
+      {
+        username: this.username,
+        password: this.password
+      }
+      })
     },
-    logout: function () {
+    logout: function (e) {
+      e.preventDefault()
       this.$store.dispatch(LOGOUT)
     }
   }
