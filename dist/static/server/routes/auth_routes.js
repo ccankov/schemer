@@ -6,11 +6,10 @@ const authRoutes = express.Router()
 // like a session controller
 
 authRoutes.post('/login',
-  passport.authenticate('local', { // LocalStrategy defined above
-    failureRedirect: '/',
-    successRedirect: '/dashboard',
-    failureFlash: true
-  })
+  passport.authenticate('local'),
+  (req, res) => {
+    res.json({ user: req.user })
+  }
 )
 
 authRoutes.get('/logout', (req, res) => {
