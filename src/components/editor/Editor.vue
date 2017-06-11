@@ -101,7 +101,8 @@ export default {
   }
 
   .side-bar {
-    min-width: 400px;
+    width: 350px;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,7 +172,6 @@ export default {
   .body {
     display: flex;
     flex: 1;
-    max-width: 80%;
     flex-direction: column;
   }
 
