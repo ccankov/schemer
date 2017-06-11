@@ -22,13 +22,29 @@
       <button v-if="!loggedIn">
         Sign Up
       </button>
+      <button id="show-modal" @click="toggleModal">Show Modal</button>
     </div>
+    <AuthModal v-if="showModal" @close="toggleModal">
+      <!--
+        you can use custom content here to overwrite
+        default content
+      -->
+    </AuthModal>
   </nav>
 </template>
 
 <script>
 import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
+import AuthModal from './AuthModal'
 export default {
+  data: function () {
+    return {
+      showModal: false
+    }
+  },
+  components: {
+    AuthModal
+  },
   name: 'navbar',
   computed: {
     loggedIn: function () {
@@ -42,6 +58,9 @@ export default {
     }
   },
   methods: {
+    toggleModal: function () {
+      this.showModal = !this.showModal
+    },
     login: function (e) {
       e.preventDefault()
       this.$store.dispatch(LOGIN, { user:
