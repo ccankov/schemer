@@ -28,12 +28,12 @@ const router = new Router({
     },
     {
       path: '/editor',
-      name: 'editor_blank',
+      name: 'newDb',
       component: Editor
     },
     {
       path: '/editor/:id',
-      name: 'editor',
+      name: 'loadDb',
       component: Editor
     },
     {
