@@ -25,6 +25,13 @@ export const login = ({ username, password }) => (
   })
 )
 
+export const fetchUser = () => (
+  $.ajax({
+    method: 'get',
+    url: '/api/current_user'
+  })
+)
+
 export const logout = () => (
   $.ajax({
     method: 'get',

@@ -4,6 +4,11 @@ const express = require('express')
 // ----------- Create auth routes -----------//
 const authRoutes = express.Router()
 // like a session controller
+authRoutes.get('/current_user',
+  (req, res) => {
+    res.json({ user: req.user })
+  }
+)
 
 authRoutes.post('/login',
   passport.authenticate('local'),

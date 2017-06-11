@@ -2,10 +2,7 @@ import { RECEIVE_GRAPH, RECEIVE_CURRENT_USER } from './mutation_types'
 
 export const state = {
   graphJSON: { cells: [] },
-  currentUser: {
-    id: 1,
-    username: 'brady'
-  },
+  currentUser: null,
   dbName: 'LibaryDB'
 }
 
