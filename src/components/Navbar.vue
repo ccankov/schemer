@@ -22,7 +22,7 @@ export default {
     handleNewDb: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       e.preventDefault()
-      this.$router.push('/editor/new')
+      this.$router.push('/editor')
     },
     goToFeatures: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
