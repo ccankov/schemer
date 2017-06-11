@@ -1,6 +1,14 @@
 <template lang="html">
   <section class="sql-preview">
-    <span class="header">SQL Preview</span>
+    <header>
+      <span class="heading-text">SQL Preview</span>
+      <span class="options-text">
+        <select v-model='sqlLang'>
+          <option v-for='lang in languages'>{{lang}}</option>
+        </select>
+          <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+      </span>
+    </header>
     <section class='sql-body'>
       <pre>
         <code class="code">{{sql}}</code>
@@ -8,9 +16,7 @@
       <section class='sql-options'>
         <label>
           <span>SQL Language:</span>
-          <select v-model='sqlLang'>
-            <option v-for='lang in languages'>{{lang}}</option>
-          </select>
+
         </label>
         <span class='button' @click='exportSQL'> Export SQL </span>
       </section>
@@ -46,14 +52,27 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import '../../assets/app.scss';
+
   .sql-preview {
     display: flex;
     flex-direction: column;
   }
 
-  .sql-preview {
+  header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    background-color: #424242;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
+    i {
+      padding-left: 20px;
+      font-size: 0.6em;
+      color: $white;
+    }
   }
 
   .sql-body {
@@ -117,5 +136,11 @@ export default {
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+  }
+
+  .heading-text {
+    font-family: $heading;
+    color: $white;
+    font-weight: bold;
   }
 </style>

@@ -45,6 +45,7 @@ export default {
       margin-left: 60px;
       font-family: $heading;
       font-size: 14px;
+      font-weight: bold;
       background-color: $white;
       color: $accent;
       border-color: $accent;
