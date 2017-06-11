@@ -5,9 +5,13 @@
 </template>
 
 <script>
+import { FETCH_USER } from './store/mutation_types'
 
 export default {
-  name: 'app'
+  name: 'app',
+  created () {
+    this.$store.dispatch(FETCH_USER)
+  }
 }
 </script>
 

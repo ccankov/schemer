@@ -19,8 +19,8 @@ export default {
       () => commit(RECEIVE_CURRENT_USER, { user: null })
     )
   },
-  [FETCH_USER] ({ commi }) {
-    return APIUtil.fetchUser().then
+  [FETCH_USER] ({ commit }) {
+    return APIUtil.fetchUser()
       .then(user => commit(RECEIVE_CURRENT_USER, user))
   },
   [FETCH_GRAPH] ({ commit, state }) {
