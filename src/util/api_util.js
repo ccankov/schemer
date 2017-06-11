@@ -25,6 +25,14 @@ export const login = ({ username, password }) => (
   })
 )
 
+export const signup = ({ username, password }) => (
+  $.ajax({
+    method: 'post',
+    url: '/api/signup',
+    data: { username, password }
+  })
+)
+
 export const fetchUser = () => (
   $.ajax({
     method: 'get',

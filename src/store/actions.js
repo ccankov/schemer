@@ -5,19 +5,23 @@ import {
   UPDATE_GRAPH,
   LOGIN,
   LOGOUT,
+  SIGNUP,
   FETCH_USER,
   RECEIVE_CURRENT_USER
 } from './mutation_types'
 
 export default {
+  [SIGNUP] ({ commit }, { user }) {
+    return APIUtil.signup(user)
+      .then(user => commit(RECEIVE_CURRENT_USER, user))
+  },
   [LOGIN] ({ commit }, { user }) {
     return APIUtil.login(user)
       .then(user => commit(RECEIVE_CURRENT_USER, user))
   },
   [LOGOUT] ({ commit }) {
-    return APIUtil.logout().then(
-      () => commit(RECEIVE_CURRENT_USER, { user: null })
-    )
+    return APIUtil.logout()
+      .then(() => commit(RECEIVE_CURRENT_USER, { user: null }))
   },
   [FETCH_USER] ({ commit }) {
     return APIUtil.fetchUser()

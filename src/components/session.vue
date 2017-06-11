@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT } from '../store/mutation_types'
+import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
 
 export default {
   data: () => ({
