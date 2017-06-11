@@ -24,7 +24,7 @@ server.use(session({
 server.use(express.static('public'))
 server.use(passport.initialize())
 server.use(passport.session())
-server.use('/auth', authRoutes)
+server.use('/api', authRoutes)
 server.use(serveStatic(__dirname))
 
 server.get('/', (req, res) => {
