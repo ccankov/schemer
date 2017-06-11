@@ -20,11 +20,17 @@
       <section class="small-menu">
         <ul>
           <li>
-            <span class='button small' @click='exportSQL'><i class="fa fa-download" aria-hidden="true"></i></span>
+            <span class='button small' @click='exportSQL'>
+              <span class='button-tooltip'>Download SQL</span>
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </span>
           </li>
         </ul>
       </section>
-      <span class='button' @click='addTable'><i class="fa fa-plus" aria-hidden="true"></i></span>
+      <span class='button' @click='addTable'>
+        <span class='button-tooltip'>Add Table</span>
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </span>
     </section>
   </section>
 </template>
@@ -247,6 +253,19 @@ export default {
     }
   }
 
+  .button-tooltip {
+    position: absolute;
+    color: $white;
+    background-color: $darkest-gray;
+    font-family: $heading;
+    font-size: 14px;
+    padding: 5px 10px;
+    right: 80px;
+    width: 100px;
+    z-index: 12;
+    font-weight: bold;
+  }
+
   .paper-menu {
     display: flex;
     flex-direction: column;
@@ -266,6 +285,10 @@ export default {
       border-radius: 50%;
       padding: 10px;
       box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+
+      .button-tooltip {
+        visibility: hidden;
+      }
     }
 
     .small {
@@ -279,6 +302,10 @@ export default {
       box-shadow: 0 0 6px rgba(0,0,0,.16), 0 6px 12px rgba(0,0,0,.32);
       -webkit-transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
       transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
+
+      .button-tooltip {
+        visibility: visible;
+      }
     }
   }
 </style>
