@@ -113,7 +113,7 @@ class Graph {
     this.addCells(tableCells)
     return tableCells[0]
   }
-  addColumn (table, newColName, type = 'integer', options = {}) {
+  addColumn (table, newColName = 'new column', type = 'integer', options = {}) {
     // Create the column on the table
     let colCells = table.attributes.addColumn(newColName, type, options)
 
