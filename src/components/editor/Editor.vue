@@ -84,7 +84,9 @@ export default {
     }
   },
   created () {
-    fetchGraph(1).then(res => console.log(res))
+    if (this.$route.params.id) {
+      fetchGraph(this.$route.params.id).then(res => console.log(res))
+    }
 
     this.graph = new Graph(this.$store)
     this.$store.commit(RECEIVE_ERRORS, { errors: ['select an element'] })
