@@ -4,52 +4,33 @@
       <input v-model='colName'/>
     </label>
     <div class='col-options' v-show='isCurrent'>
-        <label>Type:
-          <div class='type'>
-          <select v-model='baseType'>
-            <option
-              v-for='type in colTypes'
-              :value='type'>
-              {{ type }}
-            </option>
-          </select>
-          <input
-          class='custom-type'
-          v-show='customType'
-          :value='customType'
-          @keyup.enter='setCustomType'/>
-        </div>
-        </label>
+      <label>Type:
+        <div class='type'>
+        <select v-model='baseType'>
+          <option
+            v-for='type in colTypes'
+            :value='type'>
+            {{ type }}
+          </option>
+        </select>
+        <input
+        class='custom-type'
+        v-show='customType'
+        :value='customType'
+        @keyup.enter='setCustomType'/>
+      </div>
+      </label>
 
+      <label
+        v-for='opt in Object.keys(colOptions)'> {{ opt }}
+        <input
+          type='checkbox'
+          :name='opt'
+          :checked='colOptions[opt]'
+          :disabled="primaryKeyChecked(opt)"
+          @click='toggleColOption'>
+      </label>
 
-      <!-- disable last 3 if primarKey checked -->
-      <label>Primary Key:
-        <input
-          type="checkbox"
-          value="primaryKey"
-          v-model="colOptions">
-      </label>
-      <label>not NULL:
-        <input
-          type="checkbox"
-          value="notNull"
-          :disabled="isPrimaryKey"
-          v-model="colOptions">
-      </label>
-      <label>Unique:
-        <input
-          type="checkbox"
-          value="unique"
-          :disabled="isPrimaryKey"
-          v-model="colOptions">
-      </label>
-      <label>Indexed:
-        <input
-          type="checkbox"
-          value="indexed"
-          :disabled="isPrimaryKey"
-          v-model="colOptions">
-      </label>
       <button @click='$emit("remove-column",column.element.id)'>Delete Column</button>
     </div>
   </li>
@@ -73,6 +54,7 @@ export default {
   }),
   computed: {
     column: function () {
+      window.column = this.graph.getCell(this.id)
       return this.graph.getCell(this.id)
     },
     colName: {
@@ -87,17 +69,10 @@ export default {
         this.graph.commit()
       }
     },
-    colOptions: {
-      get: function () {
-        return this.column.getColOptions()
-      },
-      set: function (options) {
-        this.column.setColOptions(options)
-        let optionsCell = this.graph.getCell(this.column.embeds()[2])
-        optionsCell.setName(options.toString())
-        optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
-        this.graph.commit()
-      }
+    colOptions: function () {
+      let options = this.column.getColOptions()
+      delete options.default
+      return options
     },
     colTypes: function () {
       return this.languageTypes[this.$store.state.graphJSON.sqlLang]
@@ -119,9 +94,6 @@ export default {
       } else {
         return null
       }
-    },
-    isPrimaryKey: function () {
-      return this.colOptions.includes('primaryKey')
     }
   },
   methods: {
@@ -137,6 +109,27 @@ export default {
     },
     setCustomType: function (event) {
       this.setColType(`${this.baseType}(${event.target.value})`)
+    },
+    primaryKeyChecked: function (opt) {
+      return (this.colOptions.primaryKey && opt !== 'primaryKey')
+    },
+    toggleColOption: function (event) {
+      const opt = event.target.name
+      const currOption = this.colOptions[opt]
+      const options = this.column.setColOptions({ [opt]: !currOption })
+
+      const optionsStr = Object.keys(options)
+        .filter(opt => options[opt]).join(', ')
+
+      let optionsCell = this.graph.getCell(this.column.embeds()[2])
+      optionsCell.setName(optionsStr)
+      optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+
+      // reset all other primary keys if a primary key is checked
+      if (opt === 'primaryKey' && !currOption) {
+        this.$emit('reset-primary-key', this.column.element.id)
+      }
+      this.graph.commit()
     }
   }
 }

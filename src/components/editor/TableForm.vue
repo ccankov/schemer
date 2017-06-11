@@ -18,7 +18,8 @@
         :isCurrent='currentElement.getId() === id'
         :graph='graph'
         v-on:send-element='sendElement'
-        v-on:remove-column='removeColumn'>
+        v-on:remove-column='removeColumn'
+        v-on:reset-primary-key='resetPrimaryKey'>
       </table-form-column>
       <li>
         <label class='add-col'>
@@ -86,6 +87,29 @@ export default {
       const newCol = this.graph.addColumn(this.currentTable.element, this.newColName)
       this.newColName = ''
       this.sendElement(newCol)
+    },
+    resetPrimaryKey: function (newPrimaryId) {
+      const graph = this.graph
+
+      this.currentTable.columns()
+        .forEach(colId => {
+          const colCell = graph.getCell(colId)
+          let options
+          if (colId === newPrimaryId) {
+            options = { notNull: false, indexed: false, unique: false }
+          } else {
+            options = { primaryKey: false }
+          }
+          options = colCell.setColOptions(options)
+
+          const optionsStr = Object.keys(options)
+            .filter(opt => options[opt]).join(', ')
+
+          let optionsCell = graph.getCell(colCell.embeds()[2])
+          optionsCell.setName(optionsStr)
+          optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        })
+      this.graph.commit()
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
