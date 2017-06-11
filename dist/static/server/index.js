@@ -1,11 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const serveStatic = require('serve-static')
-const passport = require('./config/passport')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
-const config = require('config/main')
-const authRoutes = require('routes/auth_routes')
+const config = require('./config/main')
+const passport = require('./config/passport')
+const authRoutes = require('./routes/auth_routes')
 
 // create new server
 const server = express()
@@ -26,6 +26,10 @@ server.use(passport.initialize())
 server.use(passport.session())
 server.use('/auth', authRoutes)
 server.use(serveStatic(__dirname))
+
+server.get('/', (req, res) => {
+  res.send('hey there')
+})
 
 // Start the server
 server.listen(config.port, () => {

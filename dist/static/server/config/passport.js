@@ -1,7 +1,7 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 // const MongoClient = require('mongodb').MongoClient
-const appData = require('./fakeDB.json')
+const appData = require('../fakeDB.json')
 
 // create app data from json to mimic Mongo
 const userData = appData.users

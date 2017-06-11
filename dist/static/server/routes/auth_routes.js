@@ -1,4 +1,4 @@
-const passport = require('./config/passport')
+const passport = require('../config/passport')
 const express = require('express')
 
 // ----------- Create auth routes -----------//
