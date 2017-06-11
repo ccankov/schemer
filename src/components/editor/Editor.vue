@@ -101,8 +101,8 @@ export default {
   }
 
   .side-bar {
-    width: 350px;
-    min-width: 350px;
+    width: 20vw;
+    min-width: 20vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -115,8 +115,8 @@ export default {
     display: flex;
     justify-content: center;
     align-content: center;
-    border-bottom: 1px solid black;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .home-button {
@@ -172,7 +172,9 @@ export default {
   .body {
     display: flex;
     flex: 1;
+    max-width: 80vw;
     flex-direction: column;
+    box-sizing: border-box;
   }
 
   .additional-info {
