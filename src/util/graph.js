@@ -91,6 +91,20 @@ class Graph {
       .map(colId => this.getCell(colId)) // array of Cell objects
   }
 
+  getTableTree () {
+    return this.getTables()
+      .map(tableCell => ({
+        id: tableCell.getId(),
+        name: tableCell.getName(),
+        cols: this.getColumns(tableCell.getId())
+            .map(colCell => ({
+              id: colCell.getId(),
+              name: colCell.getName()
+            }))
+      })
+    )
+  }
+
   addTable (name = 'New Table') {
     // Creates a table with a default name
     let tableCells = JointUtil.createTable(name)

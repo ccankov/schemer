@@ -1,14 +1,24 @@
 <template lang="html">
   <section class='side-bar'>
-    <tree-view></tree-view>
-    <element-view></element-view>
+    <tree-view
+      :currentElement='currentElement'
+      :graph='graph'></tree-view>
+    <element-view
+      :currentElement='currentElement'
+      :graph='graph'></element-view>
   </section>
 </template>
 
 <script>
-export default {
-  props: ['graph', 'currentElement']
+import treeView from './treeView'
+import elementView from './elementView'
 
+export default {
+  props: ['graph', 'currentElement'],
+  components: {
+    'tree-view': treeView,
+    'element-view': elementView
+  }
 }
 </script>
 
