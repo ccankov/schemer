@@ -1,5 +1,6 @@
 const passport = require('../config/passport')
 const express = require('express')
+const User = require('../models/users')
 
 // ----------- Create auth routes -----------//
 const authRoutes = express.Router()
@@ -19,7 +20,8 @@ authRoutes.post('/login',
 
 authRoutes.post('/signup',
   (req, res) => {
-    // create new user
+    user =
+
     passport.authenticate('local')(req, res => {
       res.json({ user })
     })

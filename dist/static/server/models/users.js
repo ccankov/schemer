@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
 const bcrypt = require('bcrypt')
 
-export const createUser = (username, password, done) => {
+const createUser = (username, password, done) => {
   MongoClient.connect(url,
   (err, db) => {
     if (err) {
@@ -27,7 +27,18 @@ export const createUser = (username, password, done) => {
   })
 }
 
-export const validateUser = (username, password, done) => {
+const findByUsername = (username, done) => {
+  MongoClient.connect(url,
+  (err, db) => {
+    if (err) {
+      done(err, null)
+    } else {
+      done(null, db.collection('users').findOne({ username }))
+    }
+  })
+}
+
+const validateUser = (username, password, done) => {
   MongoClient.connect(url,
   (err, db) => {
     if (err) {
@@ -51,3 +62,5 @@ export const validateUser = (username, password, done) => {
     }
   })
 }
+
+module.exports = { createUser, validateUser, findByUsername }
