@@ -7,11 +7,15 @@
 
 <script>
 import Navbar from './components/Navbar'
+import { FETCH_USER } from './store/mutation_types'
 
 export default {
   name: 'app',
   components: {
     Navbar
+  },
+  created () {
+    this.$store.dispatch(FETCH_USER)
   }
 }
 </script>
