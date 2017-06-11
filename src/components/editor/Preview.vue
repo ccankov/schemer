@@ -1,13 +1,13 @@
 <template lang="html">
   <section class="fixed-container">
-    <section class="sql-preview">
+    <section class="sql-preview" v-bind:class="{ pinned: pinned }">
       <header>
         <span class="heading-text">SQL Preview</span>
         <span class="options-text">
           <select v-model='sqlLang' class="lang-select">
             <option v-for='lang in languages'>{{lang}}</option>
           </select>
-            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+          <i class="fa fa-thumb-tack" aria-hidden="true" @click='togglePin'></i>
         </span>
       </header>
       <section class='sql-body'>
@@ -24,7 +24,7 @@
           </li>
         </ul>
       </section>
-      <span class='button' @click='exportSQL'><i class="fa fa-plus" aria-hidden="true"></i></span>
+      <span class='button' @click='addTable'><i class="fa fa-plus" aria-hidden="true"></i></span>
     </section>
   </section>
 </template>
@@ -34,9 +34,10 @@ import { RECEIVE_LANGUAGE } from '../../store/mutation_types'
 var FileSaver = require('file-saver')
 
 export default {
-  props: ['sql'],
+  props: ['sql', 'graph'],
   data: () => ({
-    languages: ['postgreSQL', 'access', 'mySQL', 'SQL Server', 'oracle']
+    languages: ['postgreSQL', 'access', 'mySQL', 'SQL Server', 'oracle'],
+    pinned: false
   }),
   computed: {
     sqlLang: {
@@ -49,6 +50,16 @@ export default {
     }
   },
   methods: {
+    togglePin: function () {
+      this.pinned = !this.pinned
+    },
+    addTable: function () {
+      const newTable = this.graph.addTable()
+      this.sendElement(newTable)
+    },
+    sendElement: function (element) {
+      this.$emit('send-element', element)
+    },
     exportSQL: function () {
       let blob = new Blob([this.sql], {type: 'text/plain;charset=utf-8'})
       FileSaver.saveAs(blob, `${this.$store.state.graphJSON.dbName}.sql`)
@@ -173,6 +184,7 @@ export default {
       height: 22px;
       border: 1px solid $white;
       border-radius: 50%;
+      transition: 0.3s;
     }
 
     i:hover {
@@ -192,7 +204,7 @@ export default {
     bottom: 0;
     right: 0;
     width: 200px;
-    height: 30vh;
+    height: 20vh;
 
     .small-menu {
       width: 100%;
@@ -207,6 +219,20 @@ export default {
         transition: 0.3s;
       }
 
+    }
+  }
+
+  .pinned {
+
+    .sql-body {
+      height: 250px;
+    }
+
+    i {
+      background-color: $white;
+      color: $darkest-gray;
+      transform: rotate(90deg);
+      transition: 0.3s;
     }
   }
 
@@ -249,6 +275,7 @@ export default {
 
     .button:hover {
       cursor: pointer;
+      opacity: 0.8;
       box-shadow: 0 0 6px rgba(0,0,0,.16), 0 6px 12px rgba(0,0,0,.32);
       -webkit-transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
       transition: box-shadow 150ms cubic-bezier(0,0,.2,1);

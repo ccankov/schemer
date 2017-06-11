@@ -26,7 +26,7 @@
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
-      <Preview :sql="sql"></Preview>
+      <Preview :sql="sql" :graph="graph"></Preview>
     </section>
   </section>
 </template>
