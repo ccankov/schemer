@@ -33,12 +33,6 @@ authRoutes.post('/signup',
             res.json({ user })
           }
         })
-        // let a = passport.authenticate('local')
-        // debugger
-        // a((req, res, other) => {
-        //   console.log(req)
-        //   console.log(res)
-        //   console.log(other)
       }
     })
   })

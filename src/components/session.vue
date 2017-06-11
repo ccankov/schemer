@@ -54,4 +54,10 @@ export default {
 </script>
 
 <style lang="css">
+  .session-form {
+    position:absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 </style>
