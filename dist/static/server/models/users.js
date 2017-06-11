@@ -33,6 +33,7 @@ const findByUsername = (username, done) => {
     if (err) {
       done(err, null)
     } else {
+      // console.log(username)
       db.collection('users').find({ username }).toArray((err, data) => {
         if (err || !data[0]) {
           done('username not found', null)

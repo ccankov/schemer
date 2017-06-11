@@ -25,13 +25,20 @@ authRoutes.post('/signup',
       if (err) {
         res.status(422).json({errors: [err]})
       } else {
-        passport.authenticate('local')((req, res, other) => {
-          console.log(req)
-          console.log(res)
-          console.log(other)
-
-          res.json({ user })
+        req.login(user, err => {
+          if (err) {
+            console.log('whoops')
+            res.json(err)
+          } else {
+            res.json({ user })
+          }
         })
+        // let a = passport.authenticate('local')
+        // debugger
+        // a((req, res, other) => {
+        //   console.log(req)
+        //   console.log(res)
+        //   console.log(other)
       }
     })
   })

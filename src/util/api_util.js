@@ -17,13 +17,14 @@ export const updateGraph = (graphStr) => (
   })
 )
 
-export const login = ({ username, password }) => (
-  $.ajax({
+export const login = ({ username, password }) => {
+  debugger
+  return $.ajax({
     method: 'post',
     url: '/api/login',
     data: { username, password }
   })
-)
+}
 
 export const signup = ({ username, password }) => (
   $.ajax({

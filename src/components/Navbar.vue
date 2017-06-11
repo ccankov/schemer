@@ -25,6 +25,7 @@ export default {
   @import '../assets/app.scss';
 
   nav {
+    bottom: 0;
     position: fixed;
     box-sizing: border-box;
     height: 60px;

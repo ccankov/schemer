@@ -28,16 +28,13 @@ passport.use(new LocalStrategy(User.validateUser))
 // ))
 
 passport.serializeUser((user, done) => {
-  done(null, user._id)
+  done(null, user.username)
 })
 
 passport.deserializeUser((username, done) => {
   User.findByUsername(username, (err, user) => {
     done(err, user)
   })
-  //
-  // delete user.password
-  // done(null, user)
 })
 
 module.exports = passport

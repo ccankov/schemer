@@ -34,8 +34,6 @@ const router = new Router({
 
 // can check if user is logged in to protect certain routes
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
   next() // continue
   // next('/') - redirect
 })
