@@ -27,9 +27,6 @@
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <Preview :sql="sql"></Preview>
-      <section class="paper-menu">
-        <i class="fa fa-plus" aria-hidden="true"></i>
-      </section>
     </section>
   </section>
 </template>
@@ -184,9 +181,7 @@ export default {
     right: 120px;
     display: flex;
     height: 30vh;
-    max-height: 30vh;
-    width: 40vw;
-    min-width: 400px;
+    width: 530px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.45);

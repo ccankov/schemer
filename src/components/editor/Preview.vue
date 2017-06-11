@@ -1,25 +1,24 @@
 <template lang="html">
-  <section class="sql-preview">
-    <header>
-      <span class="heading-text">SQL Preview</span>
-      <span class="options-text">
-        <select v-model='sqlLang'>
-          <option v-for='lang in languages'>{{lang}}</option>
-        </select>
-          <i class="fa fa-thumb-tack" aria-hidden="true"></i>
-      </span>
-    </header>
-    <section class='sql-body'>
-      <pre>
-        <code class="code">{{sql}}</code>
-      </pre>
-      <section class='sql-options'>
-        <label>
-          <span>SQL Language:</span>
-
-        </label>
-        <span class='button' @click='exportSQL'> Export SQL </span>
+  <section class="fixed-container">
+    <section class="sql-preview">
+      <header>
+        <span class="heading-text">SQL Preview</span>
+        <span class="options-text">
+          <select v-model='sqlLang' class="lang-select">
+            <option v-for='lang in languages'>{{lang}}</option>
+          </select>
+            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+        </span>
+      </header>
+      <section class='sql-body'>
+        <pre>
+          <code class="code">{{sql}}</code>
+        </pre>
       </section>
+    </section>
+    <section class="paper-menu">
+      <span class='button' @click='exportSQL'> Export SQL </span>
+      <i class="fa fa-plus" aria-hidden="true"></i>
     </section>
   </section>
 </template>
@@ -62,14 +61,14 @@ export default {
 
   header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 5px 20px;
-    background-color: #424242;
+    padding: 10px 20px;
+    background-color: $darkest-gray;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
     i {
-      padding-left: 20px;
       font-size: 0.6em;
       color: $white;
     }
@@ -86,7 +85,7 @@ export default {
     background-color:#EEEEEE;
     padding: 3px;
     margin: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .sql-body label {
@@ -140,7 +139,43 @@ export default {
 
   .heading-text {
     font-family: $heading;
+    font-size: 0.9em;
     color: $white;
     font-weight: bold;
+  }
+
+  .options-text {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    i {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 22px;
+      height: 22px;
+      border: 1px solid $white;
+      border-radius: 50%;
+    }
+
+    i:hover {
+      cursor: pointer;
+      background-color: $white;
+      color: $darkest-gray;
+    }
+  }
+
+  .lang-select {
+    width: 120px;
+    margin-right: 20px;
+  }
+
+  .fixed-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 650px;
+    height: 30vh;
   }
 </style>
