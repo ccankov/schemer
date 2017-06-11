@@ -6,6 +6,7 @@
     <input v-model='password' type='password'>
     <div class='btns'>
       <button @click='login'>Login</button>
+      <button @click='signup'>Signup</button>
       <button @click='logout'>Logout</button>
     </div>
   </form>
@@ -29,6 +30,15 @@ export default {
     login: function (e) {
       e.preventDefault()
       this.$store.dispatch(LOGIN, { user:
+      {
+        username: this.username,
+        password: this.password
+      }
+      })
+    },
+    signup: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(SIGNUP, { user:
       {
         username: this.username,
         password: this.password
