@@ -27,7 +27,7 @@
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <section class="additional-info">
-        <Statistics></Statistics>
+        <!-- <Statistics></Statistics> -->
         <Preview :sql="sql"></Preview>
       </section>
     </section>
@@ -36,13 +36,16 @@
 
 <script>
 import { CLEAR_ERRORS, RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
-import { createSQL, parseJson } from '../../util/sql_util.js'
+import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
 import TableForm from './TableForm'
 import Statistics from './Statistics'
+
+import { fetchGraph } from '../../util/api_util'
+
 export default {
   components: {
     Paper,
@@ -83,6 +86,8 @@ export default {
     }
   },
   created () {
+    fetchGraph(1).then(res => console.log(res))
+
     this.graph = new Graph(this.$store)
     this.$store.commit(RECEIVE_ERRORS, { errors: ['select an element'] })
   }
@@ -101,11 +106,13 @@ export default {
   }
 
   .side-bar {
-    min-width: 400px;
+    width: 350px;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-right: 1px solid $light-gray;
+    box-sizing: border-box;
   }
 
   .side-nav {
@@ -114,8 +121,8 @@ export default {
     display: flex;
     justify-content: center;
     align-content: center;
-    border-bottom: 1px solid black;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .home-button {
@@ -171,11 +178,16 @@ export default {
   .body {
     display: flex;
     flex: 1;
-    max-width: 80%;
+    min-width: 600px;
+    max-width: calc(100% - 350px);
     flex-direction: column;
+    box-sizing: border-box;
   }
 
   .additional-info {
+    position: fixed;
+    bottom: 15px;
+    right: 100px;
     display: flex;
     height: 20vh;
     max-height: 20vh;
