@@ -57,6 +57,7 @@ export default {
   },
   data: function () {
     return {
+      id: this.$route.params.id,
       graph: null,
       currentElement: null,
       editName: false,

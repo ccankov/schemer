@@ -28,6 +28,11 @@ const router = new Router({
     },
     {
       path: '/editor',
+      name: 'editor_blank',
+      component: Editor
+    },
+    {
+      path: '/editor/:id',
       name: 'editor',
       component: Editor
     },
