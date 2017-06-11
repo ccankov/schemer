@@ -84,6 +84,6 @@ export default {
   }
 
   .nav-link:hover {
-    color: $gray;
+    color: $accent;
   }
 </style>
