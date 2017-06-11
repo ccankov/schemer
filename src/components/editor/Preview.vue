@@ -17,8 +17,8 @@
       </section>
     </section>
     <section class="paper-menu">
-      <span class='button' @click='exportSQL'> Export SQL </span>
-      <i class="fa fa-plus" aria-hidden="true"></i>
+      <span class='button small' @click='exportSQL'><i class="fa fa-download" aria-hidden="true"></i></span>
+      <span class='button' @click='exportSQL'><i class="fa fa-plus" aria-hidden="true"></i></span>
     </section>
   </section>
 </template>
@@ -106,23 +106,6 @@ export default {
     white-space: pre;
   }
 
-  .button {
-    display: block;
-    color: #1c56b2;
-    font-weight: 500;
-    margin: 5px 10px;
-    border: 1px solid #1c56b2;
-    border-radius: 5px;
-    padding: 3px;
-  }
-
-  .button:hover {
-    opacity: .7;
-    cursor: pointer;
-    /*text-decoration: underline;*/
-    transition: border .3s;
-  }
-
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -177,5 +160,35 @@ export default {
     right: 0;
     width: 650px;
     height: 30vh;
+  }
+
+  .paper-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 10px;
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      width: 30px;
+      color: $white;
+      font-weight: 500;
+      margin: 5px 10px;
+      background-color: $light-accent;
+      border-radius: 50%;
+      padding: 10px;
+    }
+
+    .small {
+      height: 15px;
+      width: 15px;
+    }
+
+    .button:hover {
+      cursor: pointer;
+    }
   }
 </style>
