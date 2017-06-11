@@ -17,7 +17,13 @@
       </section>
     </section>
     <section class="paper-menu">
-      <span class='button small' @click='exportSQL'><i class="fa fa-download" aria-hidden="true"></i></span>
+      <section class="small-menu">
+        <ul>
+          <li>
+            <span class='button small' @click='exportSQL'><i class="fa fa-download" aria-hidden="true"></i></span>
+          </li>
+        </ul>
+      </section>
       <span class='button' @click='exportSQL'><i class="fa fa-plus" aria-hidden="true"></i></span>
     </section>
   </section>
@@ -55,8 +61,34 @@ export default {
   @import '../../assets/app.scss';
 
   .sql-preview {
+    position: fixed;
+    bottom: 0;
+    right: 120px;
+    width: 530px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.45);
     display: flex;
     flex-direction: column;
+  }
+
+  .sql-preview:hover {
+    .sql-body {
+      height: 250px;
+      transition: 0.3s;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   header {
@@ -75,8 +107,9 @@ export default {
   }
 
   .sql-body {
+    height: 0;
     display: flex;
-    flex-grow: 1;
+    transition: 0.3s;
   }
 
   pre {
@@ -158,8 +191,34 @@ export default {
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 650px;
+    width: 200px;
     height: 30vh;
+
+    .small-menu {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+
+      .small {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        transition: 0.3s;
+      }
+
+    }
+  }
+
+  .fixed-container:hover {
+    .small-menu {
+      .small {
+        visibility: visible;
+        width: 15px;
+        height: 15px;
+        transition: 0.3s;
+      }
+    }
   }
 
   .paper-menu {
