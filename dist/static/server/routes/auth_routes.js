@@ -22,12 +22,14 @@ authRoutes.post('/signup',
   (req, res) => {
     User.createUser(req.body.username, req.body.password,
     (err, user) => {
-      console.log(err)
-      console.log(user)
       if (err) {
         res.status(422).json({errors: [err]})
       } else {
-        passport.authenticate('local')(req, res => {
+        passport.authenticate('local')((req, res, other) => {
+          console.log(req)
+          console.log(res)
+          console.log(other)
+
           res.json({ user })
         })
       }

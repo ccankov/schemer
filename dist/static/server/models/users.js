@@ -33,7 +33,13 @@ const findByUsername = (username, done) => {
     if (err) {
       done(err, null)
     } else {
-      done(null, db.collection('users').findOne({ username }))
+      db.collection('users').find({ username }).toArray((err, data) => {
+        if (err || !data[0]) {
+          done('username not found', null)
+        } else {
+          done(null, data[0])
+        }
+      })
     }
   })
 }
@@ -44,21 +50,23 @@ const validateUser = (username, password, done) => {
     if (err) {
       done(err, null)
     } else {
-      let user = db.collection('users').findOne({ username })
-      if (!user) {
-        done('invalid username', null)
-      } else {
-        bcrypt.compare(password, user.password_digest,
-        (err, result) => {
-          if (err) {
-            done(err, null)
-          } else if (!result) {
-            done('invalid password', null)
-          } else {
-            done(null, user)
-          }
-        })
-      }
+      db.collection('users').find({ username }).toArray((err, data) => {
+        if (err || !data[0]) {
+          done('invalid username', null)
+        } else {
+          const user = data[0]
+          bcrypt.compare(password, user.password_digest,
+          (err, result) => {
+            if (err) {
+              done(err, null)
+            } else if (!result) {
+              done('invalid password', null)
+            } else {
+              done(null, user)
+            }
+          })
+        }
+      })
     }
   })
 }

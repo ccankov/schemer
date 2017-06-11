@@ -28,11 +28,13 @@ passport.use(new LocalStrategy(User.validateUser))
 // ))
 
 passport.serializeUser((user, done) => {
-  done(null, user.username)
+  done(null, user._id)
 })
 
 passport.deserializeUser((username, done) => {
-  User.findByUsername(username, done)
+  User.findByUsername(username, (err, user) => {
+    done(err, user)
+  })
   //
   // delete user.password
   // done(null, user)
