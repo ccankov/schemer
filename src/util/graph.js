@@ -126,7 +126,6 @@ class Graph {
     if (col.isCol()) {
       const parentId = col.parentId()
       const table = this.graph.getCell(parentId)
-      console.log(table)
       // Delete the column with the specified id
       table.attributes.removeColumn(colId)
       this.commit()
