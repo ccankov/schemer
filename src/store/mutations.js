@@ -20,7 +20,6 @@ export const state = {
 
 export const mutations = {
   [RECEIVE_CURRENT_USER] (state, { user }) {
-    console.log(user)
     if (user && user._id) {
       state.currentUser = user
     } else {

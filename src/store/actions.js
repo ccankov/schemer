@@ -17,7 +17,6 @@ export default {
       APIUtil.signup(user)
       .then(
         user => {
-          console.log(user)
           commit(RECEIVE_CURRENT_USER, user)
           resolve(user)
         },
@@ -33,7 +32,6 @@ export default {
       APIUtil.login(user)
       .then(
         user => {
-          console.log(user)
           commit(RECEIVE_CURRENT_USER, user)
           resolve(user)
         },
@@ -49,10 +47,8 @@ export default {
       .then(() => commit(RECEIVE_CURRENT_USER, { user: null }))
   },
   [FETCH_USER] ({ commit }) {
-    console.log('happening')
     return APIUtil.fetchUser()
       .then(user => {
-        console.log(user)
         commit(RECEIVE_CURRENT_USER, user)
       })
   },
