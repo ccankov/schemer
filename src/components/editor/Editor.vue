@@ -85,11 +85,13 @@ export default {
   },
   created () {
     if (this.$route.params.id) {
-      fetchGraph(this.$route.params.id).then(res => console.log(res))
+      fetchGraph(this.$route.params.id).then(
+        res => console.log(res),
+        errors => this.$store.commit(RECEIVE_ERRORS, { errors })
+      )
     }
 
     this.graph = new Graph(this.$store)
-    this.$store.commit(RECEIVE_ERRORS, { errors: ['select an element'] })
   }
 }
 </script>
