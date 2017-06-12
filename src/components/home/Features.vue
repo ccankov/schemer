@@ -1,5 +1,7 @@
-<template lang="html">
-
+<template>
+  <section class='features'>
+    Features
+  </section>
 </template>
 
 <script>

@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Editor from '@/components/editor/Editor'
-import Home from '@/components/Home'
-import Session from '@/components/session'
-import Features from '@/components/Features'
-import About from '@/components/About'
+import Home from '@/components/home/Home'
+import Features from '@/components/home/Features'
+import About from '@/components/home/About'
+import Splash from '@/components/home/Splash'
 
 Vue.use(Router)
 
@@ -17,14 +17,13 @@ const router = new Router({
       component: Hello
     },
     {
-      path: '/session',
-      name: 'session',
-      component: Session
-    },
-    {
       path: '/home',
-      name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        { path: '', name: 'splash', component: Splash },
+        { path: 'features', name: 'features', component: Features },
+        { path: 'about', name: 'about', component: About }
+      ]
     },
     {
       path: '/editor',
@@ -35,16 +34,6 @@ const router = new Router({
       path: '/editor/:id',
       name: 'loadDb',
       component: Editor
-    },
-    {
-      path: '/features',
-      name: 'feature',
-      component: Features
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
     }
   ]
 })

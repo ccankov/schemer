@@ -1,5 +1,7 @@
-<template lang="html">
-
+<template>
+  <section class='about'>
+    About Us
+  </section>
 </template>
 
 <script>
