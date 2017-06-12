@@ -62,6 +62,7 @@ export default {
       this.authType = (this.authType === 'login' ? 'signup' : 'login')
     },
     showLogIn: function () {
+      console.log(this.$router.history.current)
       this.authType = 'login'
       this.showModal = true
     },
@@ -101,11 +102,11 @@ export default {
     },
     goToFeatures: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
-      this.$router.push('/features/')
+      this.$router.push('/home/features')
     },
     goToAbout: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
-      this.$router.push('/about/')
+      this.$router.push('/home/about')
     },
     goToHome: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
