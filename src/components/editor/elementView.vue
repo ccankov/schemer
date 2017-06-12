@@ -39,6 +39,9 @@ export default {
     isTable: function () {
       return this.currentElement ? this.currentElement.isTable() : false
     },
+    isCol: function () {
+      return this.currentElement ? this.currentElement.isCol() : false
+    },
     elementName: {
       get: function () {
         if (!this.currentElement) return null
@@ -76,6 +79,13 @@ export default {
   methods: {
     toggleEdit: function () {
       this.editName = !this.editName
+    },
+    deleteElement: function () {
+      if (this.currentElement.isTable()) {
+        this.graph.removeTable(this.currentElement.getId())
+      } else if (this.currentElement.isCol()) {
+        this.graph.removeColumn(this.currentElement.getId())
+      }
     }
   }
 }

@@ -126,6 +126,11 @@ class Graph {
     table.attributes.removeColumn(colId)
     this.commit()
   }
+  removeTable (tableId) {
+    const table = this.graph.getCell(tableId)
+    this.graph.removeCells(table)
+    this.commit()
+  }
 }
 
 export default Graph

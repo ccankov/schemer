@@ -42,6 +42,11 @@ export default {
     width: 100%;
     max-width: initial;
     overflow: scroll;
+    margin-bottom: 5px;
+  }
+
+  .paper {
+    height: 100%;
   }
 
   .joint-paper {
