@@ -17,6 +17,7 @@ export default {
       APIUtil.signup(user)
       .then(
         user => {
+          console.log(user)
           commit(RECEIVE_CURRENT_USER, user)
           resolve(user)
         },
@@ -32,7 +33,8 @@ export default {
       APIUtil.login(user)
       .then(
         user => {
-          commit(RECEIVE_CURRENT_USER, { user })
+          console.log(user)
+          commit(RECEIVE_CURRENT_USER, user)
           resolve(user)
         },
         err => {
@@ -47,8 +49,12 @@ export default {
       .then(() => commit(RECEIVE_CURRENT_USER, { user: null }))
   },
   [FETCH_USER] ({ commit }) {
+    console.log('happening')
     return APIUtil.fetchUser()
-      .then(user => commit(RECEIVE_CURRENT_USER, { user }))
+      .then(user => {
+        console.log(user)
+        commit(RECEIVE_CURRENT_USER, user)
+      })
   },
   [FETCH_GRAPH] ({ commit, state }) {
     return APIUtil.fetchGraph(state.currentUser.id).then(

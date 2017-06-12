@@ -20,7 +20,12 @@ export const state = {
 
 export const mutations = {
   [RECEIVE_CURRENT_USER] (state, { user }) {
-    state.currentUser = user
+    console.log(user)
+    if (user && user._id) {
+      state.currentUser = user
+    } else {
+      state.currentUser = null
+    }
     state.errors = []
   },
   [RECEIVE_GRAPH] (state, { graphJSON }) {
