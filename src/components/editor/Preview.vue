@@ -158,16 +158,18 @@ export default {
 
   ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+    color: none;
+    -webkit-box-shadow: inset 0 0 100px rgba($gray, 0.8);
   }
 
   .heading-text {
@@ -207,7 +209,7 @@ export default {
 
   .fixed-container {
     position: fixed;
-    bottom: 0;
+    bottom: 15px;
     right: 0;
     width: 200px;
     height: 20vh;
