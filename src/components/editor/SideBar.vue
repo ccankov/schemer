@@ -10,6 +10,7 @@
     <element-view
       :currentElement='currentElement'
       :graph='graph'
+      @reset-primary-key='resetPrimaryKey'
       @send-element='sendElement'></element-view>
   </section>
 </template>
@@ -50,6 +51,29 @@ export default {
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
+    },
+    resetPrimaryKey: function (newPrimaryId) {
+      const graph = this.graph
+
+      this.currentTable.columns()
+        .forEach(colId => {
+          const colCell = graph.getCell(colId)
+          let options
+          if (colId === newPrimaryId) {
+            options = { notNull: false, indexed: false, unique: false }
+          } else {
+            options = { primaryKey: false }
+          }
+          options = colCell.setColOptions(options)
+
+          const optionsStr = Object.keys(options)
+            .filter(opt => options[opt]).join(', ')
+
+          let optionsCell = graph.getCell(colCell.embeds()[2])
+          optionsCell.setName(optionsStr)
+          optionsCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        })
+      this.graph.commit()
     }
   }
 }

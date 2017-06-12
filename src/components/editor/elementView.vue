@@ -10,7 +10,11 @@
     <div class='element-details'>
       <tableStats v-if='isTable' :table='currentElement' :graph='graph'>
       </tableStats>
-      <colOptions v-if='isCol' :column='currentElement' :graph='graph'>
+      <colOptions
+        v-if='isCol'
+        :column='currentElement'
+        :graph='graph'
+        @reset-primary-key='resetPrimaryKey'>
       </colOptions>
       <button @click='deleteElement'>
         Delete {{ isTable ? 'Table' : 'Column'}}</button>
@@ -62,6 +66,9 @@ export default {
       } else if (this.currentElement.isCol()) {
         this.graph.removeColumn(this.currentElement.getId())
       }
+    },
+    resetPrimaryKey: function (newPrimaryId) {
+      this.$emit('reset-primary-key', newPrimaryId)
     }
   }
 }

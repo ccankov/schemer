@@ -122,24 +122,24 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.col-options {
-padding: 7px;
-display: flex;
-flex-direction: column;
-}
+  .col-options {
+    padding: 7px;
+    display: flex;
+    flex-direction: column;
+  }
 
-.col-options label {
-margin-bottom: 6px;
-display: flex;
-justify-content: space-between;
-}
+  .col-options label {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
 
-.custom-type {
-max-width: 20px;
-}
+  .custom-type {
+    max-width: 20px;
+  }
 
-span {
-font-size: 10px;
-margin: 20px auto;
-}
+  span {
+    font-size: 10px;
+    margin: 20px auto;
+  }
 </style>
