@@ -17,7 +17,9 @@
         <li
           class='col-item'
           v-for='col in table.cols'>
-            <label :class='elClass(col)'>
+            <label
+              :class='elClass(col)'
+              @click="sendCurrent(col.id)">
               <span>
                 <i class='fa fa-file-text-o'></i>
                 <span>{{ col.name }}</span>
