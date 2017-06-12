@@ -10,9 +10,10 @@
     <div class='element-details'>
       <tableStats v-if='isTable' :table='currentElement' :graph='graph'>
       </tableStats>
-      <colOptions v-if='isCol' :columnn='currentElement' :graph='graph'>
+      <colOptions v-if='isCol' :column='currentElement' :graph='graph'>
       </colOptions>
-      <button @click='deleteElement'>Delete Table</button>
+      <button @click='deleteElement'>
+        Delete {{ isTable ? 'Table' : 'Column'}}</button>
     </div>
   </section>
 </template>

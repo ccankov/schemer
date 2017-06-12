@@ -33,7 +33,6 @@
 
 export default {
   props: ['column', 'graph'],
-  name: 'column',
   data: () => ({
     languageTypes: {
       'postgreSQL': ['varchar', 'text', 'varbit', 'integer', 'float', 'serial', 'boolean', 'date', 'timestamp'],
