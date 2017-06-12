@@ -62,7 +62,12 @@ export default {
   methods: {
     receiveElement: function (element) {
       if (element) {
-        this.currentElement = new Cell(element)
+        const cell = new Cell(element)
+        if (cell.type() === 'header') {
+          this.currentElement = this.graph.getCell(cell.parentId())
+        } else {
+          this.currentElement = cell
+        }
       } else {
         this.currentElement = null
       }
