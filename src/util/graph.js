@@ -72,8 +72,37 @@ class Graph {
     return new Cell(this.graph.getCell(id))
   }
 
+  getCells () {
+    return this.graph.getCells()
+      .map(cell => new Cell(cell))
+  }
+
   getLinks () {
     return this.graph.getCells().filter(cell => cell.attributes.type === 'link')
+  }
+
+  getTables () {
+    return this.getCells().filter(cell => cell.isTable())
+  }
+
+  getColumns (tableId) {
+    return this.getCell(tableId) // Cell object
+      .columns() // array of ids
+      .map(colId => this.getCell(colId)) // array of Cell objects
+  }
+
+  getTableTree () {
+    return this.getTables()
+      .map(tableCell => ({
+        id: tableCell.getId(),
+        name: tableCell.getName(),
+        cols: this.getColumns(tableCell.getId())
+            .map(colCell => ({
+              id: colCell.getId(),
+              name: colCell.getName()
+            }))
+      })
+    )
   }
 
   addTable (name = 'New Table') {
@@ -84,7 +113,7 @@ class Graph {
     this.addCells(tableCells)
     return tableCells[0]
   }
-  addColumn (table, newColName, type = 'integer', options = {}) {
+  addColumn (table, newColName = 'new column', type = 'integer', options = {}) {
     // Create the column on the table
     let colCells = table.attributes.addColumn(newColName, type, options)
 
@@ -97,7 +126,6 @@ class Graph {
     if (col.isCol()) {
       const parentId = col.parentId()
       const table = this.graph.getCell(parentId)
-      console.log(table)
       // Delete the column with the specified id
       table.attributes.removeColumn(colId)
       this.commit()
