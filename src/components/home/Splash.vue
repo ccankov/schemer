@@ -42,7 +42,7 @@ export default {
         margin-top: 15vh;
         color: $white;
         font-family: $paragraph;
-        font-size: 28px;
+        font-size: 3vh;
       }
     }
 
@@ -52,7 +52,7 @@ export default {
       font-family: $heading;
       color: $white;
       font-weight: bolder;
-      font-size: 48px;
+      font-size: 5vh;
     }
 
     figure {
