@@ -10,16 +10,16 @@
       <span @click='goToAbout' class="nav-link">About Us</span>
     </div>
     <div class="right-items">
-      <h4 v-if="loggedIn">
+      <h4 v-if="loggedIn" class="welcome-text">
         {{userText}}
       </h4>
-      <button @click='logout' v-if="loggedIn">
+      <button @click='logout' v-if="loggedIn" class="button">
         Log Out
       </button>
-      <button v-if="!loggedIn" @click="showLogIn">
+      <button v-if="!loggedIn" @click="showLogIn" class="button">
         Log In
       </button>
-      <button v-if="!loggedIn" @click="showSignUp">
+      <button v-if="!loggedIn" @click="showSignUp" class="button">
         Sign Up
       </button>
     </div>
@@ -124,10 +124,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .left-items {
-    display: flex;
 
     button {
       display: block;
@@ -152,12 +148,24 @@ export default {
     }
   }
 
+  .left-items {
+    display: flex;
+    height: 30px;
+  }
+
   .right-items {
     display: flex;
+    height: 30px;
+
+    button {
+      margin-left: 20px;
+    }
   }
 
   .right-items h4 {
     margin: 0 10px;
+    display: flex;
+    align-items: center;
   }
 
   .logo i {
@@ -186,5 +194,10 @@ export default {
 
   .nav-link:hover {
     color: $accent;
+  }
+
+  .welcome-text {
+    font-family: $heading;
+    font-size: 15px;
   }
 </style>
