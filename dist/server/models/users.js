@@ -29,7 +29,7 @@ const createUser = (username, password, done) => {
       if (stop) return
       bcrypt.genSalt(10, function (err, salt) {
         if (err) done(err, null)
-        bcrypt.hash(password, salt, (err, hash) => {
+        bcrypt.hash(password, salt, null, (err, hash) => {
           if (err) {
             done(err, null)
           } else {
@@ -52,7 +52,6 @@ const findByUsername = (username, done) => {
     if (err) {
       done(err, null)
     } else {
-      // console.log(username)
       db.collection('users').find({ username }).toArray((err, data) => {
         if (err || !data[0]) {
           done('username not found', null)
