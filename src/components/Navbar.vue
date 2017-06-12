@@ -1,7 +1,7 @@
 <template lang="html">
   <nav>
     <div class="left-items">
-      <div class="logo">
+      <div class="logo" @click='goToHome'>
         <i class="fa fa-database" aria-hidden="true"></i>
         <span class="logo-text">Schemer</span>
       </div>
@@ -106,6 +106,10 @@ export default {
     goToAbout: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       this.$router.push('/about/')
+    },
+    goToHome: function (e) {
+      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
+      this.$router.push('/')
     }
   }
 }
@@ -166,6 +170,10 @@ export default {
     margin: 0 10px;
     display: flex;
     align-items: center;
+  }
+
+  .logo:hover {
+    cursor: pointer;
   }
 
   .logo i {
