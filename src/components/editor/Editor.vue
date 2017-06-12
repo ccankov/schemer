@@ -26,7 +26,7 @@
     </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
-      <Preview :sql="sql"></Preview>
+      <Preview :sql="sql" :graph="graph"></Preview>
     </section>
   </section>
 </template>
@@ -181,18 +181,6 @@ export default {
     max-width: calc(100% - 300px);
     flex-direction: column;
     box-sizing: border-box;
-  }
-
-  .sql-preview {
-    position: fixed;
-    bottom: 0;
-    right: 120px;
-    display: flex;
-    height: 30vh;
-    width: 530px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.45);
   }
 
   .paper-menu {
