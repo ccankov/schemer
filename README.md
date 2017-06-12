@@ -10,7 +10,7 @@ database, Schemer exports a .sql file with a script that sets up your schema.
 
 Schemer is built with a Vue.js frontend, an Express/Node.js backend, and MongoDB
 
-[live-link]:https://schemer.herokuapp.com
+[live-link]:http://schemer.me
 
 ## Features
 
