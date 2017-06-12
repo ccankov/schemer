@@ -3,11 +3,30 @@ const url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
 const bcrypt = require('bcrypt')
 
 const createUser = (username, password, done) => {
+  let stop = false
   MongoClient.connect(url,
   (err, db) => {
     if (err) {
       done(err, null)
     } else {
+      db.collection('users').find({ username }).toArray((err, data) => {
+        if (err) {
+          done(err, null)
+          stop = true
+        }
+        if (data.length > 0) {
+          done(null, false, { message: 'Username already taken' })
+          stop = true
+        }
+      })
+      if (username === '') {
+        done(null, false, { message: 'Username cannot be blank' })
+        stop = true
+      } else if (password.length < 6) {
+        done(null, false, { message: 'Password must be at least 6 characters' })
+        stop = true
+      }
+      if (stop) return
       bcrypt.genSalt(10, function (err, salt) {
         if (err) done(err, null)
         bcrypt.hash(password, salt, (err, hash) => {
@@ -53,7 +72,7 @@ const validateUser = (username, password, done) => {
     } else {
       db.collection('users').find({ username }).toArray((err, data) => {
         if (err || !data[0]) {
-          done('invalid username', null)
+          done(null, false, { message: 'Username not found' })
         } else {
           const user = data[0]
           bcrypt.compare(password, user.password_digest,
@@ -61,7 +80,7 @@ const validateUser = (username, password, done) => {
             if (err) {
               done(err, null)
             } else if (!result) {
-              done('invalid password', null)
+              done(null, false, {message: 'Invalid password'})
             } else {
               done(null, user)
             }

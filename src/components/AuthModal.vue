@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
-        <div class="modal-container" @click="boop2">
+        <div class="modal-container" @click="stopPropagation">
 
           <div class="modal-header">
             <slot name="header">
@@ -10,24 +10,19 @@
             </slot>
           </div>
 
-          <div class="modal-body">
-            <slot name="body">
-              <form class='session-form'>
-                <input v-model='username' placeholder='username'>
-                <input v-model='password' type='password'>
-                  <button @click='submit'>{{header}}</button>
-              </form>
-            </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              <span @click="$emit('toggleAuthType')">{{changeAuthText}}</span>
-              <button class="modal-default-button" @click="$emit('close')">
-                OK
-              </button>
-            </slot>
-          </div>
+          <form class='session-form'>
+            <input v-model='username' placeholder='Username'>
+            <br>
+            <input v-model='password' placeholder='Password' type='password'>
+            <hr>
+            <div class="button-container">
+              <button @click='submit'>{{header}}</button>
+            </div>
+            <small @click="$emit('toggleAuthType')">{{changeAuthText}}</small>
+          </form>
+          <button class="modal-close" @click="$emit('close')">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -57,34 +52,32 @@ export default {
     },
     changeAuthText: function () {
       if (this.authType === 'login') {
-        return 'Not registered? Sign up here >>'
+        return 'Not registered? Sign up here.'
       } else {
-        return 'Already have an account? Log in here >>'
+        return 'Already have an account? Log in here.'
       }
     }
   },
   methods: {
-    boop: function () {
-      console.log('boop')
-    },
-    boop2: function (e) {
+    stopPropagation: function (e) {
       e.stopPropagation()
     },
     submit: function (e) {
       e.preventDefault()
       if (this.authType === 'login') {
-        this.login()
+        this.login().then(
+          response => this.$emit('close'),
+          err => console.log(err)
+        )
       } else {
-        this.signUp()
-      }
-      if (this.$store.state.errors.length > 0) {
-        console.log(this.$store.state.errors)
-      } else {
-        this.$emit('close')
+        this.signUp().then(
+          response => this.$emit('close'),
+          err => console.log(err)
+        )
       }
     },
     login: function () {
-      this.$store.dispatch(LOGIN, {
+      return this.$store.dispatch(LOGIN, {
         user: {
           username: this.username,
           password: this.password
@@ -92,7 +85,7 @@ export default {
       })
     },
     signUp: function () {
-      this.$store.dispatch(SIGNUP, { user:
+      return this.$store.dispatch(SIGNUP, { user:
       {
         username: this.username,
         password: this.password
@@ -107,7 +100,9 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+@import '../assets/app.scss';
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -126,9 +121,10 @@ export default {
 }
 
 .modal-container {
+  position: relative;
   width: 300px;
   margin: 0px auto;
-  padding: 20px 30px;
+  padding: 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -137,16 +133,85 @@ export default {
 }
 
 .modal-header h3 {
-  margin-top: 0;
+  margin-top: 10px;
+  margin-bottom: 48px;
   color: #42b983;
+  font-family: $heading;
+  color: $accent;
 }
 
-.modal-body {
-  margin: 20px 0;
+.session-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    box-sizing: border-box;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px;
+    background-color: #f7f7f5;
+    width: 100%;
+    border: 0;
+
+    font-family: $heading;
+    font-size: 18px;
+  }
+
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    border: 0;
+    border-top: 1px solid #e2e2e2;
+    box-sizing: content-box;
+  }
+
+  small {
+    font-size: 12px;
+    color: $accent;
+  }
+
+  small:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .button-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    button {
+      width: 100px;
+      padding: 10px;
+      margin: 0 10px;
+    }
+  }
 }
 
-.modal-default-button {
-  float: right;
+.modal-close {
+  width: 25px;
+  height: 25px;
+  background-color: $accent;
+  color: $white;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: -12.5px;
+  right: -12.5px;
+  border-width: 3px;
+}
+
+.modal-close:hover {
+  background-color: $accent;
 }
 
 /*

@@ -1,7 +1,7 @@
 <template lang="html">
   <nav>
     <div class="left-items">
-      <div class="logo">
+      <div class="logo" @click='goToHome'>
         <i class="fa fa-database" aria-hidden="true"></i>
         <span class="logo-text">Schemer</span>
       </div>
@@ -10,16 +10,16 @@
       <span @click='goToAbout' class="nav-link">About Us</span>
     </div>
     <div class="right-items">
-      <h4 v-if="loggedIn">
+      <h4 v-if="loggedIn" class="welcome-text">
         {{userText}}
       </h4>
-      <button @click='logout' v-if="loggedIn">
+      <button @click='logout' v-if="loggedIn" class="button">
         Log Out
       </button>
-      <button v-if="!loggedIn" @click="showLogIn">
+      <button v-if="!loggedIn" @click="showLogIn" class="button">
         Log In
       </button>
-      <button v-if="!loggedIn" @click="showSignUp">
+      <button v-if="!loggedIn" @click="showSignUp" class="button">
         Sign Up
       </button>
     </div>
@@ -106,6 +106,10 @@ export default {
     goToAbout: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       this.$router.push('/about/')
+    },
+    goToHome: function (e) {
+      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
+      this.$router.push('/')
     }
   }
 }
@@ -124,10 +128,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .left-items {
-    display: flex;
 
     button {
       display: block;
@@ -152,12 +152,28 @@ export default {
     }
   }
 
+  .left-items {
+    display: flex;
+    height: 30px;
+  }
+
   .right-items {
     display: flex;
+    height: 30px;
+
+    button {
+      margin-left: 20px;
+    }
   }
 
   .right-items h4 {
     margin: 0 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo:hover {
+    cursor: pointer;
   }
 
   .logo i {
@@ -186,5 +202,10 @@ export default {
 
   .nav-link:hover {
     color: $accent;
+  }
+
+  .welcome-text {
+    font-family: $heading;
+    font-size: 15px;
   }
 </style>
