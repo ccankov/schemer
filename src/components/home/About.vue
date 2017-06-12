@@ -76,11 +76,22 @@ export default {
 
   .about {
     width: 100%;
+    background:
+      radial-gradient(
+        rgba(0, 0, 0, 0.2) 40%,
+        rgba(0, 0, 0, 0.8)
+      ),
+      url('../../assets/sanfrancisco.jpg');
+    background-size: cover;
 
     h1 {
       padding-left: 100px;
       text-align: left;
       font-family: $heading;
+      max-width: 1000px;
+      margin: 15px auto;
+      margin-top: 35px;
+      color: $white;
     }
 
     h3 {
@@ -93,6 +104,8 @@ export default {
       box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
       margin: 20px;
       border-radius: 10px;
+      max-width: 1000px;
+      background-color: $white;
     }
 
     .row {
@@ -151,5 +164,8 @@ export default {
     width: 100%;
     padding: 0 40px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>
