@@ -66,7 +66,8 @@ app.route('/api/dbs')
       }
     })
     res.send(req.body)
-  })
+  }
+)
 
 app.use(serveStatic(__dirname))
 var port = process.env.PORT || 3000

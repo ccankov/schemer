@@ -40,7 +40,10 @@ export const mutations = {
     state.errors = []
   },
   [RECEIVE_ERRORS] (state, err) {
-    state.errors = Object.assign([], [err.responseJSON.message])
+    let error = (err.responseJSON.message
+      ? err.responseJSON.message
+      : err)
+    state.errors = Object.assign([], [error])
   },
   [CLEAR_ERRORS] (state) {
     state.errors = []

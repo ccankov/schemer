@@ -7,6 +7,7 @@
         </h1>
         <h1 v-else='editName'>{{dbName}}</h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
+        <button @click='saveDb'>Save</button>
       </section>
       <SideBar
         :graph='graph'
@@ -34,7 +35,7 @@ import Preview from './Preview'
 // import elementView from './elementView'
 import SideBar from './SideBar'
 
-import { fetchGraph } from '../../util/api_util'
+import { fetchGraph, updateGraph } from '../../util/api_util'
 
 export default {
   components: {
@@ -73,6 +74,13 @@ export default {
         this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
       }
       this.editName = !this.editName
+    },
+    saveDb: function () {
+      if (this.$store.state.currentUser) {
+        updateGraph(JSON.stringify(this.$store.state.graphJSON))
+      } else {
+        this.$store.commit(RECEIVE_ERRORS, 'Must be logged in to save')
+      }
     }
   },
   created () {
