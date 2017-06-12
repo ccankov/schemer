@@ -62,6 +62,7 @@ export default {
       this.authType = (this.authType === 'login' ? 'signup' : 'login')
     },
     showLogIn: function () {
+      console.log(this.$router)
       this.authType = 'login'
       this.showModal = true
     },
