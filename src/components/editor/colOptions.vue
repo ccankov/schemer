@@ -1,11 +1,7 @@
 <template>
-  <li @click='sendCurrent'>
-    <label> Column:
-      <input v-model='colName'/>
-    </label>
-    <div class='col-options' v-show='isCurrent'>
-      <label>Type:
-        <div class='type'>
+  <div class='col-options'>
+    <label>Type:
+      <div class='type'>
         <select v-model='baseType'>
           <option
             v-for='type in colTypes'
@@ -19,28 +15,24 @@
         :value='customType'
         @keyup.enter='setCustomType'/>
       </div>
-      </label>
+    </label>
 
-      <label
-        v-for='opt in Object.keys(colOptions)'> {{ opt }}
-        <input
-          type='checkbox'
-          :name='opt'
-          :checked='colOptions[opt]'
-          :disabled="primaryKeyChecked(opt)"
-          @click='toggleColOption'>
-      </label>
-
-      <button @click='$emit("remove-column",column.element.id)'>Delete Column</button>
-    </div>
-  </li>
+    <label
+      v-for='opt in Object.keys(colOptions)'> {{ opt }}
+      <input
+        type='checkbox'
+        :name='opt'
+        :checked='colOptions[opt]'
+        :disabled="primaryKeyChecked(opt)"
+        @click='toggleColOption'>
+    </label>
+  </div>
 </template>
 
 <script>
 
 export default {
-  props: ['id', 'isCurrent', 'graph'],
-  name: 'column',
+  props: ['column', 'graph'],
   data: () => ({
     languageTypes: {
       'postgreSQL': ['varchar', 'text', 'varbit', 'integer', 'float', 'serial', 'boolean', 'date', 'timestamp'],
@@ -51,10 +43,6 @@ export default {
     }
   }),
   computed: {
-    column: function () {
-      window.column = this.graph.getCell(this.id)
-      return this.graph.getCell(this.id)
-    },
     colName: {
       get: function () {
         return this.column.getName()

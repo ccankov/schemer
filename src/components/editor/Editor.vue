@@ -1,15 +1,6 @@
 <template lang="html">
   <section class="editor">
-    <section class="side-bar">
-      <!-- <nav class="side-nav">
-        <div class="home-button">
-          <i class="fa fa-home fa-lg" aria-hidden="true"></i>
-        </div>
-        <section class=schemer-user>
-          <h1>Schemer</h1>
-          <h2>Welcome, {{$store.state.currentUser.username}}</h2>
-        </section>
-      </nav> -->
+    <section class="side-bar-container">
       <section class="db-info">
         <h1 v-if='editName'>
           <input v-model='dbName' placeholder='Name your DB'/>
@@ -17,13 +8,12 @@
         <h1 v-else='editName'>{{dbName}}</h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
       </section>
-      <section class="table-form">
-        <table-form
+      <SideBar
         :graph='graph'
-        v-on:send-element='receiveElement'
-        :currentElement='currentElement'></table-form>
+        :currentElement='currentElement'
+        @send-element='receiveElement'>
+      </SideBar>
       </section>
-    </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
       <Preview :sql="sql" :graph="graph"></Preview>
@@ -38,8 +28,11 @@ import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
-import TableForm from './TableForm'
-import Statistics from './Statistics'
+// import TableForm from './TableForm'
+// import Statistics from './Statistics'
+// import treeView from './treeView'
+// import elementView from './elementView'
+import SideBar from './SideBar'
 
 import { fetchGraph } from '../../util/api_util'
 
@@ -47,8 +40,7 @@ export default {
   components: {
     Paper,
     Preview,
-    'table-form': TableForm,
-    Statistics
+    SideBar
   },
   data: function () {
     return {
@@ -107,7 +99,7 @@ export default {
     padding-top: 60px;
   }
 
-  .side-bar {
+  .side-bar-container {
     width: 20vw;
     min-width: 300px;
     display: flex;
