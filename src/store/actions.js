@@ -32,7 +32,7 @@ export default {
       APIUtil.login(user)
       .then(
         user => {
-          commit(RECEIVE_CURRENT_USER, user)
+          commit(RECEIVE_CURRENT_USER, { user })
           resolve(user)
         },
         err => {
@@ -48,7 +48,7 @@ export default {
   },
   [FETCH_USER] ({ commit }) {
     return APIUtil.fetchUser()
-      .then(user => commit(RECEIVE_CURRENT_USER, user))
+      .then(user => commit(RECEIVE_CURRENT_USER, { user }))
   },
   [FETCH_GRAPH] ({ commit, state }) {
     return APIUtil.fetchGraph(state.currentUser.id).then(
