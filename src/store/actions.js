@@ -8,7 +8,6 @@ import {
   LOGOUT,
   SIGNUP,
   FETCH_USER,
-  FETCH_USER_GRAPHS,
   RECEIVE_CURRENT_USER,
   RECEIVE_ERRORS
 } from './mutation_types'
@@ -54,8 +53,11 @@ export default {
         commit(RECEIVE_CURRENT_USER, user)
       })
   },
-  [FETCH_USER_GRAPHS] ({ commit, state }) {
+  [RECEIVE_USER_GRAPHS] ({ commit, state }) {
     return APIUtil.fetchUserGraphs()
+      .then(graphs => {
+        commit(RECEIVE_USER_GRAPHS, graphs)
+      })
   },
   [FETCH_GRAPH] ({ commit, state }) {
     return APIUtil.fetchGraph(state.currentUser.id).then(

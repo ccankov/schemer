@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
+import { LOGIN, LOGOUT, SIGNUP, RECEIVE_USER_GRAPHS } from '../store/mutation_types'
 
 export default {
   data: () => {
@@ -66,12 +66,18 @@ export default {
       e.preventDefault()
       if (this.authType === 'login') {
         this.login().then(
-          response => this.$emit('close'),
+          response => {
+            this.$emit('close')
+            this.$store.dispatch(RECEIVE_USER_GRAPHS)
+          },
           err => console.log(err)
         )
       } else {
         this.signUp().then(
-          response => this.$emit('close'),
+          response => {
+            this.$emit('close')
+            this.$store.dispatch(RECEIVE_USER_GRAPHS)
+          },
           err => console.log(err)
         )
       }

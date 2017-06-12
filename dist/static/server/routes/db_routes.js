@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
 dbRoutes.get('/dbs', (req, res) => {
   if (req.user) {
     // passort adds user to request
-
     MongoClient.connect(url, (err, db) => {
       if (err) {
         console.log(err)

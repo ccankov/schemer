@@ -29,8 +29,8 @@ export const mutations = {
     }
     state.errors = []
   },
-  [RECEIVE_USER_GRAPHS] (state, { userGraphs }) {
-    state.userGraphs = userGraphs
+  [RECEIVE_USER_GRAPHS] (state, graphs) {
+    state.userGraphs = graphs
   },
   [RECEIVE_GRAPH] (state, { graphJSON }) {
     state.graphJSON.cells = graphJSON.cells
