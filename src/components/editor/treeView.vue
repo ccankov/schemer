@@ -63,7 +63,6 @@ export default {
     padding: 0;
     list-style: none;
   }
-  // make this flex
   li {
     display: block;
   }
@@ -73,6 +72,7 @@ export default {
   }
 
   .table-list {
+    font-family: $heading;
     padding: 20px;
     box-sizing: border-box;
     width: 100%;
@@ -83,6 +83,12 @@ export default {
 
   .table-item {
     width: 100%;
+
+    label > i {
+      display: flex;
+      align-items: center;
+      color: $dark-gray;
+    }
   }
 
   .table-list label {
@@ -91,11 +97,16 @@ export default {
   }
 
   .col-list {
-    margin-left: 30px;
+    width: auto;
+    margin: 5px 0;
   }
 
   .col-item {
     padding: 2px 5px;
+
+    label {
+      padding-left: 30px;
+    }
   }
 
   .current-element {

@@ -1,5 +1,6 @@
 <template>
   <div class='col-options'>
+    <p class="header">Properties:</p>
     <label>Type:
       <div class='type'>
         <select v-model='baseType'>
@@ -113,7 +114,14 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+
+  .header {
+    text-align: left;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
   .col-options {
     padding: 7px;
     display: flex;
@@ -124,6 +132,8 @@ export default {
     margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
+    font-size: 0.8em;
+    padding-left: 20px;
   }
 
   .custom-type {

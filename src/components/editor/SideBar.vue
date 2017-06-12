@@ -86,8 +86,15 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import '../../assets/app.scss';
+
   .side-bar {
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 1px solid $light-gray;
   }
 </style>
