@@ -16,7 +16,6 @@
                 <input v-model='username' placeholder='username'>
                 <input v-model='password' type='password'>
                   <button @click='submit'>{{header}}</button>
-                  <button @click='logout'>Logout</button>
               </form>
             </slot>
           </div>
@@ -39,6 +38,12 @@
 import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
 
 export default {
+  data: () => {
+    return {
+      username: '',
+      password: ''
+    }
+  },
   props: [
     'authType'
   ],
@@ -65,17 +70,28 @@ export default {
     boop2: function (e) {
       e.stopPropagation()
     },
-    login: function (e) {
+    submit: function (e) {
       e.preventDefault()
-      this.$store.dispatch(LOGIN, { user:
-      {
-        username: this.username,
-        password: this.password
+      if (this.authType === 'login') {
+        this.login()
+      } else {
+        this.signUp()
       }
+      if (this.$store.state.errors.length > 0) {
+        console.log(this.$store.state.errors)
+      } else {
+        this.$emit('close')
+      }
+    },
+    login: function () {
+      this.$store.dispatch(LOGIN, {
+        user: {
+          username: this.username,
+          password: this.password
+        }
       })
     },
-    signup: function (e) {
-      e.preventDefault()
+    signUp: function () {
       this.$store.dispatch(SIGNUP, { user:
       {
         username: this.username,
