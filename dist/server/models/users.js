@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt-nodejs')
 
 const createUser = (username, password, done) => {
   let stop = false
