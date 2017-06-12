@@ -25,7 +25,7 @@ dbRoutes.get('/dbs', (req, res) => {
         console.log(err)
       } else {
         db.collection('dbs')
-        .find(db => db.user_id === req.user.id)
+        .find({'user_id': req.user._id})
         .toArray(function (err, data) {
           if (err) {
             console.log(err)
@@ -41,6 +41,39 @@ dbRoutes.get('/dbs', (req, res) => {
     res.json({ dbs: [] })
   }
 })
+
+app.route('/api/dbs/:id')
+  .get((req, res) => {
+    MongoClient.connect(url, (err, db) => {
+      if (err) {
+        console.log(err)
+      } else {
+        if (req.params.id) {
+          db.collection('dbs').find({ '_id': { '$oid': req.params.graphId } })
+          .toArray(function (err, data) {
+            if (err) {
+              console.log(err)
+              return res(err)
+            } else {
+              console.log(data)
+              return res.json(data)
+            }
+          })
+        } else {
+          db.collection('dbs').find().toArray(function (err, data) {
+            if (err) {
+              console.log(err)
+              return res(err)
+            } else {
+              console.log(data)
+              return res.json(data)
+            }
+          })
+        }
+      }
+    })
+  }
+)
 
 // Add a database
 dbRoutes.post('/dbs', (req, res) => {

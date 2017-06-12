@@ -1,11 +1,18 @@
 import $ from 'jquery'
 
-export const fetchGraph = (userId) => (
+export const fetchGraph = (id) => (
   $.ajax({
     method: 'get',
-    url: '/api/dbs',
-    data: { user_id: userId },
+    url: `/api/dbs/${id}`,
+    data: { graphId: id },
     dataType: 'json'
+  })
+)
+
+export const fetchUserGraphs = () => (
+  $.ajax({
+    method: 'get',
+    url: '/api/dbs'
   })
 )
 

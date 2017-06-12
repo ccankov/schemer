@@ -52,6 +52,11 @@ export default {
       dbName: this.$store.state.graphJSON.dbName
     }
   },
+  watch: {
+    id: function (newId) {
+
+    }
+  },
   computed: {
     btnStr: function () {
       return this.editName ? 'Done' : 'Edit'
