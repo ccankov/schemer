@@ -87,6 +87,7 @@ export default {
     label > i {
       display: flex;
       align-items: center;
+      color: $dark-gray;
     }
   }
 
