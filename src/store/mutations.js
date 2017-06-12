@@ -16,8 +16,7 @@ export const state = {
   },
   userGraphs: [],
   currentUser: null,
-  errors: [],
-  dbName: 'LibaryDB'
+  errors: []
 }
 
 export const mutations = {

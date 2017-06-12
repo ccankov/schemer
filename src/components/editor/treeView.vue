@@ -3,9 +3,9 @@
     <li class='table-item'
       v-for='table in tables'>
       <label
-        :class='elClass(table)'
-        @click="sendCurrent(table.id)">
-        <span>
+        :class='elClass(table)'>
+        <span
+          @click="sendCurrent(table.id)">
           <i class='fa fa-folder-open-o'></i>
           <span>{{ table.name }}</span>
         </span>
@@ -18,9 +18,9 @@
           class='col-item'
           v-for='col in table.cols'>
             <label
-              :class='elClass(col)'
-              @click="sendCurrent(col.id)">
-              <span>
+              :class='elClass(col)'>
+              <span
+                @click="sendCurrent(col.id)">
                 <i class='fa fa-file-text-o'></i>
                 <span>{{ col.name }}</span>
               </span>
@@ -63,7 +63,6 @@ export default {
     padding: 0;
     list-style: none;
   }
-
   li {
     display: block;
   }
@@ -73,7 +72,8 @@ export default {
   }
 
   .table-list {
-    padding: 20px;
+    padding: 20px 0;
+    font-family: $heading;
     box-sizing: border-box;
     width: 100%;
     display: flex;
@@ -83,19 +83,30 @@ export default {
 
   .table-item {
     width: 100%;
+
+    label > i {
+      display: flex;
+      align-items: center;
+      color: $dark-gray;
+    }
   }
 
   .table-list label {
     display: flex;
+    padding: 3px 20px;
     justify-content: space-between;
   }
 
   .col-list {
-    margin-left: 30px;
+    width: auto;
+    margin: 5px 0;
   }
 
   .col-item {
-    padding: 2px 5px;
+
+    label {
+      padding-left: 45px;
+    }
   }
 
   .current-element {
