@@ -24,6 +24,7 @@ export default {
     padding-top: 60px;
     height: 100%;
     display: flex;
+    box-sizing: border-box;
   }
 
   .side-nav {
