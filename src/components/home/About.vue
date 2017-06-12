@@ -99,6 +99,11 @@ export default {
     .row {
       display: flex;
       align-items: stretch;
+
+      figure {
+        display: flex;
+        align-items: center;
+      }
     }
 
     .reverse {
