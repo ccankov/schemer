@@ -1,24 +1,29 @@
 <template lang="html">
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container" @click="boop2">
 
           <div class="modal-header">
             <slot name="header">
-              default header
+              <h3>{{header}}</h3>
             </slot>
           </div>
 
           <div class="modal-body">
             <slot name="body">
-              default body
+              <form class='session-form'>
+                <input v-model='username' placeholder='username'>
+                <input v-model='password' type='password'>
+                  <button @click='submit'>{{header}}</button>
+                  <button @click='logout'>Logout</button>
+              </form>
             </slot>
           </div>
 
           <div class="modal-footer">
             <slot name="footer">
-              default footer
+              <span @click="$emit('toggleAuthType')">{{changeAuthText}}</span>
               <button class="modal-default-button" @click="$emit('close')">
                 OK
               </button>
@@ -31,10 +36,58 @@
 </template>
 
 <script>
+import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
+
 export default {
   props: [
-    'showModal'
-  ]
+    'authType'
+  ],
+  computed: {
+    header: function () {
+      if (this.authType === 'login') {
+        return 'Log In'
+      } else {
+        return 'Sign Up'
+      }
+    },
+    changeAuthText: function () {
+      if (this.authType === 'login') {
+        return 'Not registered? Sign up here >>'
+      } else {
+        return 'Already have an account? Log in here >>'
+      }
+    }
+  },
+  methods: {
+    boop: function () {
+      console.log('boop')
+    },
+    boop2: function (e) {
+      e.stopPropagation()
+    },
+    login: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(LOGIN, { user:
+      {
+        username: this.username,
+        password: this.password
+      }
+      })
+    },
+    signup: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(SIGNUP, { user:
+      {
+        username: this.username,
+        password: this.password
+      }
+      })
+    },
+    logout: function (e) {
+      e.preventDefault()
+      this.$store.dispatch(LOGOUT)
+    }
+  }
 }
 </script>
 

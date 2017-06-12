@@ -16,15 +16,14 @@
       <button @click='logout' v-if="loggedIn">
         Log Out
       </button>
-      <button v-if="!loggedIn">
+      <button v-if="!loggedIn" @click="showLogIn">
         Log In
       </button>
-      <button v-if="!loggedIn">
+      <button v-if="!loggedIn" @click="showSignUp">
         Sign Up
       </button>
-      <button id="show-modal" @click="toggleModal">Show Modal</button>
     </div>
-    <AuthModal v-if="showModal" @close="toggleModal">
+    <AuthModal :authType="authType" v-if="showModal" @close="toggleModal" @toggleAuthType="toggleAuthType">
       <!--
         you can use custom content here to overwrite
         default content
@@ -39,7 +38,8 @@ import AuthModal from './AuthModal'
 export default {
   data: function () {
     return {
-      showModal: false
+      showModal: false,
+      authType: 'login'
     }
   },
   components: {
@@ -58,6 +58,17 @@ export default {
     }
   },
   methods: {
+    toggleAuthType: function () {
+      this.authType = (this.authType === 'login' ? 'signup' : 'login')
+    },
+    showLogIn: function () {
+      this.authType = 'login'
+      this.showModal = true
+    },
+    showSignUp: function () {
+      this.authType = 'signup'
+      this.showModal = true
+    },
     toggleModal: function () {
       this.showModal = !this.showModal
     },
@@ -104,7 +115,7 @@ export default {
   @import '../assets/app.scss';
 
   nav {
-    position: fixed;
+    position: absolute;
     box-sizing: border-box;
     height: 60px;
     width: 100%;
