@@ -18,8 +18,13 @@
           <span>Connections</span>
           <span>{{ connectionCount }}</span>
         </p>
+        <button @click='deleteElement'>Delete Table</button>
       </div>
 
+      <div v-if='isCol' class='col-options'>
+
+        <button @click='deleteElement'>Delete Table</button>
+      </div>
     </ul>
   </section>
 </template>
