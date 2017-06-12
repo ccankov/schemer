@@ -7,17 +7,40 @@ import {
   LOGOUT,
   SIGNUP,
   FETCH_USER,
-  RECEIVE_CURRENT_USER
+  RECEIVE_CURRENT_USER,
+  RECEIVE_ERRORS
 } from './mutation_types'
 
 export default {
   [SIGNUP] ({ commit }, { user }) {
-    return APIUtil.signup(user)
-      .then(user => commit(RECEIVE_CURRENT_USER, user))
+    return new Promise((resolve, reject) => {
+      APIUtil.signup(user)
+      .then(
+        user => {
+          commit(RECEIVE_CURRENT_USER, user)
+          resolve(user)
+        },
+        err => {
+          commit(RECEIVE_ERRORS, err)
+          reject(err)
+        }
+      )
+    })
   },
   [LOGIN] ({ commit }, { user }) {
-    return APIUtil.login(user)
-      .then(user => commit(RECEIVE_CURRENT_USER, user))
+    return new Promise((resolve, reject) => {
+      APIUtil.login(user)
+      .then(
+        user => {
+          commit(RECEIVE_CURRENT_USER, user)
+          resolve(user)
+        },
+        err => {
+          commit(RECEIVE_ERRORS, err)
+          reject(err)
+        }
+      )
+    })
   },
   [LOGOUT] ({ commit }) {
     return APIUtil.logout()
@@ -25,7 +48,9 @@ export default {
   },
   [FETCH_USER] ({ commit }) {
     return APIUtil.fetchUser()
-      .then(user => commit(RECEIVE_CURRENT_USER, user))
+      .then(user => {
+        commit(RECEIVE_CURRENT_USER, user)
+      })
   },
   [FETCH_GRAPH] ({ commit, state }) {
     return APIUtil.fetchGraph(state.currentUser.id).then(

@@ -7,7 +7,7 @@ export const createPaper = (element, graph, component) => {
   const paper = new joint.dia.Paper({
     el: element,
     width: $(element).width(),
-    height: 520,
+    height: $(element).height(),
     gridSize: 10,
     drawGrid: {
       name: 'mesh',
@@ -215,7 +215,7 @@ const buildAttributes = function () {
     position: { x: position.x, y: position.y },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color },
+      rect: { fill: color, stroke: C.STROKE_COLOR },
       text: { text: name.value, 'class': 'col-text' },
       nodeType: { value: 'columnName' },
       options
@@ -227,7 +227,7 @@ const buildAttributes = function () {
     position: { x: position.x + C.WIDTH / 4, y: position.y },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color },
+      rect: { fill: color, stroke: C.STROKE_COLOR },
       text: { text: type, 'class': 'col-text' },
       nodeType: { value: 'columnType' },
       options
@@ -239,7 +239,7 @@ const buildAttributes = function () {
     position: { x: position.x + C.WIDTH / 2, y: position.y },
     size: { width: C.WIDTH / 2, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color },
+      rect: { fill: color, stroke: C.STROKE_COLOR },
       text: { text: optionsStr, 'class': 'col-text' },
       nodeType: { value: 'columnOptions' },
       options
@@ -266,7 +266,7 @@ const addHeaderColumn = function () {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color, 'fill-opacity': 0, 'class': 'header-rect' },
+      rect: { fill: color, stroke: C.STROKE_COLOR, 'fill-opacity': 0, 'class': 'header-rect' },
       text: { text: ' ' },
       nodeType: { value: 'header' }
     },
@@ -278,7 +278,7 @@ const addHeaderColumn = function () {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color },
+      rect: { fill: color, stroke: C.STROKE_COLOR },
       text: { text: ' Name', 'class': 'header-text' },
       nodeType: { value: 'columnName' }
     },
@@ -289,7 +289,7 @@ const addHeaderColumn = function () {
     position: { x: position.x + C.WIDTH / 4, y: yPos },
     size: { width: C.WIDTH / 4, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color },
+      rect: { fill: color, stroke: C.STROKE_COLOR },
       text: { text: 'Type', 'class': 'header-text' },
       nodeType: { value: 'columnType' }
     },
@@ -300,7 +300,7 @@ const addHeaderColumn = function () {
     position: { x: position.x + C.WIDTH / 2, y: yPos },
     size: { width: C.WIDTH / 2, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color },
+      rect: { fill: color, stroke: C.STROKE_COLOR },
       text: { text: 'Options', 'class': 'header-text' },
       nodeType: { value: 'columnOptions' }
     },
@@ -341,7 +341,7 @@ const addColumn = function (name, type, options = {}) {
     position: { x: position.x, y: yPos },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT },
     attrs: {
-      rect: { fill: color, 'fill-opacity': 0, 'class': 'column-rect' },
+      rect: { fill: color, stroke: C.STROKE_COLOR, 'fill-opacity': 0, 'class': 'column-rect' },
       text: { text: ' ' },
       nodeType: { value: 'column' },
       colType: { value: type },
@@ -355,14 +355,16 @@ const addColumn = function (name, type, options = {}) {
         'in': {
           attrs: {
             '.port-body': {
-              fill: '#FFFFFF'
+              fill: '#FFFFFF',
+              stroke: C.STROKE_COLOR
             }
           }
         },
         'out': {
           attrs: {
             '.port-body': {
-              fill: '#FFFFFF'
+              fill: '#FFFFFF',
+              stroke: C.STROKE_COLOR
             }
           }
         }
@@ -431,8 +433,8 @@ export const createTable = (name) => {
     position: { x: 20, y: 20 },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT + 20 },
     attrs: {
-      rect: { fill: C.TITLE_COLOR },
-      text: { text: textName, 'ref-y': C.TITLE_Y_OFFSET, 'font-size': '18px', 'font-weight': 'bold' },
+      rect: { fill: C.TITLE_COLOR, stroke: C.STROKE_COLOR, 'class': 'table-diagram' },
+      text: { text: textName, 'ref-y': C.TITLE_Y_OFFSET, 'fill': '#FFFFFF', 'font-size': '18px', 'font-weight': 'bold' },
       nodeType: { value: 'table' },
       nodeName: { value: name },
       columns: { value: [] }

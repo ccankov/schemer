@@ -1,11 +1,8 @@
 <template>
-  <li @click='sendCurrent'>
-    <label> Column:
-      <input v-model='colName'/>
-    </label>
-    <div class='col-options' v-show='isCurrent'>
-      <label>Type:
-        <div class='type'>
+  <div class='col-options'>
+    <p class="header">Properties:</p>
+    <label>Type:
+      <div class='type'>
         <select v-model='baseType'>
           <option
             v-for='type in colTypes'
@@ -19,42 +16,26 @@
         :value='customType'
         @keyup.enter='setCustomType'/>
       </div>
-      </label>
+    </label>
 
-      <label
-        v-for='opt in Object.keys(colOptions)'> {{ opt }}
-        <input
-          type='checkbox'
-          :name='opt'
-          :checked='colOptions[opt]'
-          :disabled="primaryKeyChecked(opt)"
-          @click='toggleColOption'>
-      </label>
-
-      <button @click='$emit("remove-column",column.element.id)'>Delete Column</button>
-    </div>
-  </li>
+    <label
+      v-for='opt in Object.keys(colOptions)'> {{ opt }}
+      <input
+        type='checkbox'
+        :name='opt'
+        :checked='colOptions[opt]'
+        :disabled="primaryKeyChecked(opt)"
+        @click='toggleColOption'>
+    </label>
+  </div>
 </template>
 
 <script>
+import { languageTypes } from '../../util/sql_lang_constants'
 
 export default {
-  props: ['id', 'isCurrent', 'graph'],
-  name: 'column',
-  data: () => ({
-    languageTypes: {
-      'postgreSQL': ['varchar', 'text', 'varbit', 'integer', 'float', 'serial', 'boolean', 'date', 'timestamp'],
-      'access': ['text', 'memo', 'byte', 'integer', 'long', 'single', 'double', 'currency', 'autoNumber', 'data/time', 'yes/no', 'OleObject', 'hyperlink'],
-      'mySQL': ['VARCHAR', 'TEXT', 'BLOB', 'INT', 'FLOAT', 'DATETIME', 'TIMESTAMP'],
-      'SQL Server': ['varchar', 'text', 'bit', 'int', 'float', 'money', 'datetime', 'timestamp'],
-      'oracle': ['VARCHAR2', 'LONG', 'DATE', 'BINARY FLOAT', 'TIMESTAMP', 'ROWID', 'BLOB', 'CLOB', 'BFILE']
-    }
-  }),
+  props: ['column', 'graph'],
   computed: {
-    column: function () {
-      window.column = this.graph.getCell(this.id)
-      return this.graph.getCell(this.id)
-    },
     colName: {
       get: function () {
         return this.column.getName()
@@ -73,7 +54,7 @@ export default {
       return options
     },
     colTypes: function () {
-      return this.languageTypes[this.$store.state.graphJSON.sqlLang]
+      return languageTypes[this.$store.state.graphJSON.sqlLang]
     },
     baseType: {
       get: function () {
@@ -133,7 +114,14 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+
+  .header {
+    text-align: left;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
   .col-options {
     padding: 7px;
     display: flex;
@@ -144,6 +132,8 @@ export default {
     margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
+    font-size: 0.8em;
+    padding-left: 20px;
   }
 
   .custom-type {

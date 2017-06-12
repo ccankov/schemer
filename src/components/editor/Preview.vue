@@ -1,19 +1,36 @@
 <template lang="html">
-  <section class="sql-preview">
-    <span class="header">SQL Preview</span>
-    <section class='sql-body'>
-      <pre>
-        <code class="code">{{sql}}</code>
-      </pre>
-      <section class='sql-options'>
-        <label>
-          <span>SQL Language:</span>
-          <select v-model='sqlLang'>
+  <section class="fixed-container">
+    <section class="sql-preview" v-bind:class="{ pinned: pinned }">
+      <header>
+        <span class="heading-text">SQL Preview</span>
+        <span class="options-text">
+          <select v-model='sqlLang' class="lang-select">
             <option v-for='lang in languages'>{{lang}}</option>
           </select>
-        </label>
-        <span class='button' @click='exportSQL'> Export SQL </span>
+          <i class="fa fa-thumb-tack" aria-hidden="true" @click='togglePin'></i>
+        </span>
+      </header>
+      <section class='sql-body'>
+        <pre>
+          <code class="code">{{sql}}</code>
+        </pre>
       </section>
+    </section>
+    <section class="paper-menu">
+      <section class="small-menu">
+        <ul>
+          <li>
+            <span class='button small' @click='exportSQL'>
+              <span class='button-tooltip'>Download SQL</span>
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </span>
+          </li>
+        </ul>
+      </section>
+      <span class='button' @click='addTable'>
+        <span class='button-tooltip'>Add Table</span>
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </span>
     </section>
   </section>
 </template>
@@ -23,9 +40,10 @@ import { RECEIVE_LANGUAGE } from '../../store/mutation_types'
 var FileSaver = require('file-saver')
 
 export default {
-  props: ['sql'],
+  props: ['sql', 'graph'],
   data: () => ({
-    languages: ['postgreSQL', 'access', 'mySQL', 'SQL Server', 'oracle']
+    languages: ['postgreSQL', 'access', 'mySQL', 'SQL Server', 'oracle'],
+    pinned: false
   }),
   computed: {
     sqlLang: {
@@ -38,6 +56,16 @@ export default {
     }
   },
   methods: {
+    togglePin: function () {
+      this.pinned = !this.pinned
+    },
+    addTable: function () {
+      const newTable = this.graph.addTable()
+      this.sendElement(newTable)
+    },
+    sendElement: function (element) {
+      this.$emit('send-element', element)
+    },
     exportSQL: function () {
       let blob = new Blob([this.sql], {type: 'text/plain;charset=utf-8'})
       FileSaver.saveAs(blob, `${this.$store.state.graphJSON.dbName}.sql`)
@@ -46,26 +74,68 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import '../../assets/app.scss';
+
   .sql-preview {
-    flex: 2;
-    border: 1px solid black;
+    position: fixed;
+    bottom: 0;
+    right: 120px;
+    width: 530px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.45);
     display: flex;
     flex-direction: column;
   }
 
-  .sql-body {
+  .sql-preview:hover {
+    .sql-body {
+      height: 250px;
+      transition: 0.3s;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  header {
     display: flex;
-    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: $darkest-gray;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    i {
+      font-size: 0.6em;
+      color: $white;
+    }
+  }
+
+  .sql-body {
+    height: 0;
+    display: flex;
+    transition: 0.3s;
   }
 
   pre {
     flex: 5;
     display: flex;
     background-color:#EEEEEE;
-    padding: 3px;
+    padding: 10px 20px;
     margin: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .sql-body label {
@@ -86,34 +156,158 @@ export default {
     white-space: pre;
   }
 
-  .button {
-    display: block;
-    color: #1c56b2;
-    font-weight: 500;
-    margin: 5px 10px;
-    border: 1px solid #1c56b2;
-    border-radius: 5px;
-    padding: 3px;
-  }
-
-  .button:hover {
-    opacity: .7;
-    cursor: pointer;
-    /*text-decoration: underline;*/
-    transition: border .3s;
-  }
-
   ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+    color: none;
+    -webkit-box-shadow: inset 0 0 100px rgba($gray, 0.8);
+  }
+
+  .heading-text {
+    font-family: $heading;
+    font-size: 0.9em;
+    color: $white;
+    font-weight: bold;
+  }
+
+  .options-text {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    i {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 22px;
+      height: 22px;
+      border: 1px solid $white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    i:hover {
+      cursor: pointer;
+      background-color: $white;
+      color: $darkest-gray;
+    }
+  }
+
+  .lang-select {
+    width: 120px;
+    margin-right: 20px;
+  }
+
+  .fixed-container {
+    position: fixed;
+    bottom: 15px;
+    right: 0;
+    width: 200px;
+    height: 20vh;
+
+    .small-menu {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+
+      .small {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        transition: 0.3s;
+      }
+
+    }
+  }
+
+  .pinned {
+
+    .sql-body {
+      height: 250px;
+    }
+
+    i {
+      background-color: $white;
+      color: $darkest-gray;
+      transform: rotate(90deg);
+      transition: 0.3s;
+    }
+  }
+
+  .fixed-container:hover {
+    .small-menu {
+      .small {
+        visibility: visible;
+        width: 15px;
+        height: 15px;
+        transition: 0.3s;
+      }
+    }
+  }
+
+  .button-tooltip {
+    position: absolute;
+    color: $white;
+    background-color: $darkest-gray;
+    font-family: $heading;
+    font-size: 14px;
+    padding: 5px 10px;
+    right: 80px;
+    width: 100px;
+    z-index: 12;
+    font-weight: bold;
+  }
+
+  .paper-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 10px;
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      width: 30px;
+      color: $white;
+      font-weight: 500;
+      margin: 5px 10px;
+      background-color: $light-accent;
+      border-radius: 50%;
+      padding: 10px;
+      box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+
+      .button-tooltip {
+        visibility: hidden;
+      }
+    }
+
+    .small {
+      height: 15px;
+      width: 15px;
+    }
+
+    .button:hover {
+      cursor: pointer;
+      opacity: 0.8;
+      box-shadow: 0 0 6px rgba(0,0,0,.16), 0 6px 12px rgba(0,0,0,.32);
+      -webkit-transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
+      transition: box-shadow 150ms cubic-bezier(0,0,.2,1);
+
+      .button-tooltip {
+        visibility: visible;
+      }
+    }
   }
 </style>

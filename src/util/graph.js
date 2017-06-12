@@ -2,6 +2,7 @@ import joint from 'jointjs'
 import * as JointUtil from './jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../store/mutation_types'
 import Cell from './cell'
+import { languageTypes } from './sql_lang_constants'
 
 // source code for joint.dia.Graph is in:
 // node_modules/jointjs/src/joint.dia.graph.js
@@ -72,8 +73,37 @@ class Graph {
     return new Cell(this.graph.getCell(id))
   }
 
+  getCells () {
+    return this.graph.getCells()
+      .map(cell => new Cell(cell))
+  }
+
   getLinks () {
     return this.graph.getCells().filter(cell => cell.attributes.type === 'link')
+  }
+
+  getTables () {
+    return this.getCells().filter(cell => cell.isTable())
+  }
+
+  getColumns (tableId) {
+    return this.getCell(tableId) // Cell object
+      .columns() // array of ids
+      .map(colId => this.getCell(colId)) // array of Cell objects
+  }
+
+  getTableTree () {
+    return this.getTables()
+      .map(tableCell => ({
+        id: tableCell.getId(),
+        name: tableCell.getName(),
+        cols: this.getColumns(tableCell.getId())
+            .map(colCell => ({
+              id: colCell.getId(),
+              name: colCell.getName()
+            }))
+      })
+    )
   }
 
   addTable (name = 'New Table') {
@@ -82,9 +112,20 @@ class Graph {
 
     // Mount the table in the graph object
     this.addCells(tableCells)
+
+    // add default columns
+    const colTypes = languageTypes[this.$store.state.graphJSON.sqlLang]
+
+    this.addColumn(tableCells[0], 'id', colTypes[0], { primaryKey: true })
+    this.addColumn(tableCells[0], 'created_at', colTypes[1])
+    this.addColumn(tableCells[0], 'updated_at', colTypes[1])
     return tableCells[0]
   }
-  addColumn (table, newColName, type = 'integer', options = {}) {
+  addColumn (table, newColName = 'New Column', type, options = {}) {
+    if (!type) {
+      type = languageTypes[this.$store.state.graphJSON.sqlLang][0]
+    }
+
     // Create the column on the table
     let colCells = table.attributes.addColumn(newColName, type, options)
 
@@ -92,10 +133,22 @@ class Graph {
     this.addCells(colCells)
     return colCells[0]
   }
-  removeColumn (table, colId) {
-    // Delete the column with the specified id
-    table.attributes.removeColumn(colId)
-    this.commit()
+  removeColumn (colId) {
+    const col = this.getCell(colId)
+    if (col.isCol()) {
+      const parentId = col.parentId()
+      const table = this.graph.getCell(parentId)
+      // Delete the column with the specified id
+      table.attributes.removeColumn(colId)
+      this.commit()
+    }
+  }
+  removeTable (tableId) {
+    const table = this.getCell(tableId)
+    if (table.isTable()) {
+      this.graph.removeCells(table.element)
+      this.commit()
+    }
   }
 }
 

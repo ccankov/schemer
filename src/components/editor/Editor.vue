@@ -1,15 +1,6 @@
 <template lang="html">
   <section class="editor">
-    <section class="side-bar">
-      <!-- <nav class="side-nav">
-        <div class="home-button">
-          <i class="fa fa-home fa-lg" aria-hidden="true"></i>
-        </div>
-        <section class=schemer-user>
-          <h1>Schemer</h1>
-          <h2>Welcome, {{$store.state.currentUser.username}}</h2>
-        </section>
-      </nav> -->
+    <section class="side-bar-container">
       <section class="db-info">
         <h1 v-if='editName'>
           <input v-model='dbName' placeholder='Name your DB'/>
@@ -17,32 +8,27 @@
         <h1 v-else='editName'>{{dbName}}</h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
       </section>
-      <section class="table-form">
-        <table-form
+      <SideBar
         :graph='graph'
-        v-on:send-element='receiveElement'
-        :currentElement='currentElement'></table-form>
+        :currentElement='currentElement'
+        @send-element='receiveElement'>
+      </SideBar>
       </section>
-    </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
-      <section class="additional-info">
-        <!-- <Statistics></Statistics> -->
-        <Preview :sql="sql"></Preview>
-      </section>
+      <Preview :sql="sql" :graph="graph"></Preview>
     </section>
   </section>
 </template>
 
 <script>
-import { CLEAR_ERRORS, RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
-import TableForm from './TableForm'
-import Statistics from './Statistics'
+import SideBar from './SideBar'
 
 import { fetchGraph } from '../../util/api_util'
 
@@ -50,11 +36,11 @@ export default {
   components: {
     Paper,
     Preview,
-    'table-form': TableForm,
-    Statistics
+    SideBar
   },
   data: function () {
     return {
+      id: this.$route.params.id,
       graph: null,
       currentElement: null,
       editName: false,
@@ -75,8 +61,16 @@ export default {
   },
   methods: {
     receiveElement: function (element) {
-      this.currentElement = new Cell(element)
-      this.$store.commit(CLEAR_ERRORS)
+      if (element) {
+        const cell = new Cell(element)
+        if (cell.type() === 'header') {
+          this.currentElement = this.graph.getCell(cell.parentId())
+        } else {
+          this.currentElement = cell
+        }
+      } else {
+        this.currentElement = null
+      }
     },
     toggleEdit: function () {
       if (this.editName) {
@@ -86,10 +80,14 @@ export default {
     }
   },
   created () {
-    fetchGraph(1).then(res => console.log(res))
+    if (this.$route.params.id) {
+      fetchGraph(this.$route.params.id).then(
+        res => console.log(res),
+        errors => this.$store.commit(RECEIVE_ERRORS, { errors })
+      )
+    }
 
     this.graph = new Graph(this.$store)
-    this.$store.commit(RECEIVE_ERRORS, { errors: ['select an element'] })
   }
 }
 </script>
@@ -105,9 +103,9 @@ export default {
     padding-top: 60px;
   }
 
-  .side-bar {
-    width: 350px;
-    min-width: 350px;
+  .side-bar-container {
+    width: 20vw;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -178,18 +176,15 @@ export default {
   .body {
     display: flex;
     flex: 1;
-    min-width: 600px;
-    max-width: calc(100% - 350px);
+    max-width: calc(100% - 300px);
     flex-direction: column;
     box-sizing: border-box;
   }
 
-  .additional-info {
+  .paper-menu {
     position: fixed;
+    width: 100px;
     bottom: 15px;
-    right: 100px;
-    display: flex;
-    height: 20vh;
-    max-height: 20vh;
+    right: 10px;
   }
 </style>

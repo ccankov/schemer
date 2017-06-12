@@ -4,6 +4,8 @@ import Hello from '@/components/Hello'
 import Editor from '@/components/editor/Editor'
 import Home from '@/components/Home'
 import Session from '@/components/session'
+import Features from '@/components/Features'
+import About from '@/components/About'
 
 Vue.use(Router)
 
@@ -26,8 +28,23 @@ const router = new Router({
     },
     {
       path: '/editor',
-      name: 'editor',
+      name: 'newDb',
       component: Editor
+    },
+    {
+      path: '/editor/:id',
+      name: 'loadDb',
+      component: Editor
+    },
+    {
+      path: '/features',
+      name: 'feature',
+      component: Features
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
     }
   ]
 })

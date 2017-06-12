@@ -12,36 +12,42 @@ authRoutes.get('/current_user',
 )
 
 authRoutes.post('/login',
-  passport.authenticate('local'),
-  (req, res) => {
-    res.json({ user: req.user })
+  (req, res, next) => {
+    passport.authenticate('local', function (err, user, info) {
+      if (err || !user) {
+        return res.status(422).json({ message: info.message })
+      }
+      req.login(user, err => {
+        if (err) {
+          res.status()
+        } else {
+          res.json({ user })
+        }
+      })
+    })(req, res, next)
   }
 )
 
 authRoutes.post('/signup',
-  (req, res) => {
+  (req, res, next) => {
     User.createUser(req.body.username, req.body.password,
-    (err, user) => {
+    (err, user, info) => {
       if (err) {
-        res.status(422).json({errors: [err]})
+        res.status(422).json({ errors: [err] })
+      } else if (!user) {
+        res.status(422).json({ message: info.message })
       } else {
         req.login(user, err => {
           if (err) {
-            console.log('whoops')
-            res.json(err)
+            res.status()
           } else {
             res.json({ user })
           }
         })
-        // let a = passport.authenticate('local')
-        // debugger
-        // a((req, res, other) => {
-        //   console.log(req)
-        //   console.log(res)
-        //   console.log(other)
       }
     })
-  })
+  }
+)
 
 authRoutes.get('/logout', (req, res) => {
   req.logout()
