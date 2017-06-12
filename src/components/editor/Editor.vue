@@ -1,9 +1,5 @@
 <template lang="html">
   <section class="editor">
-    <side-bar
-      :graph='graph'
-      v-on:send-element='receiveElement'
-      :currentElement='currentElement'></side-bar>
     <section class="side-bar">
       <!-- <nav class="side-nav">
         <div class="home-button">
@@ -21,11 +17,21 @@
         <h1 v-else='editName'>{{dbName}}</h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
       </section>
-      <section class="table-form">
+      <!-- <section class="table-form">
         <table-form
         :graph='graph'
         v-on:send-element='receiveElement'
         :currentElement='currentElement'></table-form>
+      </section> -->
+      <section class='side-bar'>
+        <treeView
+          :currentElement='currentElement'
+          :graph='graph'
+          v-on:send-element='receiveElement'></treeView>
+        <elementView
+          :currentElement='currentElement'
+          :graph='graph'
+          v-on:send-element='receiveElement'></elementView>
       </section>
     </section>
     <section class="body">
@@ -42,9 +48,10 @@ import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
-import TableForm from './TableForm'
-import Statistics from './Statistics'
-import SideBar from './SideBar'
+// import TableForm from './TableForm'
+// import Statistics from './Statistics'
+import treeView from './treeView'
+import elementView from './elementView'
 
 import { fetchGraph } from '../../util/api_util'
 
@@ -52,9 +59,8 @@ export default {
   components: {
     Paper,
     Preview,
-    'table-form': TableForm,
-    'side-bar': SideBar,
-    Statistics
+    treeView,
+    elementView
   },
   data: function () {
     return {
