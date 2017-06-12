@@ -7,31 +7,23 @@
       <h2 v-else='editName'>{{ elementName }}</h2>
       <i @click='toggleEdit' class='edit fa fa-pencil'></i>
     </header>
-    <ul class='element-details'>
-      <div v-if='isTable' class="stats">
-        <span class="header">Statistics</span>
-        <p class="stats-line">
-          <span>Columns</span>
-          <span>{{ columnCount }}</span>
-        </p>
-        <p class="stats-line">
-          <span>Connections</span>
-          <span>{{ connectionCount }}</span>
-        </p>
-        <button @click='deleteElement'>Delete Table</button>
-      </div>
-
-      <div v-if='isCol' class='col-options'>
-
-        <button @click='deleteElement'>Delete Table</button>
-      </div>
-    </ul>
+    <div class='element-details'>
+      <tableStats v-if='isTable' :table='currentElement' :graph='graph'>
+      </tableStats>
+      <colOptions v-if='isCol' :columnn='currentElement' :graph='graph'>
+      </colOptions>
+      <button @click='deleteElement'>Delete Table</button>
+    </div>
   </section>
 </template>
 
 <script>
+import tableStats from './tableStats'
+import colOptions from './colOptions'
+
 export default {
   props: ['currentElement', 'graph'],
+  components: { tableStats, colOptions },
   data: () => ({
     editName: false
   }),
@@ -57,23 +49,6 @@ export default {
         }
         this.graph.commit()
       }
-    },
-    columnCount: function () {
-      if (!this.currentElement.isTable()) return 0
-      return this.currentElement.columns().length
-    },
-    connectionCount: function () {
-      if (!this.currentElement.isTable()) return 0
-      let linkCount = 0
-      const colIds = this.currentElement.columns()
-      this.graph.getLinks()
-        .forEach(link => {
-          if (colIds.includes(link.attributes.source.id) ||
-           colIds.includes(link.attributes.target.id)) {
-            linkCount++
-          }
-        })
-      return linkCount
     }
   },
   methods: {

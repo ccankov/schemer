@@ -37,8 +37,6 @@
 </template>
 
 <script>
-// col deletion
-// table deletion
 
 export default {
   props: ['id', 'isCurrent', 'graph'],
