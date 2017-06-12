@@ -31,12 +31,18 @@ export default {
     // Define sample table with two columns
     const usersTable = this.graph.addTable('users')
     this.graph.addColumn(usersTable, 'id', 'integer', { 'primaryKey': true, 'notNull': false })
-    this.graph.addColumn(usersTable, 'username', 'string', { 'notNull': false })
+    this.graph.addColumn(usersTable, 'username', 'text', { 'notNull': false })
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import '../../assets/app.scss';
+
+  .table-diagram {
+    
+  }
+
   .paper-container{
     height: 100%;
     width: 100%;
@@ -79,7 +85,7 @@ export default {
   }
 
   .available-magnet {
-    fill: yellow;
+    fill: $light-accent;
   }
 
   .errors {
