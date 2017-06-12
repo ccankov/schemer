@@ -76,6 +76,7 @@ export default {
 
   .about {
     width: 100%;
+    overflow: scroll;
 
     h1 {
       padding-left: 100px;
