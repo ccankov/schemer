@@ -15,7 +15,6 @@ const createUser = (username, password, done) => {
           stop = true
         }
         if (data.length > 0) {
-          console.log('shit')
           done(null, false, { message: 'Username already taken' })
           stop = true
         }
