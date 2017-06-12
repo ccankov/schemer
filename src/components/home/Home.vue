@@ -62,7 +62,7 @@ export default {
     font-weight: 500;
     padding: 15px 20px;
     font-size: 26px;
-    text-align: center;
+    text-align: right;
   }
 
   .home-links li:hover {
