@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Editor from '@/components/editor/Editor'
 import Home from '@/components/home/Home'
 import Features from '@/components/home/Features'
@@ -13,8 +12,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      redirect: '/home'
     },
     {
       path: '/home',
