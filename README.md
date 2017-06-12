@@ -15,7 +15,15 @@ Schemer is built with a Vue.js frontend, an Express/Node.js backend, and MongoDB
 ## Features
 
 ### Interactive Visual Editor
+At the core of Schemer is a visual editor built around the [JointJS](https://www.jointjs.com/) diagramming library.
+A typical editor view consists of tables, each embedded with column information. Tables are connected to other tables via links, representing the relational structure of a SQL database. Tables are draggable, allowing you to visually setup you schema in a way that makes sense to you.
+
 ### Table and Column Creation and Editing
+To the left of the main editor is a menu that displays the current structure of the database and allows for editing of different elements. The top portion of the menu is a tree view of the current schema, with a list of tables and the columns in each of those tables.
+
+Clicking on a particular element, either in the tr in the editor highlights in the edit panel on the left side of the page. This edit panel
+
+
 ### Drag-and-Drop Link Creation
 ### SQL Generation and Exporting
 
