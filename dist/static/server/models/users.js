@@ -46,6 +46,8 @@ const findByUsername = (username, done) => {
 }
 
 const validateUser = (username, password, done) => {
+  console.log(username)
+  console.log(password)
   MongoClient.connect(url,
   (err, db) => {
     if (err) {

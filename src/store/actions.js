@@ -7,17 +7,24 @@ import {
   LOGOUT,
   SIGNUP,
   FETCH_USER,
-  RECEIVE_CURRENT_USER
+  RECEIVE_CURRENT_USER,
+  RECEIVE_ERRORS
 } from './mutation_types'
 
 export default {
   [SIGNUP] ({ commit }, { user }) {
     return APIUtil.signup(user)
-      .then(user => commit(RECEIVE_CURRENT_USER, user))
+      .then(
+        user => commit(RECEIVE_CURRENT_USER, user),
+        err => commit(RECEIVE_ERRORS, err)
+      )
   },
   [LOGIN] ({ commit }, { user }) {
     return APIUtil.login(user)
-      .then(user => commit(RECEIVE_CURRENT_USER, user))
+      .then(
+        user => commit(RECEIVE_CURRENT_USER, user),
+        err => commit(RECEIVE_ERRORS, err.responseJSON)
+      )
   },
   [LOGOUT] ({ commit }) {
     return APIUtil.logout()

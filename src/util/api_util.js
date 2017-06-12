@@ -18,7 +18,6 @@ export const updateGraph = (graphStr) => (
 )
 
 export const login = ({ username, password }) => {
-  debugger
   return $.ajax({
     method: 'post',
     url: '/api/login',

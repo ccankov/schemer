@@ -11,15 +11,25 @@ authRoutes.get('/current_user',
   }
 )
 
-authRoutes.post('/login',
-  passport.authenticate('local'),
-  (req, res) => {
-    res.json({ user: req.user })
-  }
-)
+authRoutes.get('/loginfail', function (req, res) {
+  console.log('hmm')
+  res.status(403).json({message: 'BAD BAD BAD'})
+})
+
+authRoutes.post('/login', function(req, res, next ){
+  // passport.authenticate('local', { failureRedirect: '/loginfail', failureFlash: false }),
+  // (req, res) => {
+  //   res.json({ user: req.user })
+  // }
+  passport.authenticate('local', function (err, user, info) {
+    if (err) { return next(err) }
+    if (!user) { return res.status(403).json({ message: info.message }) }
+    res.json(user)
+  })(req, res, next)
+})
 
 authRoutes.post('/signup',
-  (req, res) => {
+  (req, res, next) => {
     User.createUser(req.body.username, req.body.password,
     (err, user) => {
       if (err) {
@@ -27,8 +37,7 @@ authRoutes.post('/signup',
       } else {
         req.login(user, err => {
           if (err) {
-            console.log('whoops')
-            res.json(err)
+            res.status()
           } else {
             res.json({ user })
           }

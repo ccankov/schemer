@@ -31,8 +31,8 @@ export const mutations = {
   [RECEIVE_LANGUAGE] (state, { sqlLang }) {
     state.graphJSON.sqlLang = sqlLang
   },
-  [RECEIVE_ERRORS] (state, { errors }) {
-    state.errors = errors
+  [RECEIVE_ERRORS] (state, { message }) {
+    state.errors = Object.assign([], [message])
   },
   [CLEAR_ERRORS] (state) {
     state.errors = []
