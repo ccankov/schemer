@@ -30,16 +30,16 @@ export default {
     .row {
       display: flex;
       padding: 40px;
-      height: 675px;
+      height: 75%;
     }
 
     .column {
       display: flex;
       flex-direction: column;
-      width: 350px;
+      width: 18vw;
 
       p {
-        margin-top: 200px;
+        margin-top: 15vh;
         color: $white;
         font-family: $paragraph;
         font-size: 28px;
@@ -52,7 +52,7 @@ export default {
       font-family: $heading;
       color: $white;
       font-weight: bolder;
-      font-size: 60px;
+      font-size: 48px;
     }
 
     figure {

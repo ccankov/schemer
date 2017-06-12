@@ -69,7 +69,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .feature-list li {
