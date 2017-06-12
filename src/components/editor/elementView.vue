@@ -7,7 +7,9 @@
       <h2 v-else='editName'>{{ elementName }}</h2>
       <i @click='toggleEdit' class='edit fa fa-pencil'></i>
     </header>
+    <ul class='element-details'>
 
+    </ul>
   </section>
 </template>
 
@@ -20,6 +22,7 @@ export default {
   computed: {
     elementName: {
       get: function () {
+        if (!this.currentElement) return null
         return this.currentElement.getName()
       },
       set: function (name) {
@@ -43,17 +46,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '../../assets/app.scss';
+
   .element-view {
     width: 100%;
     box-sizing: border-box;
     padding: 20px;
+
   }
 
   .element-name {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: lightblue
+    background: $light-blue
   }
 
   .element-name h2 {

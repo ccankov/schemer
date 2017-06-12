@@ -1,24 +1,22 @@
 <template>
   <ul class='table-list'>
-    <li
-      class='table-item'
+    <li class='table-item'
       v-for='table in tables'>
-      <label>
+      <label :class='elClass(table)'>
         <span>
           <i class='fa fa-folder-open-o'></i>
-          <span>{{ table.name }} </span>
+          <span>{{ table.name }}</span>
         </span>
         <i
           class='col-btn fa fa-plus'
           @click='addColumn'></i>
       </label>
-      <ul
-        class='col-list'
+      <ul class='col-list'
         v-show='currentTableId === table.id'>
         <li
           class='col-item'
           v-for='col in table.cols'>
-            <label>
+            <label :class='elClass(col)'>
               <span>
                 <i class='fa fa-file-text-o'></i>
                 <span>{{ col.name }}</span>
@@ -55,6 +53,10 @@ export default {
     }
   },
   methods: {
+    elClass: function (element) {
+      const currId = this.currentElement ? this.currentElement.getId() : null
+      return element.id === currId ? 'current-element' : ''
+    },
     addColumn: function () {
       const newCol = this.graph.addColumn(this.currentTable.element)
       this.sendElement(newCol)
@@ -67,7 +69,9 @@ export default {
 
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
+  @import '../../assets/app.scss';
+
   ul, li {
     margin: 0;
     padding: 0;
@@ -97,6 +101,10 @@ export default {
 
   .col-item {
     padding: 2px 5px;
+  }
+
+  .current-element {
+    background: $light-blue;
   }
 
 </style>
