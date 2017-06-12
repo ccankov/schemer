@@ -64,6 +64,10 @@ export default {
     list-style: none;
   }
 
+  li {
+    display: block;
+  }
+
   label > span:hover, .col-btn:hover {
     cursor: pointer;
   }
@@ -95,7 +99,7 @@ export default {
   }
 
   .current-element {
-    background: $light-blue;
+    background: rgba($light-accent, 0.3);
   }
 
 </style>

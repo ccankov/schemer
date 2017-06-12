@@ -81,22 +81,20 @@ export default {
     width: 100%;
     box-sizing: border-box;
     padding: 20px;
-
   }
 
   .element-name {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: $light-blue
+    background: rgba($light-accent, 0.3);
   }
 
   .element-name h2 {
     padding: 5px 0;
     margin: 0;
-    font-size: 20px;
+    font-size: 14px;
   }
-
 
   .edit:hover {
     cursor: pointer;
