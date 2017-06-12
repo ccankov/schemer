@@ -20,11 +20,11 @@ Schemer is built with a Vue.js frontend, an Express/Node.js backend, and MongoDB
 ### SQL Generation and Exporting
 
 ## Technologies
- * [Vue.js]()/[Vuex]() for frontend view rendering and state management
- * [JointJS]() for the interactive diagramming interface
- * [Express]()/[Node.js]() for the backend RESTful API
-    * [Passport.js]() is used for secure authentication
- * MongoDB for storing user, session and database information
+ * [Vue.js](https://vuejs.org/)/[Vuex](https://vuex.vuejs.org/) for frontend view rendering and state management
+ * [JointJS](https://www.jointjs.com/) for the interactive diagramming interface
+ * [Express](https://expressjs.com)/[Node.js](https://nodejs.org) for the backend RESTful API
+    * [Passport.js](https://passportjs.org) is used for secure authentication
+ * [MongoDB](https://mongodb.com) for storing user, session and database information
 
 ## Design and Development
 Schemer was conceived, designed, and built in a week by [Brady Kimball](https://github.com/brady-kimabll), [Chris Cankov](https://github.com/ccankov) and [Nikita Shalimov](https://github.com/ndshal). View the original [Project Proposal](docs/README.md) or contact us for more details.
