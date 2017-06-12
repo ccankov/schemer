@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
-        <div class="modal-container" @click="boop2">
+        <div class="modal-container" @click="stopPropagation">
 
           <div class="modal-header">
             <slot name="header">
@@ -59,27 +59,25 @@ export default {
     }
   },
   methods: {
-    boop: function () {
-      console.log('boop')
-    },
-    boop2: function (e) {
+    stopPropagation: function (e) {
       e.stopPropagation()
     },
     submit: function (e) {
       e.preventDefault()
       if (this.authType === 'login') {
-        this.login()
+        this.login().then(
+          response => this.$emit('close'),
+          err => console.log(err)
+        )
       } else {
-        this.signUp()
-      }
-      if (this.$store.state.errors.length > 0) {
-        console.log(this.$store.state.errors)
-      } else {
-        this.$emit('close')
+        this.signUp().then(
+          response => this.$emit('close'),
+          err => console.log(err)
+        )
       }
     },
     login: function () {
-      this.$store.dispatch(LOGIN, {
+      return this.$store.dispatch(LOGIN, {
         user: {
           username: this.username,
           password: this.password
@@ -87,7 +85,7 @@ export default {
       })
     },
     signUp: function () {
-      this.$store.dispatch(SIGNUP, { user:
+      return this.$store.dispatch(SIGNUP, { user:
       {
         username: this.username,
         password: this.password
