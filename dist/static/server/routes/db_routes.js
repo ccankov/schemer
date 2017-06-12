@@ -1,25 +1,78 @@
 const express = require('express')
 const uuid = require('uuid')
-const appData = require('./fakeDB.json')
-
-// create app data from json to mimic Mongo
-const dbData = appData.dbs
 
 // ------------ Create DB API Endpoints ---------- //
 const dbRoutes = express.Router()
+
+var MongoClient = require('mongodb').MongoClient
+var url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
+var bodyParser = require('body-parser')
+
+const app = express()
+
+app.use(bodyParser.json())        // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
+  extended: true
+}))
 
 // Get all of a user's databases
 dbRoutes.get('/dbs', (req, res) => {
   if (req.user) {
     // passort adds user to request
-    const dbs = dbData
-      .find(db => db.user_id === req.user.id)
-      .map(db => delete db.graphJSON) // ?
-    res.json({ dbs })
+    MongoClient.connect(url, (err, db) => {
+      if (err) {
+        console.log(err)
+      } else {
+        db.collection('dbs')
+        .find({'user_id': req.user._id})
+        .toArray(function (err, data) {
+          if (err) {
+            console.log(err)
+            return res(err)
+          } else {
+            console.log(data)
+            return res.json(data)
+          }
+        })
+      }
+    })
   } else {
     res.json({ dbs: [] })
   }
 })
+
+app.route('/api/dbs/:id')
+  .get((req, res) => {
+    MongoClient.connect(url, (err, db) => {
+      if (err) {
+        console.log(err)
+      } else {
+        if (req.params.id) {
+          db.collection('dbs').find({ '_id': { '$oid': req.params.graphId } })
+          .toArray(function (err, data) {
+            if (err) {
+              console.log(err)
+              return res(err)
+            } else {
+              console.log(data)
+              return res.json(data)
+            }
+          })
+        } else {
+          db.collection('dbs').find().toArray(function (err, data) {
+            if (err) {
+              console.log(err)
+              return res(err)
+            } else {
+              console.log(data)
+              return res.json(data)
+            }
+          })
+        }
+      }
+    })
+  }
+)
 
 // Add a database
 dbRoutes.post('/dbs', (req, res) => {
@@ -27,17 +80,27 @@ dbRoutes.post('/dbs', (req, res) => {
     res.status(401).json({ errors: ['Must be logged in'] })
   }
 
-  const { id } = req.user
-  const { name, graphJSON } = req.body
-  const db = {
-    id: uuid.v4(),
-    name,
-    graphJSON,
-    user_id: id
-  }
-  dbData.push(db)
-
-  res.status(201).json({ db })
+  MongoClient.connect(url, (err, db) => {
+    const { _id } = req.user
+    let safeString = req.body.graph.replace(/\.port/g, 'U+FF0Eport')
+    console.log(safeString)
+    let graph = JSON.parse(safeString)
+    console.log('---')
+    console.log(graph)
+    const { dbName, sqlLang, cells } = graph
+    const database = {
+      dbName,
+      sqlLang,
+      graph: cells,
+      user_id: _id
+    }
+    if (err) {
+      console.log(err)
+    } else {
+      db.collection('dbs').insert(database)
+    }
+  })
+  res.status(201).json(req.body)
 })
 
 // Delete a database
