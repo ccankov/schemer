@@ -83,6 +83,7 @@ export default {
       ),
       url('../../assets/sanfrancisco.jpg');
     background-size: cover;
+    overflow: scroll;
 
     h1 {
       padding-left: 100px;
@@ -111,6 +112,11 @@ export default {
     .row {
       display: flex;
       align-items: stretch;
+
+      figure {
+        display: flex;
+        align-items: center;
+      }
     }
 
     .reverse {
