@@ -4,7 +4,8 @@ import {
   CLEAR_ERRORS,
   RECEIVE_DBNAME,
   RECEIVE_LANGUAGE,
-  RECEIVE_CURRENT_USER
+  RECEIVE_CURRENT_USER,
+  RECEIVE_USER_GRAPHS
 } from './mutation_types'
 
 export const state = {
@@ -13,6 +14,7 @@ export const state = {
     dbName: 'LibaryDB',
     sqlLang: 'postgreSQL'
   },
+  userGraphs: [],
   currentUser: null,
   errors: [],
   dbName: 'LibaryDB'
@@ -26,6 +28,9 @@ export const mutations = {
       state.currentUser = null
     }
     state.errors = []
+  },
+  [RECEIVE_USER_GRAPHS] (state, { userGraphs }) {
+    state.userGraphs = userGraphs
   },
   [RECEIVE_GRAPH] (state, { graphJSON }) {
     state.graphJSON.cells = graphJSON.cells
