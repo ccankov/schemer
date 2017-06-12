@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class='element-view'>
+  <section class='element-view' v-show='currentElement'>
     <header class='element-name'>
       <h2 v-if='editName'>
         <input v-model='elementName' placeholder='Name this element'/>
@@ -8,6 +8,17 @@
       <i @click='toggleEdit' class='edit fa fa-pencil'></i>
     </header>
     <ul class='element-details'>
+      <div v-if='isTable' class="stats">
+        <span class="header">Statistics</span>
+        <p class="stats-line">
+          <span>Columns</span>
+          <span>{{ columnCount }}</span>
+        </p>
+        <p class="stats-line">
+          <span>Connections</span>
+          <span>{{ connectionCount }}</span>
+        </p>
+      </div>
 
     </ul>
   </section>
@@ -20,6 +31,9 @@ export default {
     editName: false
   }),
   computed: {
+    isTable: function () {
+      return this.currentElement ? this.currentElement.isTable() : false
+    },
     elementName: {
       get: function () {
         if (!this.currentElement) return null
@@ -28,13 +42,30 @@ export default {
       set: function (name) {
         this.currentElement.setName(name)
 
-        if (this.currentElement.isColumn()) {
+        if (this.currentElement.isCol()) {
           let nameCell = this.graph.getCell(this.currentElement.embeds()[0])
           nameCell.setName(name)
           nameCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
         }
         this.graph.commit()
       }
+    },
+    columnCount: function () {
+      if (!this.currentElement.isTable()) return 0
+      return this.currentElement.columns().length
+    },
+    connectionCount: function () {
+      if (!this.currentElement.isTable()) return 0
+      let linkCount = 0
+      const colIds = this.currentElement.columns()
+      this.graph.getLinks()
+        .forEach(link => {
+          if (colIds.includes(link.attributes.source.id) ||
+           colIds.includes(link.attributes.target.id)) {
+            linkCount++
+          }
+        })
+      return linkCount
     }
   },
   methods: {
