@@ -73,18 +73,19 @@ export default {
     submit: function (e) {
       e.preventDefault()
       if (this.authType === 'login') {
-        this.login()
+        this.login().then(
+          response => this.$emit('close'),
+          err => console.log(err)
+        )
       } else {
-        this.signUp()
-      }
-      if (this.$store.state.errors.length > 0) {
-        console.log(this.$store.state.errors)
-      } else {
-        this.$emit('close')
+        this.signUp().then(
+          response => this.$emit('close'),
+          err => console.log(err)
+        )
       }
     },
     login: function () {
-      this.$store.dispatch(LOGIN, {
+      return this.$store.dispatch(LOGIN, {
         user: {
           username: this.username,
           password: this.password
@@ -92,7 +93,7 @@ export default {
       })
     },
     signUp: function () {
-      this.$store.dispatch(SIGNUP, { user:
+      return this.$store.dispatch(SIGNUP, { user:
       {
         username: this.username,
         password: this.password

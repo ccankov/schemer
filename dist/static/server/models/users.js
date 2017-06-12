@@ -3,11 +3,31 @@ const url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
 const bcrypt = require('bcrypt')
 
 const createUser = (username, password, done) => {
+  let stop = false
   MongoClient.connect(url,
   (err, db) => {
     if (err) {
       done(err, null)
     } else {
+      db.collection('users').find({ username }).toArray((err, data) => {
+        if (err) {
+          done(err, null)
+          stop = true
+        }
+        if (data.length > 0) {
+          console.log('shit')
+          done(null, false, { message: 'Username already taken' })
+          stop = true
+        }
+      })
+      if (username === '') {
+        done(null, false, { message: 'Username cannot be blank' })
+        stop = true
+      } else if (password.length < 6) {
+        done(null, false, { message: 'Password must be at least 6 characters' })
+        stop = true
+      }
+      if (stop) return
       bcrypt.genSalt(10, function (err, salt) {
         if (err) done(err, null)
         bcrypt.hash(password, salt, (err, hash) => {
@@ -46,8 +66,6 @@ const findByUsername = (username, done) => {
 }
 
 const validateUser = (username, password, done) => {
-  console.log(username)
-  console.log(password)
   MongoClient.connect(url,
   (err, db) => {
     if (err) {
@@ -63,7 +81,7 @@ const validateUser = (username, password, done) => {
             if (err) {
               done(err, null)
             } else if (!result) {
-              done('invalid password', null)
+              done({message: 'invalid password'}, null)
             } else {
               done(null, user)
             }

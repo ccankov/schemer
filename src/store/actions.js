@@ -13,18 +13,34 @@ import {
 
 export default {
   [SIGNUP] ({ commit }, { user }) {
-    return APIUtil.signup(user)
+    return new Promise((resolve, reject) => {
+      APIUtil.signup(user)
       .then(
-        user => commit(RECEIVE_CURRENT_USER, user),
-        err => commit(RECEIVE_ERRORS, err)
+        user => {
+          commit(RECEIVE_CURRENT_USER, user)
+          resolve(user)
+        },
+        err => {
+          commit(RECEIVE_ERRORS, err)
+          reject(err)
+        }
       )
+    })
   },
   [LOGIN] ({ commit }, { user }) {
-    return APIUtil.login(user)
+    return new Promise((resolve, reject) => {
+      APIUtil.login(user)
       .then(
-        user => commit(RECEIVE_CURRENT_USER, user),
-        err => commit(RECEIVE_ERRORS, err.responseJSON)
+        user => {
+          commit(RECEIVE_CURRENT_USER, user)
+          resolve(user)
+        },
+        err => {
+          commit(RECEIVE_ERRORS, err.responseJSON)
+          reject(err)
+        }
       )
+    })
   },
   [LOGOUT] ({ commit }) {
     return APIUtil.logout()
