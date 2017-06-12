@@ -45,10 +45,19 @@ export default {
   .features {
     padding: 0 70px 0 40px;
     text-align: left;
+    background:
+      radial-gradient(
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.4) 100%
+      ),
+      url('../../assets/abstract.jpeg');
+    overflow: scroll;
+    background-size: cover;
 
     h2 {
-      font-size: 26px;
+      font-size: 30px;
       text-align: center;
+      color: $white;
     }
   }
 
@@ -60,17 +69,22 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: flex-end;
   }
 
   .feature-list li {
     padding: 0;
     margin: 0;
 
-    width: 100%;
+    width: 60%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    background-color: $white;
+    border-radius: 5px;
+    padding: 0 30px;
+    margin: 10px 0;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 
     i {
       color: $accent;
@@ -80,7 +94,6 @@ export default {
 
     div {
       flex-grow: 1;
-      border-bottom: 1px solid $gray
     }
   }
 
@@ -94,6 +107,7 @@ export default {
 
   p {
     font-family: $paragraph;
+    font-size: 18px;
   }
 
   span {
