@@ -32,7 +32,7 @@ export default {
       APIUtil.login(user)
       .then(
         user => {
-          commit(RECEIVE_CURRENT_USER, user)
+          commit(RECEIVE_CURRENT_USER, { user })
           resolve(user)
         },
         err => {
