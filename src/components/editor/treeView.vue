@@ -72,8 +72,8 @@ export default {
   }
 
   .table-list {
+    padding: 20px 0;
     font-family: $heading;
-    padding: 20px;
     box-sizing: border-box;
     width: 100%;
     display: flex;
@@ -93,6 +93,7 @@ export default {
 
   .table-list label {
     display: flex;
+    padding: 3px 20px;
     justify-content: space-between;
   }
 
@@ -102,10 +103,9 @@ export default {
   }
 
   .col-item {
-    padding: 2px 5px;
 
     label {
-      padding-left: 30px;
+      padding-left: 45px;
     }
   }
 
