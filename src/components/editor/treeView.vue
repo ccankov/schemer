@@ -63,7 +63,7 @@ export default {
     padding: 0;
     list-style: none;
   }
-
+  // make this flex
   li {
     display: block;
   }

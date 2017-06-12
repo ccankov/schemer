@@ -30,18 +30,10 @@
 </template>
 
 <script>
+import { languageTypes } from '../../util/sql_lang_constants'
 
 export default {
   props: ['column', 'graph'],
-  data: () => ({
-    languageTypes: {
-      'postgreSQL': ['varchar', 'text', 'varbit', 'integer', 'float', 'serial', 'boolean', 'date', 'timestamp'],
-      'access': ['text', 'memo', 'byte', 'integer', 'long', 'single', 'double', 'currency', 'autoNumber', 'data/time', 'yes/no', 'OleObject', 'hyperlink'],
-      'mySQL': ['VARCHAR', 'TEXT', 'BLOB', 'INT', 'FLOAT', 'DATETIME', 'TIMESTAMP'],
-      'SQL Server': ['varchar', 'text', 'bit', 'int', 'float', 'money', 'datetime', 'timestamp'],
-      'oracle': ['VARCHAR2', 'LONG', 'DATE', 'BINARY FLOAT', 'TIMESTAMP', 'ROWID', 'BLOB', 'CLOB', 'BFILE']
-    }
-  }),
   computed: {
     colName: {
       get: function () {
@@ -61,7 +53,7 @@ export default {
       return options
     },
     colTypes: function () {
-      return this.languageTypes[this.$store.state.graphJSON.sqlLang]
+      return languageTypes[this.$store.state.graphJSON.sqlLang]
     },
     baseType: {
       get: function () {
