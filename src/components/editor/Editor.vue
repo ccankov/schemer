@@ -6,14 +6,17 @@
           <input v-model='dbName' placeholder='Name your DB'/>
         </h1>
         <h1 v-else='editName'>
-          <select v-model="currGraph">
+          <select v-if="loggedIn" v-model="currGraph">
             <option v-for="graph in graphs"   v-bind:value="graph.graph">
              {{ graph.dbName }}
            </option>
           </select>
+          <span v-else='loggedIn'>
+            {{ dbName }}
+          </span>
         </h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
-        <button @click='saveDb'>Save</button>
+        <button v-if='loggedIn' @click='saveDb'>Save</button>
       </section>
       <SideBar
         :graph='graph'
@@ -77,6 +80,9 @@ export default {
     sql: function () {
       let json = this.$store.state.graphJSON
       return createSQL(json)
+    },
+    loggedIn: function () {
+      return Boolean(this.$store.state.currentUser)
     }
   },
   methods: {
