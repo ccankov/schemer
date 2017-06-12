@@ -11,15 +11,10 @@ authRoutes.get('/current_user',
   }
 )
 
-authRoutes.get('/loginfail', function (req, res) {
-  console.log('hmm')
-  res.status(403).json({message: 'BAD BAD BAD'})
-})
-
 authRoutes.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err || !user) {
-      return res.status(403).json({ message: 'Invalid username/password' })
+      return res.status(422).json({ message: info.message })
     }
     res.json(user)
   })(req, res, next)

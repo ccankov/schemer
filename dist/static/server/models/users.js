@@ -73,7 +73,7 @@ const validateUser = (username, password, done) => {
     } else {
       db.collection('users').find({ username }).toArray((err, data) => {
         if (err || !data[0]) {
-          done('invalid username', null)
+          done(null, false, { message: 'Username not found' })
         } else {
           const user = data[0]
           bcrypt.compare(password, user.password_digest,
@@ -81,7 +81,7 @@ const validateUser = (username, password, done) => {
             if (err) {
               done(err, null)
             } else if (!result) {
-              done({message: 'invalid password'}, null)
+              done(null, false, {message: 'Invalid password'})
             } else {
               done(null, user)
             }

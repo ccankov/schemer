@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
-        <div class="modal-container" @click="boop2">
+        <div class="modal-container" @click="stopPropagation">
 
           <div class="modal-header">
             <slot name="header">
@@ -64,10 +64,7 @@ export default {
     }
   },
   methods: {
-    boop: function () {
-      console.log('boop')
-    },
-    boop2: function (e) {
+    stopPropagation: function (e) {
       e.stopPropagation()
     },
     submit: function (e) {

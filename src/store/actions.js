@@ -36,7 +36,7 @@ export default {
           resolve(user)
         },
         err => {
-          commit(RECEIVE_ERRORS, err.responseJSON)
+          commit(RECEIVE_ERRORS, err)
           reject(err)
         }
       )
