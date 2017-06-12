@@ -22,16 +22,12 @@
 </template>
 
 <script>
-import { CLEAR_ERRORS, RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
-// import TableForm from './TableForm'
-// import Statistics from './Statistics'
-// import treeView from './treeView'
-// import elementView from './elementView'
 import SideBar from './SideBar'
 
 import { fetchGraph } from '../../util/api_util'
@@ -65,8 +61,11 @@ export default {
   },
   methods: {
     receiveElement: function (element) {
-      this.currentElement = new Cell(element)
-      this.$store.commit(CLEAR_ERRORS)
+      if (element) {
+        this.currentElement = new Cell(element)
+      } else {
+        this.currentElement = null
+      }
     },
     toggleEdit: function () {
       if (this.editName) {

@@ -3,9 +3,9 @@
     <li class='table-item'
       v-for='table in tables'>
       <label
-        :class='elClass(table)'
-        @click="sendCurrent(table.id)">
-        <span>
+        :class='elClass(table)'>
+        <span
+          @click="sendCurrent(table.id)">
           <i class='fa fa-folder-open-o'></i>
           <span>{{ table.name }}</span>
         </span>
@@ -18,9 +18,9 @@
           class='col-item'
           v-for='col in table.cols'>
             <label
-              :class='elClass(col)'
-              @click="sendCurrent(col.id)">
-              <span>
+              :class='elClass(col)'>
+              <span
+                @click="sendCurrent(col.id)">
                 <i class='fa fa-file-text-o'></i>
                 <span>{{ col.name }}</span>
               </span>
@@ -63,7 +63,7 @@ export default {
     padding: 0;
     list-style: none;
   }
-
+  // make this flex
   li {
     display: block;
   }

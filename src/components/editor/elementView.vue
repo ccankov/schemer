@@ -61,11 +61,14 @@ export default {
       this.editName = !this.editName
     },
     deleteElement: function () {
-      if (this.currentElement.isTable()) {
-        this.graph.removeTable(this.currentElement.getId())
-      } else if (this.currentElement.isCol()) {
-        this.graph.removeColumn(this.currentElement.getId())
+      const element = this.currentElement
+
+      if (element.isTable()) {
+        this.graph.removeTable(element.getId())
+      } else if (element.isCol()) {
+        this.graph.removeColumn(element.getId())
       }
+      this.$emit('deleted-element', element)
     },
     resetPrimaryKey: function (newPrimaryId) {
       this.$emit('reset-primary-key', newPrimaryId)

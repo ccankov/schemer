@@ -14,8 +14,7 @@ export const state = {
     sqlLang: 'postgreSQL'
   },
   currentUser: null,
-  errors: [],
-  dbName: 'LibaryDB'
+  errors: []
 }
 
 export const mutations = {
