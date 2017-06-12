@@ -82,5 +82,9 @@ export default {
 <style lang="css">
   .side-bar {
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 </style>

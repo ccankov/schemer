@@ -1,10 +1,11 @@
 <template lang="html">
   <section class='element-view' v-show='currentElement'>
     <header class='element-name'>
-      <h2 v-if='editName'>
-        <input v-model='elementName' placeholder='Name this element'/>
+      <h2>
+        <span class="item-label">{{ elementType }}:</span>
+        <input v-if='editName' v-model='elementName' placeholder='Name this element'/>
+        <span v-else>{{ elementName }}</span>
       </h2>
-      <h2 v-else='editName'>{{ elementName }}</h2>
       <i @click='toggleEdit' class='edit fa fa-pencil'></i>
     </header>
     <div class='element-details'>
@@ -16,7 +17,7 @@
         :graph='graph'
         @reset-primary-key='resetPrimaryKey'>
       </colOptions>
-      <button @click='deleteElement'>
+      <button @click='deleteElement' class="button">
         Delete {{ isTable ? 'Table' : 'Column'}}</button>
     </div>
   </section>
@@ -38,6 +39,9 @@ export default {
     },
     isCol: function () {
       return this.currentElement ? this.currentElement.isCol() : false
+    },
+    elementType: function () {
+      return this.isTable ? 'Table' : 'Column'
     },
     elementName: {
       get: function () {
@@ -76,11 +80,27 @@ export default {
 
 <style lang="scss" scoped>
   @import '../../assets/app.scss';
+  h2 {
+    height: 31px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .item-label {
+      margin-right: 5px;
+    }
+  }
 
   .element-view {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    border-top: 1px solid $light-gray;
+
+    header {
+      border-radius: 0;
+      font-family: $heading;
+    }
   }
 
   .element-name {
@@ -98,5 +118,32 @@ export default {
 
   .edit:hover {
     cursor: pointer;
+  }
+
+  .element-details {
+    padding: 20px;
+    font-family: $heading;
+
+    button {
+      display: block;
+      border-radius: 5px;
+      padding: 5px 20px;
+      margin: 0 20px;
+      margin-left: 60px;
+      font-family: $heading;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: $white;
+      color: $accent;
+      border-color: $accent;
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    button:hover {
+      cursor: pointer;
+      color: $white;
+      background-color: $light-accent;
+    }
   }
 </style>
