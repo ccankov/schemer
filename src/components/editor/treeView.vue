@@ -2,14 +2,15 @@
   <ul class='table-list'>
     <li class='table-item'
       v-for='table in tables'>
-      <label :class='elClass(table)'>
+      <label
+        :class='elClass(table)'
+        @click="sendCurrent(table.id)">
         <span>
           <i class='fa fa-folder-open-o'></i>
           <span>{{ table.name }}</span>
         </span>
-        <i
-          class='col-btn fa fa-plus'
-          @click='addColumn'></i>
+        <i class='col-btn fa fa-plus'
+          @click="$emit('add-column', table.id)"></i>
       </label>
       <ul class='col-list'
         v-show='currentTableId === table.id'>
@@ -30,24 +31,8 @@
 
 <script>
 export default {
-  props: ['graph', 'currentElement'],
+  props: ['graph', 'currentElement', 'currentTableId'],
   computed: {
-    currentTableId: function () {
-      return this.currentTable ? this.currentTable.getId() : null
-    },
-    currentTable: function () {
-      if (!this.currentElement) return null
-      if (this.currentElement.isTable()) {
-        return this.currentElement
-      } else {
-        let parent = this.graph.getCell(this.currentElement.parentId())
-        if (parent.isTable()) {
-          return parent
-        } else {
-          return null
-        }
-      }
-    },
     tables: function () {
       return this.graph.getTableTree()
     }
@@ -57,9 +42,8 @@ export default {
       const currId = this.currentElement ? this.currentElement.getId() : null
       return element.id === currId ? 'current-element' : ''
     },
-    addColumn: function () {
-      const newCol = this.graph.addColumn(this.currentTable.element)
-      this.sendElement(newCol)
+    sendCurrent: function (id) {
+      this.sendElement(this.graph.getCell(id).element)
     },
     sendElement: function (element) {
       this.$emit('send-element', element)
@@ -88,6 +72,11 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+  }
+
+  .table-item {
+    width: 100%;
   }
 
   .table-list label {
