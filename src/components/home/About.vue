@@ -5,7 +5,7 @@
       <article class="card">
         <div class="row">
           <figcaption class="bio">
-            <header>
+            <header class="bio-header">
               <h3>Nikita Shalimov</h3>
             </header>
             <section>
@@ -25,7 +25,7 @@
       <article class="card">
         <div class="row reverse">
           <figcaption class="bio">
-            <header>
+            <header class="bio-header">
               <h3>Brady Kimball</h3>
             </header>
             <section>
@@ -45,7 +45,7 @@
       <article class="card">
         <div class="row">
           <figcaption class="bio">
-            <header>
+            <header class="bio-header">
               <h3>Chris Cankov</h3>
             </header>
             <section>
@@ -119,6 +119,10 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      .bio-header {
+        background-color: $white;
+      }
 
       section {
         font-family: $paragraph;
