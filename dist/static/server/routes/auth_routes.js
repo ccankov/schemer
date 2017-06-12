@@ -11,14 +11,22 @@ authRoutes.get('/current_user',
   }
 )
 
-authRoutes.post('/login', function (req, res, next) {
-  passport.authenticate('local', function (err, user, info) {
-    if (err || !user) {
-      return res.status(422).json({ message: info.message })
-    }
-    res.json(user)
-  })(req, res, next)
-})
+authRoutes.post('/login',
+  (req, res, next) => {
+    passport.authenticate('local', function (err, user, info) {
+      if (err || !user) {
+        return res.status(422).json({ message: info.message })
+      }
+      req.login(user, err => {
+        if (err) {
+          res.status()
+        } else {
+          res.json({ user })
+        }
+      })
+    })(req, res, next)
+  }
+)
 
 authRoutes.post('/signup',
   (req, res, next) => {
@@ -38,7 +46,8 @@ authRoutes.post('/signup',
         })
       }
     })
-  })
+  }
+)
 
 authRoutes.get('/logout', (req, res) => {
   req.logout()
