@@ -121,15 +121,23 @@ class Graph {
     this.addCells(colCells)
     return colCells[0]
   }
-  removeColumn (table, colId) {
-    // Delete the column with the specified id
-    table.attributes.removeColumn(colId)
-    this.commit()
+  removeColumn (colId) {
+    const col = this.getCell(colId)
+    if (col.isCol()) {
+      const parentId = col.parentId()
+      const table = this.graph.getCell(parentId)
+      console.log(table)
+      // Delete the column with the specified id
+      table.attributes.removeColumn(colId)
+      this.commit()
+    }
   }
   removeTable (tableId) {
-    const table = this.graph.getCell(tableId)
-    this.graph.removeCells(table)
-    this.commit()
+    const table = this.getCell(tableId)
+    if (table.isTable()) {
+      this.graph.removeCells(table.element)
+      this.commit()
+    }
   }
 }
 
