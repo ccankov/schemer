@@ -2,6 +2,7 @@ import joint from 'jointjs'
 import * as JointUtil from './jointjs_util'
 import { RECEIVE_GRAPH, UPDATE_GRAPH } from '../store/mutation_types'
 import Cell from './cell'
+import { languageTypes } from './sql_lang_constants'
 
 // source code for joint.dia.Graph is in:
 // node_modules/jointjs/src/joint.dia.graph.js
@@ -111,9 +112,20 @@ class Graph {
 
     // Mount the table in the graph object
     this.addCells(tableCells)
+
+    // add default columns
+    const colTypes = languageTypes[this.$store.state.graphJSON.sqlLang]
+
+    this.addColumn(tableCells[0], 'id', colTypes[0], { primaryKey: true })
+    this.addColumn(tableCells[0], 'created_at', colTypes[1])
+    this.addColumn(tableCells[0], 'updated_at', colTypes[1])
     return tableCells[0]
   }
-  addColumn (table, newColName = 'new column', type = 'integer', options = {}) {
+  addColumn (table, newColName = 'New Column', type, options = {}) {
+    if (!type) {
+      type = languageTypes[this.$store.state.graphJSON.sqlLang][0]
+    }
+
     // Create the column on the table
     let colCells = table.attributes.addColumn(newColName, type, options)
 
