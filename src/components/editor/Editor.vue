@@ -5,8 +5,15 @@
         <h1 v-if='editName'>
           <input v-model='dbName' placeholder='Name your DB'/>
         </h1>
-        <h1 v-else='editName'>{{dbName}}</h1>
+        <h1 v-else='editName'>
+          <select v-model="currGraph">
+            <option v-for="graph in graphs"   v-bind:value="graph.graph">
+             {{ graph.dbName }}
+           </option>
+          </select>
+        </h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
+        <button @click='saveDb'>Save</button>
       </section>
       <SideBar
         :graph='graph'
@@ -22,19 +29,15 @@
 </template>
 
 <script>
-import { CLEAR_ERRORS, RECEIVE_ERRORS, RECEIVE_DBNAME } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
-// import TableForm from './TableForm'
-// import Statistics from './Statistics'
-// import treeView from './treeView'
-// import elementView from './elementView'
 import SideBar from './SideBar'
 
-import { fetchGraph } from '../../util/api_util'
+import { fetchGraph, updateGraph } from '../../util/api_util'
 
 export default {
   components: {
@@ -44,11 +47,24 @@ export default {
   },
   data: function () {
     return {
+      graphs: this.$store.state.userGraphs,
       id: this.$route.params.id,
       graph: null,
+      currGraph: null,
       currentElement: null,
       editName: false,
       dbName: this.$store.state.graphJSON.dbName
+    }
+  },
+  watch: {
+    currGraph: function (newGraph) {
+      console.log(this.currGraph)
+      console.log(newGraph)
+      let graph = {cells: JSON.parse(JSON.stringify(newGraph).replace(/[U+FF0Eport]g/, '.port'))}
+      console.log(graph)
+      // if (newGraph !== this.graph) {
+      this.graph = new Graph(this.$store, graph)
+      // }
     }
   },
   computed: {
@@ -65,14 +81,29 @@ export default {
   },
   methods: {
     receiveElement: function (element) {
-      this.currentElement = new Cell(element)
-      this.$store.commit(CLEAR_ERRORS)
+      if (element) {
+        const cell = new Cell(element)
+        if (cell.type() === 'header') {
+          this.currentElement = this.graph.getCell(cell.parentId())
+        } else {
+          this.currentElement = cell
+        }
+      } else {
+        this.currentElement = null
+      }
     },
     toggleEdit: function () {
       if (this.editName) {
         this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
       }
       this.editName = !this.editName
+    },
+    saveDb: function () {
+      if (this.$store.state.currentUser) {
+        updateGraph(JSON.stringify(this.$store.state.graphJSON))
+      } else {
+        this.$store.commit(RECEIVE_ERRORS, 'Must be logged in to save')
+      }
     }
   },
   created () {
@@ -82,7 +113,11 @@ export default {
         errors => this.$store.commit(RECEIVE_ERRORS, { errors })
       )
     }
-
+    this.$store.dispatch(RECEIVE_USER_GRAPHS).then(
+      res => {
+        this.graphs = this.$store.state.userGraphs
+      }
+    )
     this.graph = new Graph(this.$store)
   }
 }

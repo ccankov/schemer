@@ -1,6 +1,7 @@
 import * as APIUtil from '../util/api_util'
 import {
   RECEIVE_GRAPH,
+  RECEIVE_USER_GRAPHS,
   FETCH_GRAPH,
   UPDATE_GRAPH,
   LOGIN,
@@ -50,6 +51,12 @@ export default {
     return APIUtil.fetchUser()
       .then(user => {
         commit(RECEIVE_CURRENT_USER, user)
+      })
+  },
+  [RECEIVE_USER_GRAPHS] ({ commit, state }) {
+    return APIUtil.fetchUserGraphs()
+      .then(graphs => {
+        commit(RECEIVE_USER_GRAPHS, graphs)
       })
   },
   [FETCH_GRAPH] ({ commit, state }) {

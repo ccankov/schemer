@@ -10,8 +10,8 @@
     <element-view
       :currentElement='currentElement'
       :graph='graph'
-      @reset-primary-key='resetPrimaryKey'
-      @send-element='sendElement'></element-view>
+      @deleted-element='handleDeletedElement'
+      @reset-primary-key='resetPrimaryKey'></element-view>
   </section>
 </template>
 
@@ -44,13 +44,20 @@ export default {
     }
   },
   methods: {
+    sendElement: function (element) {
+      this.$emit('send-element', element)
+    },
     addColumn: function (tableId) {
       const table = this.graph.getCell(tableId)
       const newCol = this.graph.addColumn(table.element)
       this.sendElement(newCol)
     },
-    sendElement: function (element) {
-      this.$emit('send-element', element)
+    handleDeletedElement: function (element) {
+      if (element.isCol()) {
+        this.sendElement(this.currentTable.element)
+      } else if (element.isTable()) {
+        this.sendElement(null)
+      }
     },
     resetPrimaryKey: function (newPrimaryId) {
       const graph = this.graph
@@ -79,8 +86,15 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import '../../assets/app.scss';
+
   .side-bar {
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 1px solid $light-gray;
   }
 </style>

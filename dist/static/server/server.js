@@ -66,7 +66,41 @@ app.route('/api/dbs')
       }
     })
     res.send(req.body)
-  })
+  }
+)
+
+app.route('/api/dbs/:id')
+  .get((req, res) => {
+    MongoClient.connect(url, (err, db) => {
+      if (err) {
+        console.log(err)
+      } else {
+        if (req.params.id) {
+          db.collection('dbs').find({ '_id': { '$oid': req.params.graphId } })
+          .toArray(function (err, data) {
+            if (err) {
+              console.log(err)
+              return res(err)
+            } else {
+              console.log(data)
+              return res.json(data)
+            }
+          })
+        } else {
+          db.collection('dbs').find().toArray(function (err, data) {
+            if (err) {
+              console.log(err)
+              return res(err)
+            } else {
+              console.log(data)
+              return res.json(data)
+            }
+          })
+        }
+      }
+    })
+  }
+)
 
 app.use(serveStatic(__dirname))
 var port = process.env.PORT || 3000
