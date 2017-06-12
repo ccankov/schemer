@@ -5,7 +5,7 @@
  "author": "Super Crew",
  "private": true,
  "scripts": {
-   "start": "node server/server.js"
+   "start": "node server/index.js"
  },
  "dependencies": {
    "express": "^4.14.1",

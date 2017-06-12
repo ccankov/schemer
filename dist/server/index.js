@@ -29,9 +29,9 @@ server.use('/api', authRoutes)
 server.use('/api', dbRoutes)
 server.use(serveStatic(__dirname))
 
-server.get('/', (req, res) => {
-  res.send('hey there')
-})
+// server.get('/', (req, res) => {
+//   res.send('hey there')
+// })
 
 // Start the server
 server.listen(config.port, () => {
