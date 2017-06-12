@@ -57,4 +57,8 @@ Once you are done designing your visual schema, hit the download button and you 
 Schemer was conceived, designed, and built in a week by [Brady Kimball](https://github.com/brady-kimabll), [Chris Cankov](https://github.com/ccankov) and [Nikita Shalimov](https://github.com/ndshal). View the original [Project Proposal](docs/README.md) or contact us for more details.
 
 ## Future Directions
-####  
+Some future ideas for Schemer include:
+  * An instruction panel, with more info on one-to-many and many-to-many relationships when creating links
+  * Instead of raw SQL, generate an ActiveRecord migration to create a database in Rails
+  * Generate SQL queries that edit a database, (e.g. drop tables, insert columns), not just create one
+  * Use the same visual UI to generate queries on an existing database
