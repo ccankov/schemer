@@ -28,12 +28,13 @@ export default {
       )
     })
   },
-  [LOGIN] ({ commit }, { user }) {
+  [LOGIN] ({ commit, dispatch }, { user }) {
     return new Promise((resolve, reject) => {
       APIUtil.login(user)
       .then(
         user => {
           commit(RECEIVE_CURRENT_USER, user)
+          dispatch(RECEIVE_USER_GRAPHS)
           resolve(user)
         },
         err => {
@@ -46,6 +47,7 @@ export default {
   [LOGOUT] ({ commit }) {
     return APIUtil.logout()
       .then(() => commit(RECEIVE_CURRENT_USER, { user: null }))
+      .then(() => commit(RECEIVE_USER_GRAPHS, []))
   },
   [FETCH_USER] ({ commit }) {
     return APIUtil.fetchUser()
