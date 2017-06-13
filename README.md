@@ -40,7 +40,9 @@ The Link structure also supports self-joins - given only a `users` table, creati
 ![Dynamic Link Creation in Schemer](docs/demos/schemer_link_demo.gif)
 
 ### SQL Generation and Exporting
-As you add tables, columns and links to your visual schema, the corresponding SQL code is updated live. A 'SQL Preview' panel is available at the bottom of the editor, and can be pinned to the page. Schemer processes the content of the editor and generates a SQL script that will create the database. Since syntax varies slightly between SQL implementations, a dropdown menu on the SQL Preview panel allows you to choose the particular language that the code is generated in. At the moment, we support PostgreSQL, Access, mySQL, SQL Server and Oracle.
+As you add tables, columns and links to your visual schema, the corresponding SQL code is updated live. A 'SQL Preview' panel is available at the bottom of the editor, and can be pinned to the page. Schemer processes the content of the editor and generates a SQL script that will create a PostgreSQL database.
+
+<!-- Since syntax varies slightly between SQL implementations, a dropdown menu on the SQL Preview panel allows you to choose the particular language that the code is generated in. At the moment, we support PostgreSQL, Access, mySQL, SQL Server and Oracle. -->
 
 Once you are done designing your visual schema, hit the download button and you will be prompted to download a .sql file with your database code.
 

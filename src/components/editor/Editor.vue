@@ -42,8 +42,6 @@ import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
 import SideBar from './SideBar'
-
-
 import { updateGraph } from '../../util/api_util'
 
 export default {
@@ -127,6 +125,7 @@ export default {
       this.graph.loadJSON({ cells: [] })
       this.$store.commit(RECEIVE_DBNAME, { dbName: 'New Database' })
       this.$store.commit(TOGGLE_NEW_DB)
+      this.dbName = this.$store.state.graphJSON.dbName
       this.receiveElement(null)
     }
   },
