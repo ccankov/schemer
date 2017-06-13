@@ -148,7 +148,13 @@ export const createPaper = (element, graph, component) => {
     graph.commit()
   })
 
-  graph.graph.on('add', updateMove)
+  graph.graph.on('add', (cellView, evt, x, y) => {
+    if (cellView.model) {
+      // links dont have a cellView.model,
+      // dont want to move grid on link creation
+      updateMove(cellView, evt, x, y)
+    }
+  })
 
   graph.graph.on('remove', (cell) => {
     // Commit the graph when a cell is removed

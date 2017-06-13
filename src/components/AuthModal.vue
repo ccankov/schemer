@@ -88,15 +88,15 @@ export default {
           username: this.username,
           password: this.password
         }
-      })
+      }).then(() => this.$router.push('/editor'))
     },
     signUp: function () {
-      return this.$store.dispatch(SIGNUP, { user:
-      {
-        username: this.username,
-        password: this.password
-      }
-      })
+      return this.$store.dispatch(SIGNUP, {
+        user: {
+          username: this.username,
+          password: this.password
+        }
+      }).then(() => this.$router.push('/editor'))
     },
     logout: function (e) {
       e.preventDefault()

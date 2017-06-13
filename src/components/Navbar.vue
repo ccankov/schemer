@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
+import { LOGOUT, TOGGLE_NEW_DB } from '../store/mutation_types'
 import AuthModal from './AuthModal'
 export default {
   data: function () {
@@ -62,7 +62,6 @@ export default {
       this.authType = (this.authType === 'login' ? 'signup' : 'login')
     },
     showLogIn: function () {
-      console.log(this.$router.history.current)
       this.authType = 'login'
       this.showModal = true
     },
@@ -73,32 +72,16 @@ export default {
     toggleModal: function () {
       this.showModal = !this.showModal
     },
-    login: function (e) {
-      e.preventDefault()
-      this.$store.dispatch(LOGIN, { user:
-      {
-        username: this.username,
-        password: this.password
-      }
-      })
-    },
-    signup: function (e) {
-      e.preventDefault()
-      this.$store.dispatch(SIGNUP, { user:
-      {
-        username: this.username,
-        password: this.password
-      }
-      })
-    },
     logout: function (e) {
       e.preventDefault()
       this.$store.dispatch(LOGOUT)
+      this.$router.push('/home')
     },
     handleNewDb: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       e.preventDefault()
       this.$router.push('/editor')
+      this.$store.commit(TOGGLE_NEW_DB)
     },
     goToFeatures: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})

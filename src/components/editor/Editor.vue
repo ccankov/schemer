@@ -35,13 +35,14 @@
 </template>
 
 <script>
-import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS, TOGGLE_NEW_DB } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
 import SideBar from './SideBar'
+
 
 import { updateGraph } from '../../util/api_util'
 
@@ -119,6 +120,14 @@ export default {
       } else {
         this.$store.commit(RECEIVE_ERRORS, 'Must be logged in to save')
       }
+    }
+  },
+  beforeUpdate () {
+    if (this.$store.state.newDb) {
+      this.graph.loadJSON({ cells: [] })
+      this.$store.commit(RECEIVE_DBNAME, { dbName: 'New Database' })
+      this.$store.commit(TOGGLE_NEW_DB)
+      this.receiveElement(null)
     }
   },
   created () {

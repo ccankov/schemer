@@ -5,7 +5,8 @@ import {
   RECEIVE_DBNAME,
   RECEIVE_LANGUAGE,
   RECEIVE_CURRENT_USER,
-  RECEIVE_USER_GRAPHS
+  RECEIVE_USER_GRAPHS,
+  TOGGLE_NEW_DB
 } from './mutation_types'
 
 export const state = {
@@ -16,10 +17,14 @@ export const state = {
   },
   userGraphs: [],
   currentUser: null,
+  newDb: false,
   errors: []
 }
 
 export const mutations = {
+  [TOGGLE_NEW_DB] (state) {
+    state.newDb = !state.newDb
+  },
   [RECEIVE_CURRENT_USER] (state, { user }) {
     if (user && user._id) {
       state.currentUser = user
