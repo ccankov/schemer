@@ -43,8 +43,6 @@ import Paper from './Paper'
 import Preview from './Preview'
 import SideBar from './SideBar'
 
-import { graphSTRING } from '../../assets/graph_string'
-
 import { fetchGraph, updateGraph } from '../../util/api_util'
 
 export default {

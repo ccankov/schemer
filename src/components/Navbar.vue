@@ -62,7 +62,6 @@ export default {
       this.authType = (this.authType === 'login' ? 'signup' : 'login')
     },
     showLogIn: function () {
-      console.log(this.$router.history.current)
       this.authType = 'login'
       this.showModal = true
     },
@@ -75,12 +74,14 @@ export default {
     },
     login: function (e) {
       e.preventDefault()
+      console.log('logging in')
       this.$store.dispatch(LOGIN, { user:
       {
         username: this.username,
         password: this.password
       }
       })
+      this.$router.push('/editor')
     },
     signup: function (e) {
       e.preventDefault()
@@ -90,10 +91,12 @@ export default {
         password: this.password
       }
       })
+      this.$router.push('/editor')
     },
     logout: function (e) {
       e.preventDefault()
       this.$store.dispatch(LOGOUT)
+      this.$router.push('/home')
     },
     handleNewDb: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
