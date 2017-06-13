@@ -16,7 +16,7 @@
         <br>
         <span v-if="loggedIn">Load: </span>
         <select v-if="loggedIn" v-model="currGraph">
-          <option v-for="graph in graphs"   v-bind:value="graph.graph">
+          <option v-for="graph in graphs"   v-bind:value="graph">
            {{ graph.dbName }}
          </option>
         </select>
@@ -43,7 +43,7 @@ import Paper from './Paper'
 import Preview from './Preview'
 import SideBar from './SideBar'
 
-import { fetchGraph, updateGraph } from '../../util/api_util'
+import { updateGraph } from '../../util/api_util'
 
 export default {
   components: {
@@ -64,8 +64,11 @@ export default {
   },
   watch: {
     currGraph: function (newGraph) {
-      let graph = {cells: JSON.parse(JSON.stringify(newGraph).replace(/U\+FF0Eport/g, '.port'))}
+      let graph = {cells: JSON.parse(JSON.stringify(newGraph.graph).replace(/U\+FF0Eport/g, '.port'))}
+      this.dbName = newGraph.dbName
       this.graph.loadJSON(graph)
+      this.receiveElement(null)
+      this.graph.commit()
     }
   },
   computed: {
@@ -108,6 +111,11 @@ export default {
     saveDb: function () {
       if (this.$store.state.currentUser) {
         updateGraph(JSON.stringify(this.$store.state.graphJSON))
+        this.$store.dispatch(RECEIVE_USER_GRAPHS).then(
+          res => {
+            this.graphs = this.$store.state.userGraphs
+          }
+        )
       } else {
         this.$store.commit(RECEIVE_ERRORS, 'Must be logged in to save')
       }
@@ -122,12 +130,6 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.id) {
-      fetchGraph(this.$route.params.id).then(
-        res => console.log(res),
-        errors => this.$store.commit(RECEIVE_ERRORS, { errors })
-      )
-    }
     this.$store.dispatch(RECEIVE_USER_GRAPHS).then(
       res => {
         this.graphs = this.$store.state.userGraphs

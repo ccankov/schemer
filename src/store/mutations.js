@@ -12,7 +12,7 @@ import {
 export const state = {
   graphJSON: {
     cells: [],
-    dbName: 'LibaryDB',
+    dbName: 'New Database',
     sqlLang: 'postgreSQL'
   },
   userGraphs: [],
