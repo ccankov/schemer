@@ -1,3 +1,5 @@
+import { merge } from 'lodash'
+
 export const parseJson = (json) => {
   let cells = json.cells // array of table Objects
   let tableArray = []
@@ -7,7 +9,7 @@ export const parseJson = (json) => {
   let joinArray = []
   cells.forEach(cell => {
     if (cell.attrs.nodeType.value === 'column') {
-      columnObject[cell.id] = cell
+      columnObject[cell.id] = merge({}, cell)
     } else if (cell.attrs.nodeType.value === 'link') {
       connectionArray.push(cell)
     }
