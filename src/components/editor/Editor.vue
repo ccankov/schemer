@@ -7,7 +7,7 @@
         </h1>
         <h1 v-else='editName'>
           <select v-if="loggedIn" v-model="currGraph">
-            <option v-for="graph in graphs"   v-bind:value="graph.graph">
+            <option v-for="graph in graphs"  :name="graph.dbName" v-bind:value="graph.graph">
              {{ graph.dbName }}
            </option>
           </select>
@@ -40,6 +40,8 @@ import Paper from './Paper'
 import Preview from './Preview'
 import SideBar from './SideBar'
 
+import { graphSTRING } from '../../assets/graph_string'
+
 import { fetchGraph, updateGraph } from '../../util/api_util'
 
 export default {
@@ -63,10 +65,10 @@ export default {
     currGraph: function (newGraph) {
       console.log(this.currGraph)
       console.log(newGraph)
-      let graph = {cells: JSON.parse(JSON.stringify(newGraph).replace(/[U+FF0Eport]g/, '.port'))}
-      console.log(graph)
+      // let graph = {cells: JSON.parse(JSON.stringify(newGraph).replace(/[U+FF0Eport]g/, '.port'))}
+
       // if (newGraph !== this.graph) {
-      this.graph = new Graph(this.$store, graph)
+      this.graph.loadJSON(JSON.parse(graphSTRING))
       // }
     }
   },
