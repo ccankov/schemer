@@ -42,8 +42,6 @@ import Cell from '../../util/cell'
 import Paper from './Paper'
 import Preview from './Preview'
 import SideBar from './SideBar'
-
-
 import { updateGraph } from '../../util/api_util'
 
 export default {
