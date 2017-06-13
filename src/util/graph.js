@@ -53,6 +53,17 @@ class Graph {
     return this.graph.toJSON()
   }
 
+  loadJSON (graph) {
+    this.graph.fromJSON(graph)
+    this.getTables().forEach(
+      tableCell => {
+        tableCell.bindTableMethods()
+        this.getColumns(tableCell.getId())
+          .forEach(colCell => colCell.bindColumnMethods())
+      }
+    )
+  }
+
   stringify () {
     // Convert graph to JSON string
     return JSON.stringify(this.toJSON())
@@ -135,6 +146,7 @@ class Graph {
 
     return tableCells[0]
   }
+
   addColumn (table, newColName = 'New Column', type, options = {}) {
     if (!type) {
       type = languageTypes[this.$store.state.graphJSON.sqlLang][0]

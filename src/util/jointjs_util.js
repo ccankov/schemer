@@ -201,7 +201,7 @@ export const createPaper = (element, graph, component) => {
   return paper
 }
 
-const buildAttributes = function () {
+export const buildAttributes = function () {
   // Get relevant properties from column
   const position = this.attributes.position
   const color = this.attributes.attrs.rect.fill
@@ -258,7 +258,7 @@ const buildAttributes = function () {
   return [nameShape, typeShape, optionsShape]
 }
 
-const addHeaderColumn = function () {
+export const addHeaderColumn = function () {
   // Pull relevant table properties
   const { position } = this.attributes
   const yPos = position.y + C.TITLE_HEIGHT
@@ -320,7 +320,7 @@ const addHeaderColumn = function () {
   return [column, nameShape, typeShape, optionsShape]
 }
 
-const addColumn = function (name, type, options = {}) {
+export const addColumn = function (name, type, options = {}) {
   // Column defaults
   const defaults = {
     primaryKey: false,
@@ -389,7 +389,7 @@ const addColumn = function (name, type, options = {}) {
   return [column].concat(colAttributes)
 }
 
-const resizeTable = function () {
+export const resizeTable = function () {
   // Pull relevant data out of table
   const position = this.attributes.position
   const colIds = this.attributes.attrs.columns.value
@@ -416,7 +416,7 @@ const resizeTable = function () {
   this.resize(C.WIDTH, 50 + (C.ROW_HEIGHT * (colIds.length + 1)))
 }
 
-const removeColumn = function (id) {
+export const removeColumn = function (id) {
   const colIds = this.attributes.attrs.columns.value
   if (colIds.includes(id)) {
     const column = this.graph.getCell(id)
