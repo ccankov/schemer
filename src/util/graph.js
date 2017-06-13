@@ -62,6 +62,8 @@ class Graph {
           .forEach(colCell => colCell.bindColumnMethods())
       }
     )
+
+    this.commit()
   }
 
   stringify () {

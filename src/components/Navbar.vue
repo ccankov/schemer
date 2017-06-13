@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT, SIGNUP } from '../store/mutation_types'
+import { LOGIN, LOGOUT, SIGNUP, TOGGLE_NEW_DB } from '../store/mutation_types'
 import AuthModal from './AuthModal'
 export default {
   data: function () {
@@ -99,6 +99,7 @@ export default {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       e.preventDefault()
       this.$router.push('/editor')
+      this.$store.commit(TOGGLE_NEW_DB)
     },
     goToFeatures: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})

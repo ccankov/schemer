@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS, TOGGLE_NEW_DB } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
@@ -58,7 +58,8 @@ export default {
       currGraph: null,
       currentElement: null,
       editName: false,
-      dbName: this.$store.state.graphJSON.dbName
+      dbName: this.$store.state.graphJSON.dbName,
+      newDb: this.$store.state.newDb
     }
   },
   watch: {
@@ -70,6 +71,14 @@ export default {
       // if (newGraph !== this.graph) {
       this.graph.loadJSON(JSON.parse(graphSTRING))
       // }
+    },
+    newDb: function (newFlagValue) {
+      if (newFlagValue) {
+        // receiving a new database. Yes, this is hacked together
+        this.graph.loadJSON({ cells: [] })
+        this.$store.commit(RECEIVE_DBNAME, { dbName: 'New Database' })
+        this.$store.commit(TOGGLE_NEW_DB)
+      }
     }
   },
   computed: {
