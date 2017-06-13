@@ -28,9 +28,6 @@ export default {
   mounted () {
     // Set up paper
     this.paper = createPaper(this.$refs.paper, this.graph, this)
-    // Define sample table with two columns
-    const usersTable = this.graph.addTable('users')
-    this.graph.addColumn(usersTable, 'username', 'text', { 'notNull': false })
     this.graph.getCreatePosition()
   }
 }
