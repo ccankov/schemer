@@ -102,29 +102,30 @@ export const createPaper = (element, graph, component) => {
     },
   )
 
-  paper.on('cell:pointermove',
-    (cellView, evt, x, y) => {
-      let bbox = cellView.getBBox()
-      let bbox2 = paper.getContentBBox()
-      let container = document.querySelector('.paper-container')
-      if (bbox.x + bbox.width >= paper.options.width) {
-        paper.setDimensions(paper.options.width + paper.options.gridSize, paper.options.height)
-        container.scrollLeft = paper.options.width
-      } else if (bbox2.x + bbox2.width >= container.offsetWidth) {
-        paper.setDimensions(bbox2.x + bbox2.width, paper.options.height)
-      }
-      if (bbox.y + bbox.height >= paper.options.height) {
-        paper.setDimensions(paper.options.width, paper.options.height + paper.options.gridSize)
-        container.scrollTop = paper.options.height
-      } else if (bbox2.y + bbox2.height >= container.offsetHeight) {
-        paper.setDimensions(paper.options.width, bbox2.y + bbox2.height)
-      }
-
-      // if (bbox.x <= (container.scrollLeft - 10)) {
-      //   container.scrollLeft = bbox.x + 10
-      // }
+  const updateMove = (cellView, evt, x, y) => {
+    let bbox = cellView.getBBox()
+    let bbox2 = paper.getContentBBox()
+    let container = document.querySelector('.paper-container')
+    if (bbox.x + bbox.width >= paper.options.width) {
+      paper.setDimensions(paper.options.width + paper.options.gridSize, paper.options.height)
+      container.scrollLeft = paper.options.width
+    } else if (bbox2.x + bbox2.width >= container.offsetWidth) {
+      paper.setDimensions(bbox2.x + bbox2.width, paper.options.height)
     }
-  )
+    if (bbox.y + bbox.height >= paper.options.height) {
+      paper.setDimensions(paper.options.width, paper.options.height + paper.options.gridSize)
+      container.scrollTop = paper.options.height
+    } else if (bbox2.y + bbox2.height >= container.offsetHeight) {
+      paper.setDimensions(paper.options.width, bbox2.y + bbox2.height)
+    }
+
+    // if (bbox.x <= (container.scrollLeft - 10)) {
+    //   container.scrollLeft = bbox.x + 10
+    // }
+  }
+
+  paper.on('cell:pointermove', updateMove)
+
   paper.on('link:connect', (cellView) => {
     // Set relationship type
     const targetOptions = cellView.targetView.model.attributes.attrs.options
@@ -146,6 +147,8 @@ export const createPaper = (element, graph, component) => {
     // Commit the graph when a new link is created
     graph.commit()
   })
+
+  graph.graph.on('add', updateMove)
 
   graph.graph.on('remove', (cell) => {
     // Commit the graph when a cell is removed
@@ -424,13 +427,13 @@ const removeColumn = function (id) {
   }
 }
 
-export const createTable = (name) => {
+export const createTable = (name, posX = 20) => {
   let textName = name
   if (textName.length > 10) textName = textName.substring(0, 10) + '...'
 
   // Create table
   const table = new joint.shapes.basic.Rect({
-    position: { x: 20, y: 20 },
+    position: { x: posX + 400, y: 20 },
     size: { width: C.WIDTH, height: C.ROW_HEIGHT + 20 },
     attrs: {
       rect: { fill: C.TITLE_COLOR, stroke: C.STROKE_COLOR, 'class': 'table-diagram' },
