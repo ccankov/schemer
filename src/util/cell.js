@@ -1,3 +1,11 @@
+import {
+  addColumn,
+  removeColumn,
+  addHeaderColumn,
+  resizeTable,
+  buildAttributes
+} from './jointjs_util'
+
 class Cell {
   constructor (element) {
     this.element = element
@@ -57,6 +65,8 @@ class Cell {
     return this.type() === 'column'
   }
 
+  // tables only
+
   columns () {
     if (this.isTable()) {
       return this.element.attributes.attrs.columns.value
@@ -65,7 +75,17 @@ class Cell {
     }
   }
 
+  bindTableMethods () {
+    this.element.attributes.addColumn = addColumn.bind(this.element)
+    this.element.attributes.removeColumn = removeColumn.bind(this.element)
+    this.element.attributes.addHeaderColumn = addHeaderColumn.bind(this.element)
+    this.element.attributes.resizeTable = resizeTable.bind(this.element)
+  }
+
   // column only
+  bindColumnMethods () {
+    this.element.attributes.buildAttributes = buildAttributes.bind(this.element)
+  }
 
   getColType () {
     if (!this.isCol()) return null
