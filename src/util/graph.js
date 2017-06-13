@@ -134,7 +134,6 @@ class Graph {
   }
 
   addColumn (table, newColName = 'New Column', type, options = {}) {
-    console.log(table)
     if (!type) {
       type = languageTypes[this.$store.state.graphJSON.sqlLang][0]
     }
