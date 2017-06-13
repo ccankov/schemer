@@ -6,17 +6,20 @@
           <input v-model='dbName' placeholder='Name your DB'/>
         </h1>
         <h1 v-else='editName'>
-          <select v-if="loggedIn" v-model="currGraph">
-            <option v-for="graph in graphs"   v-bind:value="graph.graph">
-             {{ graph.dbName }}
-           </option>
-          </select>
-          <span v-else='loggedIn'>
+          <span>
             {{ dbName }}
           </span>
         </h1>
         <button @click='toggleEdit'>{{btnStr}}</button>
         <button v-if='loggedIn' @click='saveDb'>Save</button>
+        <br>
+        <br>
+        <span v-if="loggedIn">Load: </span>
+        <select v-if="loggedIn" v-model="currGraph">
+          <option v-for="graph in graphs"   v-bind:value="graph.graph">
+           {{ graph.dbName }}
+         </option>
+        </select>
       </section>
       <SideBar
         :graph='graph'
@@ -103,6 +106,9 @@ export default {
     toggleEdit: function () {
       if (this.editName) {
         this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
+        if (this.$store.state.currentUser) {
+          updateGraph(JSON.stringify(this.$store.state.graphJSON))
+        }
       }
       this.editName = !this.editName
     },
