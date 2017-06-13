@@ -58,8 +58,7 @@ export default {
       currGraph: null,
       currentElement: null,
       editName: false,
-      dbName: this.$store.state.graphJSON.dbName,
-      newDb: this.$store.state.newDb
+      dbName: this.$store.state.graphJSON.dbName
     }
   },
   watch: {
@@ -71,14 +70,6 @@ export default {
       // if (newGraph !== this.graph) {
       this.graph.loadJSON(JSON.parse(graphSTRING))
       // }
-    },
-    newDb: function (newFlagValue) {
-      if (newFlagValue) {
-        // receiving a new database. Yes, this is hacked together
-        this.graph.loadJSON({ cells: [] })
-        this.$store.commit(RECEIVE_DBNAME, { dbName: 'New Database' })
-        this.$store.commit(TOGGLE_NEW_DB)
-      }
     }
   },
   computed: {
@@ -121,6 +112,14 @@ export default {
       } else {
         this.$store.commit(RECEIVE_ERRORS, 'Must be logged in to save')
       }
+    }
+  },
+  beforeUpdate () {
+    if (this.$store.state.newDb) {
+      this.graph.loadJSON({ cells: [] })
+      this.$store.commit(RECEIVE_DBNAME, { dbName: 'New Database' })
+      this.$store.commit(TOGGLE_NEW_DB)
+      this.receiveElement(null)
     }
   },
   created () {
