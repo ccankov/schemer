@@ -63,10 +63,12 @@ export default {
     currGraph: function (newGraph) {
       console.log(this.currGraph)
       console.log(newGraph)
-      let graph = {cells: JSON.parse(JSON.stringify(newGraph).replace(/[U+FF0Eport]g/, '.port'))}
+      let graph = {cells: JSON.parse(JSON.stringify(newGraph).replace(/U\+FF0Eport/g, '.port'))}
+      console.log('-------')
       console.log(graph)
+      console.log(JSON.stringify(graph))
       // if (newGraph !== this.graph) {
-      this.graph = new Graph(this.$store, graph)
+      this.graph.graph.fromJSON(graph)
       // }
     }
   },
