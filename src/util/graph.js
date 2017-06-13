@@ -119,9 +119,22 @@ class Graph {
     )
   }
 
+  getCreatePosition () {
+    const tables = this.getTables()
+    let maxX = 20
+    tables.forEach(table => {
+      if (table.element.attributes.position.x > maxX) {
+        maxX = table.element.attributes.position.x
+      }
+    })
+    return maxX
+  }
+
   addTable (name = 'New Table') {
+    let maxX = this.getCreatePosition()
+
     // Creates a table with a default name
-    let tableCells = JointUtil.createTable(name)
+    let tableCells = JointUtil.createTable(name, maxX)
 
     // Mount the table in the graph object
     this.addCells(tableCells)
@@ -132,6 +145,7 @@ class Graph {
     this.addColumn(tableCells[0], 'id', colTypes[0], { primaryKey: true })
     this.addColumn(tableCells[0], 'created_at', colTypes[1])
     this.addColumn(tableCells[0], 'updated_at', colTypes[1])
+
     return tableCells[0]
   }
 
