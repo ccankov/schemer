@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT, SIGNUP, TOGGLE_NEW_DB } from '../store/mutation_types'
+import { LOGOUT, TOGGLE_NEW_DB } from '../store/mutation_types'
 import AuthModal from './AuthModal'
 export default {
   data: function () {
@@ -71,27 +71,6 @@ export default {
     },
     toggleModal: function () {
       this.showModal = !this.showModal
-    },
-    login: function (e) {
-      e.preventDefault()
-      console.log('logging in')
-      this.$store.dispatch(LOGIN, { user:
-      {
-        username: this.username,
-        password: this.password
-      }
-      })
-      this.$router.push('/editor')
-    },
-    signup: function (e) {
-      e.preventDefault()
-      this.$store.dispatch(SIGNUP, { user:
-      {
-        username: this.username,
-        password: this.password
-      }
-      })
-      this.$router.push('/editor')
     },
     logout: function (e) {
       e.preventDefault()
