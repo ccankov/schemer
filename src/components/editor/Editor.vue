@@ -125,6 +125,7 @@ export default {
       this.graph.loadJSON({ cells: [] })
       this.$store.commit(RECEIVE_DBNAME, { dbName: 'New Database' })
       this.$store.commit(TOGGLE_NEW_DB)
+      this.dbName = this.$store.state.graphJSON.dbName
       this.receiveElement(null)
     }
   },
