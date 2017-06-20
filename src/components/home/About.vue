@@ -9,7 +9,7 @@
               <h3>Nikita Shalimov</h3>
             </header>
             <section>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Nikita is a full-stack developer, experienced in React, Redux, Vue.js, Ruby on Rails, Express and plain-ol-JavaScript. Coming from research and academia, what drew Nikita to being a software engineer was the algorithms and problem solving. However, these days, he gets just as excited about building something that is interactive, easy to use, and can really be leveraged in a meaningful way.
             </section>
             <footer>
               <a href="https://github.com/ndshal" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
@@ -29,7 +29,7 @@
               <h3>Brady Kimball</h3>
             </header>
             <section>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Brady got his BS in mechanical engineering from UC Berkeley and worked for two years as an aerospace engineer before starting his career are a software engineer. Since then, his primary focus has been new technologies, with a strong background in Rails, React and Redux and recent experience with VueJS.
             </section>
             <footer>
               <a href="https://github.com/brady-kimball" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
