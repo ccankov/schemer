@@ -29,7 +29,7 @@
               <h3>Brady Kimball</h3>
             </header>
             <section>
-              Brady got his BS in mechanical engineering from UC Berkeley and worked for two years as an aerospace engineer before starting his career are a software engineer. Since then, his primary focus has been new technologies, with a strong background in Rails, React and Redux and recent experience with VueJS.
+              Brady got his BS in mechanical engineering from UC Berkeley and worked for two years as an aerospace engineer before starting his career as a software engineer. Since then, his primary focus has been new technologies, with a strong background in Rails, React and Redux and recent experience with VueJS.
             </section>
             <footer>
               <a href="https://github.com/brady-kimball" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
@@ -49,7 +49,7 @@
               <h3>Chris Cankov</h3>
             </header>
             <section>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Chris is an analytical problem-solver with years of technical debugging experience in the software industry. What makes him passionate about software engineering is that it enables the design and implementation of rich user experiences that can enhance people's lives. His ideal workplace involves working with a passionate team of engineers who share a common vision to design a superior software product.
             </section>
             <footer>
               <a href="https://github.com/ccankov" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
