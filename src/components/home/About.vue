@@ -29,7 +29,7 @@
               <h3>Brady Kimball</h3>
             </header>
             <section>
-              Brady got his BS in mechanical engineering from UC Berkeley and worked for two years as an aerospace engineer before starting his career as a software engineer. Since then, his primary focus has been new technologies, with a strong background in Rails, React and Redux and recent experience with VueJS.
+              Brady got his BS in mechanical engineering from UC Berkeley and worked as an aerospace engineer before starting his career as a software engineer. Since then, his primary focus has been new technologies, with a strong background in Rails, React and Redux and recent experience with VueJS. With years of technical problem solving and experience managing a team of 6, he hopes to join a team of like-minded user-focused engineers.
             </section>
             <footer>
               <a href="https://github.com/brady-kimball" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
