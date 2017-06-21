@@ -119,18 +119,18 @@ export const parseJson = (json) => {
 }
 
 export const createSQL = (json) => {
-  let dbCreate = `CREATE DATABASE ${json.dbName}\n`
+  let dbCreate = `CREATE DATABASE ${snakify(json.dbName)}\n`
   let dbInfo = parseJson(json)
   let tables = dbInfo.tables
   let indices = dbInfo.indices
   let tableText = tables.map(table => {
-    let headerText = `CREATE TABLE ${table.name} \n`
+    let headerText = `CREATE TABLE ${snakify(table.name)} \n`
     let columnsText = table.columns.map(column => {
       let boolConstraints = column.options.boolean.join(' ')
       if (column.options.variable.default) {
         boolConstraints += ` DEFAULT ${column.options.variable.default}`
       }
-      let partialText = `    ${column.name} ${column.type} ${boolConstraints}`
+      let partialText = `    ${snakify(column.name)} ${column.type} ${boolConstraints}`
       if (column.references) {
         return partialText + ` REFERENCES ${column.references.tableName}`
       } else {
@@ -140,7 +140,11 @@ export const createSQL = (json) => {
     return headerText + columnsText.join('\n') + '\n'
   })
   let indexText = indices.map(index => {
-    return (`CREATE INDEX ${index.name}\nON ${index.table} (${index.colName})\n`)
+    return (`CREATE INDEX ${snakify(index.name)}\nON ${snakify(index.table)} (${snakify(index.colName)})\n`)
   })
   return `${dbCreate}\n${tableText.join('\n')}\n${indexText.join('\n')}`
+}
+
+const snakify = (str) => {
+  return str.replace(/ /g, '_').toLowerCase()
 }
