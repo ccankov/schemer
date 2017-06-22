@@ -10,7 +10,7 @@
           <i class='fa fa-folder-open-o'></i>
           <input
             @blur="toggleEdit()"
-            v-if='editName'
+            v-if="editName && currentElement.getId() === table.id"
             v-model='elementName'
             placeholder='Name this table'/>
           <span v-else>{{ table.name }}</span>
@@ -77,6 +77,7 @@ export default {
     },
     sendElement: function (element) {
       if (!this.currentElement || this.currentElement.getId() !== element.id) {
+        this.editName = false
         this.$emit('send-element', element)
       }
     }
