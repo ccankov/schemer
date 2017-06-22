@@ -10,7 +10,7 @@
           <i class='fa fa-folder-open-o'></i>
           <input
             autofocus
-            @blur="this.editName = false"
+            @blur="toggleEdit()"
             v-if="editName && currentElement.getId() === table.id"
             v-model='elementName'
             placeholder='Name this table'/>
@@ -32,7 +32,7 @@
                 <i class='fa fa-file-text-o'></i>
                 <input
                   autofocus
-                  @blur="editName = false"
+                  @blur="toggleEdit()"
                   v-if="editName && currentElement.getId() === col.id"
                   v-model='elementName'
                   placeholder='Name this column'/>
