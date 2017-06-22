@@ -9,6 +9,7 @@
           @click="sendCurrent(table.id)">
           <i class='fa fa-folder-open-o'></i>
           <input
+            autofocus
             @blur="toggleEdit()"
             v-if="editName && currentElement.getId() === table.id"
             v-model='elementName'
@@ -30,6 +31,7 @@
                 @click="sendCurrent(col.id)">
                 <i class='fa fa-file-text-o'></i>
                 <input
+                  autofocus
                   @blur="toggleEdit()"
                   v-if="editName && currentElement.getId() === col.id"
                   v-model='elementName'
