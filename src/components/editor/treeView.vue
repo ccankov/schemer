@@ -9,7 +9,7 @@
           @click="sendCurrent(table.id)">
           <i class='fa fa-folder-open-o'></i>
           <input
-            @keyup.enter="toggleEdit"
+            @blur="toggleEdit()"
             v-if='editName'
             v-model='elementName'
             placeholder='Name this table'/>
@@ -76,8 +76,7 @@ export default {
       this.sendElement(this.graph.getCell(id).element)
     },
     sendElement: function (element) {
-      if (element.id !== this.currentElement.id) {
-        this.editName = false
+      if (!this.currentElement || this.currentElement.getId() !== element.id) {
         this.$emit('send-element', element)
       }
     }
