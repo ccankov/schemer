@@ -24,11 +24,17 @@
           class='col-item'
           v-for='col in table.cols'>
             <label
-              :class='elClass(col)'>
+              :class='elClass(col)'
+              @dblclick="toggleEdit">
               <span
                 @click="sendCurrent(col.id)">
                 <i class='fa fa-file-text-o'></i>
-                <span>{{ col.name }}</span>
+                <input
+                  @blur="toggleEdit()"
+                  v-if="editName && currentElement.getId() === col.id"
+                  v-model='elementName'
+                  placeholder='Name this column'/>
+                <span v-else>{{ col.name }}</span>
               </span>
             </label>
         </li>
