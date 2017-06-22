@@ -23,6 +23,7 @@ export default {
   .home {
     padding-top: 60px;
     height: 100%;
+    min-width: 900px;
     display: flex;
     box-sizing: border-box;
   }
