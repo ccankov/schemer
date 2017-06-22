@@ -3,11 +3,17 @@
     <li class='table-item'
       v-for='table in tables'>
       <label
-        :class='elClass(table)'>
+        :class='elClass(table)'
+        @dblclick="toggleEdit">
         <span
           @click="sendCurrent(table.id)">
           <i class='fa fa-folder-open-o'></i>
-          <span>{{ table.name }}</span>
+          <input
+            @keyup.enter="toggleEdit"
+            v-if='editName'
+            v-model='elementName'
+            placeholder='Name this table'/>
+          <span v-else>{{ table.name }}</span>
         </span>
         <i class='col-btn fa fa-plus'
           @click="$emit('add-column', table.id)"></i>
@@ -34,12 +40,34 @@
 <script>
 export default {
   props: ['graph', 'currentElement', 'currentTableId'],
+  data: () => ({
+    editName: false
+  }),
   computed: {
     tables: function () {
       return this.graph.getTableTree()
+    },
+    elementName: {
+      get: function () {
+        if (!this.currentElement) return null
+        return this.currentElement.getName()
+      },
+      set: function (name) {
+        this.currentElement.setName(name)
+
+        if (this.currentElement.isCol()) {
+          let nameCell = this.graph.getCell(this.currentElement.embeds()[0])
+          nameCell.setName(name)
+          nameCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        }
+        this.graph.commit()
+      }
     }
   },
   methods: {
+    toggleEdit: function () {
+      this.editName = !this.editName
+    },
     elClass: function (element) {
       const currId = this.currentElement ? this.currentElement.getId() : null
       return element.id === currId ? 'current-element' : ''
@@ -48,7 +76,10 @@ export default {
       this.sendElement(this.graph.getCell(id).element)
     },
     sendElement: function (element) {
-      this.$emit('send-element', element)
+      if (element.id !== this.currentElement.id) {
+        this.editName = false
+        this.$emit('send-element', element)
+      }
     }
   }
 }
@@ -112,5 +143,4 @@ export default {
   .current-element {
     background: rgba($light-accent, 0.3);
   }
-
 </style>
