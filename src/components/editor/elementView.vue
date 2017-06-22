@@ -1,12 +1,7 @@
 <template lang="html">
   <section class='element-view' v-show='currentElement'>
     <header class='element-name'>
-      <h2>
-        <span class="item-label">{{ elementType }}:</span>
-        <input v-if='editName' v-model='elementName' placeholder='Name this element'/>
-        <span v-else>{{ elementName }}</span>
-      </h2>
-      <i @click='toggleEdit' class='edit fa fa-pencil'></i>
+      <h2>{{ elementName }}</h2>
     </header>
     <div class='element-details'>
       <tableStats v-if='isTable' :table='currentElement' :graph='graph'>
@@ -30,10 +25,16 @@ import colOptions from './colOptions'
 export default {
   props: ['currentElement', 'graph'],
   components: { tableStats, colOptions },
-  data: () => ({
-    editName: false
-  }),
   computed: {
+    elementName: function () {
+      if (this.isTable) {
+        return `Table: ${this.currentElement.getName()}`
+      } else if (this.isCol) {
+        return `Column: ${this.currentElement.getName()}`
+      } else {
+        return null
+      }
+    },
     isTable: function () {
       return this.currentElement ? this.currentElement.isTable() : false
     },
@@ -42,28 +43,9 @@ export default {
     },
     elementType: function () {
       return this.isTable ? 'Table' : 'Column'
-    },
-    elementName: {
-      get: function () {
-        if (!this.currentElement) return null
-        return this.currentElement.getName()
-      },
-      set: function (name) {
-        this.currentElement.setName(name)
-
-        if (this.currentElement.isCol()) {
-          let nameCell = this.graph.getCell(this.currentElement.embeds()[0])
-          nameCell.setName(name)
-          nameCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
-        }
-        this.graph.commit()
-      }
     }
   },
   methods: {
-    toggleEdit: function () {
-      this.editName = !this.editName
-    },
     deleteElement: function () {
       const element = this.currentElement
 
@@ -117,10 +99,6 @@ export default {
     padding: 5px 0;
     margin: 0;
     font-size: 14px;
-  }
-
-  .edit:hover {
-    cursor: pointer;
   }
 
   .element-details {
