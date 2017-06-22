@@ -16,7 +16,7 @@
           <span v-else>{{ table.name }}</span>
         </span>
         <i class='col-btn fa fa-plus'
-          @click="$emit('add-column', table.id)"></i>
+          @click="addCol(table.id)"></i>
       </label>
       <ul class='col-list'
         v-show='currentTableId === table.id'>
@@ -77,6 +77,10 @@ export default {
     elClass: function (element) {
       const currId = this.currentElement ? this.currentElement.getId() : null
       return element.id === currId ? 'current-element' : ''
+    },
+    addCol: function (tableId) {
+      this.editName = true
+      this.$emit('add-column', tableId)
     },
     sendCurrent: function (id) {
       this.sendElement(this.graph.getCell(id).element)
