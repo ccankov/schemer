@@ -3,14 +3,16 @@
     <section class="side-bar-container">
       <section class="db-info">
         <h1 v-if='editName'>
-          <input v-model='dbName' placeholder='Name your DB'/>
+          <input
+            autofocus
+            @blur="disableEdit()"
+            @keyup.enter="disableEdit"
+            v-model='dbName'
+            placeholder='Name your DB'/>
         </h1>
-        <h1 v-else='editName'>
-          <span>
-            {{ dbName }}
-          </span>
+        <h1 @dblclick="enableEdit" v-else='editName'>
+          <span>{{ dbName }}</span>
         </h1>
-        <button @click='toggleEdit'>{{btnStr}}</button>
         <button v-if='loggedIn' @click='saveDb'>Save</button>
         <br>
         <br>
@@ -98,14 +100,17 @@ export default {
         this.currentElement = null
       }
     },
-    toggleEdit: function () {
+    enableEdit: function () {
+      this.editName = true
+    },
+    disableEdit: function () {
       if (this.editName) {
         this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
         if (this.$store.state.currentUser) {
           updateGraph(JSON.stringify(this.$store.state.graphJSON))
         }
       }
-      this.editName = !this.editName
+      this.editName = false
     },
     saveDb: function () {
       if (this.$store.state.currentUser) {
