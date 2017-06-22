@@ -24,16 +24,12 @@
       </button>
     </div>
     <AuthModal :authType="authType" v-if="showModal" @close="toggleModal" @toggleAuthType="toggleAuthType">
-      <!--
-        you can use custom content here to overwrite
-        default content
-      -->
     </AuthModal>
   </nav>
 </template>
 
 <script>
-import { LOGOUT, TOGGLE_NEW_DB } from '../store/mutation_types'
+import { LOGOUT, TOGGLE_NEW_DB, CLEAR_ERRORS } from '../store/mutation_types'
 import AuthModal from './AuthModal'
 export default {
   data: function () {
@@ -59,6 +55,7 @@ export default {
   },
   methods: {
     toggleAuthType: function () {
+      this.$store.commit(CLEAR_ERRORS)
       this.authType = (this.authType === 'login' ? 'signup' : 'login')
     },
     showLogIn: function () {
@@ -70,6 +67,7 @@ export default {
       this.showModal = true
     },
     toggleModal: function () {
+      this.$store.commit(CLEAR_ERRORS)
       this.showModal = !this.showModal
     },
     logout: function (e) {
@@ -118,7 +116,6 @@ export default {
       border-radius: 5px;
       padding: 0 20px;
       margin: 0 20px;
-      margin-left: 60px;
       font-family: $heading;
       font-size: 14px;
       font-weight: bold;

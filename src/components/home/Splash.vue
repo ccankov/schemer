@@ -4,6 +4,7 @@
       <div class="column">
         <h1>Design Your Database Online</h1>
         <p>Rapid prototyping of SQL database models using a visual model designer</p>
+        <button @click="$router.push('/editor')" class="button">Start</button>
       </div>
       <figure @click="$router.push('/editor')"></figure>
     </article>
@@ -36,13 +37,33 @@ export default {
     .column {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       width: 18vw;
 
       p {
-        margin-top: 15vh;
         color: $white;
         font-family: $paragraph;
         font-size: 3vh;
+      }
+
+      button {
+        display: block;
+        border-radius: 5px;
+        padding: 5px 20px;
+        margin: 0 20px;
+        margin-left: 60px;
+        font-family: $heading;
+        font-size: 1.8em;
+        font-weight: bold;
+        background-color: $light-accent;
+        color: $white;
+        border: 0;
+      }
+
+      button:hover {
+        cursor: pointer;
+        color: $white;
+        background-color: $accent;
       }
     }
 
@@ -62,6 +83,8 @@ export default {
       background-size: cover;
       box-shadow: 0 0 4px rgba(0,0,0,.28), 0 6px 12px rgba(0,0,0,.56);
       transition: 0.3s;
+      margin: 0;
+      margin-left: 40px;
     }
 
     figure:hover {
