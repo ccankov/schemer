@@ -3,10 +3,8 @@
     <header class='element-name'>
       <h2>
         <span class="item-label">{{ elementType }}:</span>
-        <input v-if='editName' v-model='elementName' placeholder='Name this element'/>
-        <span v-else>{{ elementName }}</span>
+        <input v-model='elementName' placeholder='Name this element'/>
       </h2>
-      <i @click='toggleEdit' class='edit fa fa-pencil'></i>
     </header>
     <div class='element-details'>
       <tableStats v-if='isTable' :table='currentElement' :graph='graph'>
@@ -30,9 +28,6 @@ import colOptions from './colOptions'
 export default {
   props: ['currentElement', 'graph'],
   components: { tableStats, colOptions },
-  data: () => ({
-    editName: false
-  }),
   computed: {
     isTable: function () {
       return this.currentElement ? this.currentElement.isTable() : false
@@ -61,9 +56,6 @@ export default {
     }
   },
   methods: {
-    toggleEdit: function () {
-      this.editName = !this.editName
-    },
     deleteElement: function () {
       const element = this.currentElement
 
