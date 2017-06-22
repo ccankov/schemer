@@ -1,7 +1,10 @@
 <template lang="html">
   <section class='element-view' v-show='currentElement'>
     <header class='element-name'>
-      <h2>{{ elementName }}</h2>
+      <h2>
+        <span class="item-label">{{ elementType }}:</span>
+        <input v-model='elementName' placeholder='Name this element'/>
+      </h2>
     </header>
     <div class='element-details'>
       <tableStats v-if='isTable' :table='currentElement' :graph='graph'>
@@ -26,15 +29,6 @@ export default {
   props: ['currentElement', 'graph'],
   components: { tableStats, colOptions },
   computed: {
-    elementName: function () {
-      if (this.isTable) {
-        return `Table: ${this.currentElement.getName()}`
-      } else if (this.isCol) {
-        return `Column: ${this.currentElement.getName()}`
-      } else {
-        return null
-      }
-    },
     isTable: function () {
       return this.currentElement ? this.currentElement.isTable() : false
     },
@@ -43,6 +37,22 @@ export default {
     },
     elementType: function () {
       return this.isTable ? 'Table' : 'Column'
+    },
+    elementName: {
+      get: function () {
+        if (!this.currentElement) return null
+        return this.currentElement.getName()
+      },
+      set: function (name) {
+        this.currentElement.setName(name)
+
+        if (this.currentElement.isCol()) {
+          let nameCell = this.graph.getCell(this.currentElement.embeds()[0])
+          nameCell.setName(name)
+          nameCell.setAttr('text', {'ref-x': 0.5, 'ref-y': 0.3})
+        }
+        this.graph.commit()
+      }
     }
   },
   methods: {
@@ -99,6 +109,10 @@ export default {
     padding: 5px 0;
     margin: 0;
     font-size: 14px;
+  }
+
+  .edit:hover {
+    cursor: pointer;
   }
 
   .element-details {
