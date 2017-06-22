@@ -168,6 +168,7 @@ export default {
     font-size: 0.6em;
     color: $light-accent;
     padding: 2px 0;
+    justify-content: center;
   }
 
   input {
