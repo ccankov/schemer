@@ -11,6 +11,9 @@
           </div>
 
           <form class='session-form'>
+            <ul>
+              <li v-for="error in errors" class="error-text">Invalid username or password</li>
+            </ul>
             <input v-model='username' placeholder='Username'>
             <br>
             <input v-model='password' placeholder='Password' type='password'>
@@ -43,6 +46,9 @@ export default {
     'authType'
   ],
   computed: {
+    errors: function () {
+      return this.$store.state.errors
+    },
     header: function () {
       if (this.authType === 'login') {
         return 'Log In'
@@ -151,6 +157,19 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+    font-size: 0.6em;
+    color: $light-accent;
+    padding: 2px 0;
+    justify-content: center;
+  }
 
   input {
     -webkit-appearance: none;

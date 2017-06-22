@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="fixed-container">
+  <section>
     <section class="sql-preview" v-bind:class="{ pinned: pinned }">
       <header>
         <span class="heading-text">SQL Preview</span>
@@ -16,21 +16,23 @@
         </pre>
       </section>
     </section>
-    <section class="paper-menu">
-      <section class="small-menu">
-        <ul>
-          <li>
-            <span class='button small' @click='exportSQL'>
-              <span class='button-tooltip'>Download SQL</span>
-              <i class="fa fa-download" aria-hidden="true"></i>
-            </span>
-          </li>
-        </ul>
+    <section class="fixed-container">
+      <section class="paper-menu">
+        <span class='button' @click='addTable'>
+          <span class='button-tooltip'>Add Table</span>
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </span>
+        <section class="small-menu">
+          <ul>
+            <li>
+              <span class='button small' @click='exportSQL'>
+                <span class='button-tooltip'>Download SQL</span>
+                <i class="fa fa-download" aria-hidden="true"></i>
+              </span>
+            </li>
+          </ul>
+        </section>
       </section>
-      <span class='button' @click='addTable'>
-        <span class='button-tooltip'>Add Table</span>
-        <i class="fa fa-plus" aria-hidden="true"></i>
-      </span>
     </section>
   </section>
 </template>
@@ -43,7 +45,7 @@ export default {
   props: ['sql', 'graph'],
   data: () => ({
     languages: ['postgreSQL', 'access', 'mySQL', 'SQL Server', 'oracle'],
-    pinned: false
+    pinned: true
   }),
   computed: {
     sqlLang: {
@@ -208,14 +210,13 @@ export default {
   }
 
   .fixed-container {
-    position: fixed;
-    bottom: 15px;
-    right: 0;
-    width: 200px;
-    height: 20vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 120px;
 
     .small-menu {
-      width: 100%;
       display: flex;
       align-items: flex-end;
       flex-direction: column;
@@ -262,7 +263,7 @@ export default {
     font-family: $heading;
     font-size: 14px;
     padding: 5px 10px;
-    right: 80px;
+    left: 80px;
     width: 100px;
     z-index: 12;
     font-weight: bold;
@@ -271,7 +272,7 @@ export default {
   .paper-menu {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     padding: 10px;
 
     .button {

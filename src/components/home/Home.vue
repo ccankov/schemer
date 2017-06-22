@@ -6,6 +6,7 @@
         <li @click="$router.push('/home/features')"> Features </li>
         <li @click="$router.push('/home/about')"> About Us </li>
       </ul>
+      <a href="https://github.com/ccankov/schemer" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
     </aside>
     <router-view></router-view>
   </div>
@@ -23,6 +24,7 @@ export default {
   .home {
     padding-top: 60px;
     height: 100%;
+    min-width: 900px;
     display: flex;
     box-sizing: border-box;
   }
@@ -34,6 +36,19 @@ export default {
     width: 20vw;
     min-width: 300px;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      padding: 20px;
+      font-size: 2.5em;
+      color: $gray;
+    }
+
+    a:hover {
+      color: $light-accent;
+    }
   }
 
   .body {
