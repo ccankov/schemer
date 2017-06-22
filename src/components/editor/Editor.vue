@@ -232,12 +232,14 @@ export default {
     max-width: calc(100% - 300px);
     flex-direction: column;
     box-sizing: border-box;
+    position: relative;
   }
 
   .paper-menu {
-    position: fixed;
-    width: 100px;
-    bottom: 15px;
-    right: 10px;
+    position: absolute;
+    height: 120px;
+    width: 90px;
+    top: 0px;
+    left: 0px;
   }
 </style>
