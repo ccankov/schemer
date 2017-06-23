@@ -87,7 +87,7 @@ export default {
       this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
         res => {
           let graph = {cells: this.$store.state.graphJSON.cells}
-          this.dbName = this.$store.state.graphJSON.dbName
+          this.dbName = res.dbName
           this.graph.loadJSON(graph)
           this.receiveElement(null)
           this.graph.commit()
