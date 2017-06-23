@@ -84,7 +84,11 @@ export default {
       // fetch db, then load db
       this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
         res => {
-          console.log(res)
+          let graph = {cells: this.$store.state.graphJSON.cells}
+          this.dbName = this.$store.state.graphJSON.dbName
+          this.graph.loadJSON(graph)
+          this.receiveElement(null)
+          this.graph.commit()
         }
       )
     },

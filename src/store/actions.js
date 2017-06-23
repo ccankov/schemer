@@ -62,16 +62,13 @@ export default {
       })
   },
   [FETCH_GRAPH] ({ commit, state }, { graphId }) {
-    console.log(graphId)
     return APIUtil.fetchGraph(graphId).then(
       data => {
-        console.log(data)
         let json = {
-          cells: data.graph,
+          cells: JSON.parse(JSON.stringify(data.graph).replace(/U\+FF0Eport/g, '.port')),
           dbName: data.dbName,
           sqlLang: data.sqlLang
         }
-        console.log(json)
         commit(RECEIVE_GRAPH, { graphJSON: json })
       }
     )
