@@ -27,7 +27,7 @@
         <i class='fa fa-check'></i>
         <div>
           <h4>SQL Generation and Exporting</h4>
-          <p>We process the structure of your database and automatically generate SQL code to create it. Getting a .sql file to generate your databse is as easy as hitting the download button.</p>
+          <p>We process the structure of your database and automatically generate postgreSQL code to create it. Getting a .sql file to generate your database is as easy as hitting the download button.</p>
           <!-- <p> At the moment, we support the following SQL implementations: PostgreSQL, Access, mySQL, SQL Server and Oracle.</p> lol jk-->
         </div>
       </li>
