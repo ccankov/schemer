@@ -4,6 +4,7 @@ const uuid = require('uuid')
 // ------------ Create DB API Endpoints ---------- //
 const dbRoutes = express.Router()
 
+var ObjectId = require('mongodb').ObjectId
 var MongoClient = require('mongodb').MongoClient
 var url = 'mongodb://app:nikitachris@ds123331.mlab.com:23331/schemer'
 var bodyParser = require('body-parser')
@@ -30,7 +31,6 @@ dbRoutes.get('/dbs', (req, res) => {
             console.log(err)
             return res(err)
           } else {
-            console.log(data)
             return res.json(data)
           }
         })
@@ -41,36 +41,39 @@ dbRoutes.get('/dbs', (req, res) => {
   }
 })
 
-app.route('/api/dbs/:id')
-  .get((req, res) => {
-    MongoClient.connect(url, (err, db) => {
-      if (err) {
-        console.log(err)
+dbRoutes.get('/dbs/:id', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+    console.log('wow')
+    if (err) {
+      console.log('errors')
+      console.log(err)
+    } else {
+      console.log('id is')
+      console.log(req.params.id)
+      if (req.params.id) {
+        db.collection('dbs').find(ObjectId(req.params.id))
+        .toArray(function (err, data) {
+          if (err) {
+            console.log(err)
+            return res(err)
+          } else {
+            console.log(data)
+            return res.json(data)
+          }
+        })
       } else {
-        if (req.params.id) {
-          db.collection('dbs').find({ '_id': { '$oid': req.params.graphId } })
-          .toArray(function (err, data) {
-            if (err) {
-              console.log(err)
-              return res(err)
-            } else {
-              return res.json(data)
-            }
-          })
-        } else {
-          db.collection('dbs').find().toArray(function (err, data) {
-            if (err) {
-              console.log(err)
-              return res(err)
-            } else {
-              return res.json(data)
-            }
-          })
-        }
+        db.collection('dbs').find().toArray(function (err, data) {
+          if (err) {
+            console.log(err)
+            return res(err)
+          } else {
+            return res.json(data)
+          }
+        })
       }
-    })
-  }
-)
+    }
+  })
+})
 
 // Add a database
 dbRoutes.post('/dbs', (req, res) => {

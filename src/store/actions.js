@@ -61,8 +61,9 @@ export default {
         commit(RECEIVE_USER_GRAPHS, graphs)
       })
   },
-  [FETCH_GRAPH] ({ commit, state }) {
-    return APIUtil.fetchGraph(state.currentUser.id).then(
+  [FETCH_GRAPH] ({ commit, state }, { graphId }) {
+    console.log(graphId)
+    return APIUtil.fetchGraph(graphId).then(
       graphStr => commit(RECEIVE_GRAPH, { graphJSON: JSON.parse(graphStr) })
     )
   },

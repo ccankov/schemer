@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS, TOGGLE_NEW_DB } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS, TOGGLE_NEW_DB, FETCH_GRAPH } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
@@ -82,6 +82,11 @@ export default {
   methods: {
     loadDb: function () {
       // fetch db, then load db
+      this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
+        res => {
+          this.graphs = this.$store.state.userGraphs
+        }
+      )
     },
     receiveElement: function (element) {
       if (element) {
