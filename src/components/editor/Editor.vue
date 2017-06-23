@@ -110,13 +110,11 @@ export default {
       this.editName = true
     },
     disableEdit: function () {
-      if (this.editName) {
-        this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
-        if (this.$store.state.currentUser) {
-          updateGraph(JSON.stringify(this.$store.state.graphJSON))
-        }
-      }
       this.editName = false
+      if (!this.editName) {
+        this.$store.commit(RECEIVE_DBNAME, { dbName: this.dbName })
+        this.saveDb()
+      }
     },
     saveDb: function () {
       if (this.$store.state.currentUser) {
