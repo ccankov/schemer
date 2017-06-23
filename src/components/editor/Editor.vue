@@ -55,7 +55,6 @@ export default {
   },
   data: function () {
     return {
-      graphs: this.$store.state.userGraphs,
       id: this.$route.params.id,
       graph: null,
       currGraph: null,
@@ -65,6 +64,9 @@ export default {
     }
   },
   computed: {
+    graphs: function () {
+      return this.$store.state.userGraphs
+    },
     btnStr: function () {
       return this.editName ? 'Done' : 'Edit'
     },
