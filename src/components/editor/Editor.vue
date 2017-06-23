@@ -16,19 +16,20 @@
         <button v-if='loggedIn' @click='saveDb'>Save</button>
         <br>
         <br>
-        <!-- <span v-if="loggedIn">Load: </span> -->
         <select v-if="graphs.length > 0" v-model="currGraph">
           <option v-for="graph in graphs"   v-bind:value="graph">
            {{ graph.dbName }}
          </option>
         </select>
-        <button v-if="graphs.length > 0" @click='loadDb'>Load</button>
+        <button
+          v-if="graphs.length > 0"
+          @click='loadDb'
+          :disabled='loading'>Load</button>
       </section>
       <SideBar
         :graph='graph'
         :currentElement='currentElement'
-        @send-element='receiveElement'>
-      </SideBar>
+        @send-element='receiveElement'></SideBar>
       </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -60,7 +61,8 @@ export default {
       currGraph: null,
       currentElement: null,
       editName: false,
-      dbName: this.$store.state.graphJSON.dbName
+      dbName: this.$store.state.graphJSON.dbName,
+      loading: false
     }
   },
   computed: {
@@ -84,6 +86,7 @@ export default {
   methods: {
     loadDb: function () {
       // fetch db, then load db
+      this.loading = true
       this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
         res => {
           let graph = {cells: this.$store.state.graphJSON.cells}
@@ -91,6 +94,7 @@ export default {
           this.graph.loadJSON(graph)
           this.receiveElement(null)
           this.graph.commit()
+          this.loading = false
         }
       )
     },
@@ -215,6 +219,10 @@ export default {
   .db-info h1 {
     font-size: 1.5em;
     margin: 10px auto 0 auto;
+  }
+
+  .db-info button:disabled {
+    cursor: progress;
   }
 
   .table-form {
