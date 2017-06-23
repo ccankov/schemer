@@ -72,8 +72,7 @@ export default {
     },
     logout: function (e) {
       e.preventDefault()
-      this.$store.dispatch(LOGOUT)
-      this.$router.push('/home')
+      this.$store.dispatch(LOGOUT).then(() => this.$router.push('/home'))
     },
     handleNewDb: function (e) {
       // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
