@@ -16,12 +16,13 @@
         <button v-if='loggedIn' @click='saveDb'>Save</button>
         <br>
         <br>
-        <span v-if="loggedIn">Load: </span>
-        <select v-if="loggedIn" v-model="currGraph">
+        <!-- <span v-if="loggedIn">Load: </span> -->
+        <select v-if="graphs.length > 0" v-model="currGraph">
           <option v-for="graph in graphs"   v-bind:value="graph">
            {{ graph.dbName }}
          </option>
         </select>
+        <button v-if="graphs.length > 0" @click='loadDb'>Load</button>
       </section>
       <SideBar
         :graph='graph'
@@ -63,15 +64,6 @@ export default {
       dbName: this.$store.state.graphJSON.dbName
     }
   },
-  watch: {
-    currGraph: function (newGraph) {
-      let graph = {cells: JSON.parse(JSON.stringify(newGraph.graph).replace(/U\+FF0Eport/g, '.port'))}
-      this.dbName = newGraph.dbName
-      this.graph.loadJSON(graph)
-      this.receiveElement(null)
-      this.graph.commit()
-    }
-  },
   computed: {
     btnStr: function () {
       return this.editName ? 'Done' : 'Edit'
@@ -88,6 +80,9 @@ export default {
     }
   },
   methods: {
+    loadDb: function () {
+      // fetch db, then load db
+    },
     receiveElement: function (element) {
       if (element) {
         const cell = new Cell(element)
