@@ -61,9 +61,16 @@ export default {
         commit(RECEIVE_USER_GRAPHS, graphs)
       })
   },
-  [FETCH_GRAPH] ({ commit, state }) {
-    return APIUtil.fetchGraph(state.currentUser.id).then(
-      graphStr => commit(RECEIVE_GRAPH, { graphJSON: JSON.parse(graphStr) })
+  [FETCH_GRAPH] ({ commit, state }, { graphId }) {
+    return APIUtil.fetchGraph(graphId).then(
+      data => {
+        let json = {
+          cells: JSON.parse(JSON.stringify(data.graph).replace(/U\+FF0Eport/g, '.port')),
+          dbName: data.dbName,
+          sqlLang: data.sqlLang
+        }
+        commit(RECEIVE_GRAPH, { graphJSON: json })
+      }
     )
   },
   [UPDATE_GRAPH] ({ commit }, { graphStr }) {

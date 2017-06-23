@@ -16,12 +16,13 @@
         <button v-if='loggedIn' @click='saveDb'>Save</button>
         <br>
         <br>
-        <span v-if="loggedIn">Load: </span>
-        <select v-if="loggedIn" v-model="currGraph">
+        <!-- <span v-if="loggedIn">Load: </span> -->
+        <select v-if="graphs.length > 0" v-model="currGraph">
           <option v-for="graph in graphs"   v-bind:value="graph">
            {{ graph.dbName }}
          </option>
         </select>
+        <button v-if="graphs.length > 0" @click='loadDb'>Load</button>
       </section>
       <SideBar
         :graph='graph'
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS, TOGGLE_NEW_DB } from '../../store/mutation_types'
+import { RECEIVE_ERRORS, RECEIVE_DBNAME, RECEIVE_USER_GRAPHS, TOGGLE_NEW_DB, FETCH_GRAPH } from '../../store/mutation_types'
 import { createSQL, parseJson } from '../../util/sql_util'
 import Graph from '../../util/graph'
 import Cell from '../../util/cell'
@@ -63,15 +64,6 @@ export default {
       dbName: this.$store.state.graphJSON.dbName
     }
   },
-  watch: {
-    currGraph: function (newGraph) {
-      let graph = {cells: JSON.parse(JSON.stringify(newGraph.graph).replace(/U\+FF0Eport/g, '.port'))}
-      this.dbName = newGraph.dbName
-      this.graph.loadJSON(graph)
-      this.receiveElement(null)
-      this.graph.commit()
-    }
-  },
   computed: {
     btnStr: function () {
       return this.editName ? 'Done' : 'Edit'
@@ -88,6 +80,18 @@ export default {
     }
   },
   methods: {
+    loadDb: function () {
+      // fetch db, then load db
+      this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
+        res => {
+          let graph = {cells: this.$store.state.graphJSON.cells}
+          this.dbName = this.$store.state.graphJSON.dbName
+          this.graph.loadJSON(graph)
+          this.receiveElement(null)
+          this.graph.commit()
+        }
+      )
+    },
     receiveElement: function (element) {
       if (element) {
         const cell = new Cell(element)

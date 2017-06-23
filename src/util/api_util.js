@@ -4,7 +4,7 @@ export const fetchGraph = (id) => (
   $.ajax({
     method: 'get',
     url: `/api/dbs/${id}`,
-    data: { graphId: id },
+    data: {id: id},
     dataType: 'json'
   })
 )
