@@ -29,8 +29,7 @@
       <SideBar
         :graph='graph'
         :currentElement='currentElement'
-        @send-element='receiveElement'>
-      </SideBar>
+        @send-element='receiveElement'></SideBar>
       </section>
     <section class="body">
       <Paper :graph="graph" v-on:send-element="receiveElement"></Paper>
@@ -220,6 +219,10 @@ export default {
   .db-info h1 {
     font-size: 1.5em;
     margin: 10px auto 0 auto;
+  }
+
+  .db-info button:disabled {
+    cursor: progress;
   }
 
   .table-form {
