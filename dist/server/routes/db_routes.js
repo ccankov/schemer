@@ -57,8 +57,8 @@ dbRoutes.get('/dbs/:id', (req, res) => {
             console.log(err)
             return res(err)
           } else {
-            console.log(data)
-            return res.json(data)
+            console.log(data[0])
+            return res.json(data[0])
           }
         })
       } else {

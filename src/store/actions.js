@@ -64,7 +64,16 @@ export default {
   [FETCH_GRAPH] ({ commit, state }, { graphId }) {
     console.log(graphId)
     return APIUtil.fetchGraph(graphId).then(
-      graphStr => commit(RECEIVE_GRAPH, { graphJSON: JSON.parse(graphStr) })
+      data => {
+        console.log(data)
+        let json = {
+          cells: data.graph,
+          dbName: data.dbName,
+          sqlLang: data.sqlLang
+        }
+        console.log(json)
+        commit(RECEIVE_GRAPH, { graphJSON: json })
+      }
     )
   },
   [UPDATE_GRAPH] ({ commit }, { graphStr }) {

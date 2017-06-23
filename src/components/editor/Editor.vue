@@ -84,7 +84,7 @@ export default {
       // fetch db, then load db
       this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
         res => {
-          this.graphs = this.$store.state.userGraphs
+          console.log(res)
         }
       )
     },
