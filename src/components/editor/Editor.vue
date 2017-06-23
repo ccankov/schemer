@@ -119,7 +119,6 @@ export default {
       this.editName = false
     },
     saveDb: function () {
-      console.log('saving')
       if (this.$store.state.currentUser) {
         updateGraph(JSON.stringify(this.$store.state.graphJSON))
         this.$store.dispatch(RECEIVE_USER_GRAPHS).then(
