@@ -62,16 +62,24 @@ export default {
       })
   },
   [FETCH_GRAPH] ({ commit, state }, { graphId }) {
-    return APIUtil.fetchGraph(graphId).then(
-      data => {
-        let json = {
-          cells: JSON.parse(JSON.stringify(data.graph).replace(/U\+FF0Eport/g, '.port')),
-          dbName: data.dbName,
-          sqlLang: data.sqlLang
+    return new Promise((resolve, reject) => {
+      APIUtil.fetchGraph(graphId)
+      .then(
+        data => {
+          let json = {
+            cells: JSON.parse(JSON.stringify(data.graph).replace(/U\+FF0Eport/g, '.port')),
+            dbName: data.dbName,
+            sqlLang: data.sqlLang
+          }
+          commit(RECEIVE_GRAPH, { graphJSON: json })
+          resolve(data)
+        },
+        err => {
+          commit(RECEIVE_ERRORS, err)
+          reject(err)
         }
-        commit(RECEIVE_GRAPH, { graphJSON: json })
-      }
-    )
+      )
+    })
   },
   [UPDATE_GRAPH] ({ commit }, { graphStr }) {
     return APIUtil.updateGraph(graphStr).then(

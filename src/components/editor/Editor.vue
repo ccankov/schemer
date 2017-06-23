@@ -87,7 +87,7 @@ export default {
       this.$store.dispatch(FETCH_GRAPH, {graphId: this.currGraph._id}).then(
         res => {
           let graph = {cells: this.$store.state.graphJSON.cells}
-          this.dbName = this.$store.state.graphJSON.dbName
+          this.dbName = res.dbName
           this.graph.loadJSON(graph)
           this.receiveElement(null)
           this.graph.commit()
@@ -119,6 +119,7 @@ export default {
       this.editName = false
     },
     saveDb: function () {
+      console.log('saving')
       if (this.$store.state.currentUser) {
         updateGraph(JSON.stringify(this.$store.state.graphJSON))
         this.$store.dispatch(RECEIVE_USER_GRAPHS).then(
