@@ -24,12 +24,13 @@ dbRoutes.get('/dbs', (req, res) => {
         console.log(err)
       } else {
         db.collection('dbs')
-        .find({'user_id': req.user._id})
+        .find({'user_id': req.user._id}, { graph: 0, user_id: 0, sqlLang: 0 })
         .toArray(function (err, data) {
           if (err) {
             console.log(err)
             return res(err)
           } else {
+            console.log(data)
             return res.json(data)
           }
         })
