@@ -4,9 +4,9 @@
       <header>
         <span class="heading-text">SQL Preview</span>
         <span class="options-text">
-          <select v-model='sqlLang' class="lang-select">
+          <!-- <select v-model='sqlLang' class="lang-select">
             <option v-for='lang in languages'>{{lang}}</option>
-          </select>
+          </select> -->
           <i class="fa fa-thumb-tack" aria-hidden="true" @click='togglePin'></i>
         </span>
       </header>
