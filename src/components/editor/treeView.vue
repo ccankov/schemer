@@ -122,6 +122,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    overflow-y: scroll;
   }
 
   .table-item {
