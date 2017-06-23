@@ -30,7 +30,6 @@ dbRoutes.get('/dbs', (req, res) => {
             console.log(err)
             return res(err)
           } else {
-            console.log(data)
             return res.json(data)
           }
         })
@@ -54,7 +53,6 @@ app.route('/api/dbs/:id')
               console.log(err)
               return res(err)
             } else {
-              console.log(data)
               return res.json(data)
             }
           })
@@ -64,7 +62,6 @@ app.route('/api/dbs/:id')
               console.log(err)
               return res(err)
             } else {
-              console.log(data)
               return res.json(data)
             }
           })
@@ -83,21 +80,35 @@ dbRoutes.post('/dbs', (req, res) => {
   MongoClient.connect(url, (err, db) => {
     const { _id } = req.user
     let safeString = req.body.graph.replace(/\.port/g, 'U+FF0Eport')
-    console.log(safeString)
     let graph = JSON.parse(safeString)
-    console.log('---')
-    console.log(graph)
     const { dbName, sqlLang, cells } = graph
-    const database = {
-      dbName,
-      sqlLang,
-      graph: cells,
-      user_id: _id
-    }
     if (err) {
       console.log(err)
     } else {
-      db.collection('dbs').insert(database)
+      console.log(_id)
+      console.log(dbName)
+      // db.collection('dbs').find().toArray(function (err, data) {
+      //   if (err) {
+      //     console.log(err)
+      //     return res(err)
+      //   } else {
+      //     console.log(data)
+      //   }
+      // })
+      db.collection('dbs').update(
+        {dbName, user_id: _id},
+        { $set:
+        {
+          dbName,
+          sqlLang,
+          graph: cells,
+          user_id: _id
+        }
+        },
+        {
+          upsert: true
+        }
+      )
     }
   })
   res.status(201).json(req.body)
