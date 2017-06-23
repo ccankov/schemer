@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { LOGOUT, TOGGLE_NEW_DB, CLEAR_ERRORS } from '../store/mutation_types'
+import { LOGOUT, SET_NEW_DB, CLEAR_ERRORS } from '../store/mutation_types'
 import AuthModal from './AuthModal'
 export default {
   data: function () {
@@ -72,24 +72,23 @@ export default {
     },
     logout: function (e) {
       e.preventDefault()
-      this.$store.dispatch(LOGOUT).then(() => this.$router.push('/home'))
+      this.$store.dispatch(LOGOUT).then(() => {
+        this.$router.push('/home')
+        this.$store.commit(SET_NEW_DB)
+      })
     },
     handleNewDb: function (e) {
-      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       e.preventDefault()
       this.$router.push('/editor')
-      this.$store.commit(TOGGLE_NEW_DB)
+      this.$store.commit(SET_NEW_DB)
     },
     goToFeatures: function (e) {
-      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       this.$router.push('/home/features')
     },
     goToAbout: function (e) {
-      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       this.$router.push('/home/about')
     },
     goToHome: function (e) {
-      // this.$router.push({path: 'editor/new', query: { user_id: 'private' }})
       this.$router.push('/')
     }
   }
