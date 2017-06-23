@@ -43,12 +43,9 @@ dbRoutes.get('/dbs', (req, res) => {
 
 dbRoutes.get('/dbs/:id', (req, res) => {
   MongoClient.connect(url, (err, db) => {
-    console.log('wow')
     if (err) {
-      console.log('errors')
       console.log(err)
     } else {
-      console.log('id is')
       console.log(req.params.id)
       if (req.params.id) {
         db.collection('dbs').find(ObjectId(req.params.id))
@@ -57,7 +54,6 @@ dbRoutes.get('/dbs/:id', (req, res) => {
             console.log(err)
             return res(err)
           } else {
-            console.log(data[0])
             return res.json(data[0])
           }
         })
@@ -89,16 +85,6 @@ dbRoutes.post('/dbs', (req, res) => {
     if (err) {
       console.log(err)
     } else {
-      console.log(_id)
-      console.log(dbName)
-      // db.collection('dbs').find().toArray(function (err, data) {
-      //   if (err) {
-      //     console.log(err)
-      //     return res(err)
-      //   } else {
-      //     console.log(data)
-      //   }
-      // })
       db.collection('dbs').update(
         {dbName, user_id: _id},
         { $set:
